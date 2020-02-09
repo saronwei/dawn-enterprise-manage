@@ -1,13 +1,13 @@
 // group名称   --依据实际项目修改
-group 'com.gsafety.dawn.community'
+group 'com.gsafety.dawn.enterprise'
 // 版本号    --依据实际项目修改
 version '1.0.0-SNAPSHOT'
 
 ext {
     // jar包所在模块名称  --依据实际项目修改
-    jarProjectName = 'dawn-community-manage-backend'
+    jarProjectName = 'dawn-enterprise-manage-backend'
     // jar包发布的实际名称  --依据实际项目修改
-    jarArchivesBaseName = 'dawn-community-manage-backend'
+    jarArchivesBaseName = 'dawn-enterprise-manage-backend'
     // jar包版本
     jarVersion = version
     // maven仓库地址

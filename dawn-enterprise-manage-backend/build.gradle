@@ -1,13 +1,13 @@
-group 'com.gsafety.dawn.community'
-archivesBaseName = 'dawn-community-manage-backend'
+group 'com.gsafety.dawn.enterprise'
+archivesBaseName = 'dawn-enterprise-manage-backend'
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 dependencies{
     // 依赖模块
-    compile project(":dawn-community-manage-common")
-    compile project(":dawn-community-manage-webapi")
+    compile project(":dawn-enterprise-manage-common")
+    compile project(":dawn-enterprise-manage-webapi")
 //    compile  'com.gsafety.pms.base:dawn-community-manage-webapi:1.0.0-SNAPSHOT'
 //    compile  'com.gsafety.pms.base:dawn-community-manage-common:1.0.0-SNAPSHOT'
     //系统提供的依赖

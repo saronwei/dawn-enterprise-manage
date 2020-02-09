@@ -1,14 +1,14 @@
-package com.gsafety.dawn.community.manage.service.serviceimpl;
+package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.community.manage.contract.model.DiagnosisCountModel;
-import com.gsafety.dawn.community.manage.contract.model.EpidemicPersonModel;
-import com.gsafety.dawn.community.manage.contract.service.EpidemicPersonService;
-import com.gsafety.dawn.community.manage.service.datamappers.DSourceDataMapper;
-import com.gsafety.dawn.community.manage.service.datamappers.EpidemicPersonMapper;
-import com.gsafety.dawn.community.manage.service.entity.DSourceDataEntity;
-import com.gsafety.dawn.community.manage.service.entity.EpidemicPersonEntity;
-import com.gsafety.dawn.community.manage.service.repository.DSourceDataRepository;
-import com.gsafety.dawn.community.manage.service.repository.EpidemicPersonRepository;
+import com.gsafety.dawn.enterprise.manage.contract.model.DiagnosisCountModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.EpidemicPersonModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.EpidemicPersonService;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.DSourceDataMapper;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.EpidemicPersonMapper;
+import com.gsafety.dawn.enterprise.manage.service.entity.DSourceDataEntity;
+import com.gsafety.dawn.enterprise.manage.service.entity.EpidemicPersonEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.DSourceDataRepository;
+import com.gsafety.dawn.enterprise.manage.service.repository.EpidemicPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

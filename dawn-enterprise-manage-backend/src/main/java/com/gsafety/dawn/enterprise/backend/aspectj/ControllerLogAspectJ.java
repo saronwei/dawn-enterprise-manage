@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.aspectj;
+package com.gsafety.dawn.enterprise.backend.aspectj;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;

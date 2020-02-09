@@ -1,14 +1,14 @@
-package com.gsafety.dawn.community.manage.service.serviceimpl;
+package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.community.manage.contract.model.DSourceDataModel;
-import com.gsafety.dawn.community.manage.contract.model.DataSourceModel;
-import com.gsafety.dawn.community.manage.contract.service.DSourceDataService;
-import com.gsafety.dawn.community.manage.contract.service.DataSourceService;
-import com.gsafety.dawn.community.manage.service.datamappers.DataSourceMapper;
-import com.gsafety.dawn.community.manage.service.entity.DSourceDataEntity;
-import com.gsafety.dawn.community.manage.service.entity.DataSourceEntity;
-import com.gsafety.dawn.community.manage.service.repository.DSourceDataRepository;
-import com.gsafety.dawn.community.manage.service.repository.DataSourceRepository;
+import com.gsafety.dawn.enterprise.manage.contract.model.DSourceDataModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DataSourceModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.DSourceDataService;
+import com.gsafety.dawn.enterprise.manage.contract.service.DataSourceService;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.DataSourceMapper;
+import com.gsafety.dawn.enterprise.manage.service.entity.DSourceDataEntity;
+import com.gsafety.dawn.enterprise.manage.service.entity.DataSourceEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.DSourceDataRepository;
+import com.gsafety.dawn.enterprise.manage.service.repository.DataSourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.service.datamappers;
+package com.gsafety.dawn.enterprise.manage.service.datamappers;
 
-import com.gsafety.dawn.community.manage.contract.model.DataSourceModel;
-import com.gsafety.dawn.community.manage.service.entity.DataSourceEntity;
+import com.gsafety.dawn.enterprise.manage.contract.model.DataSourceModel;
+import com.gsafety.dawn.enterprise.manage.service.entity.DataSourceEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

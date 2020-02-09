@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.exception;
+package com.gsafety.dawn.enterprise.common.exception;
 
 /**
  * 自定义通用业务异常,表示不符合我们业务规则的相关异常.

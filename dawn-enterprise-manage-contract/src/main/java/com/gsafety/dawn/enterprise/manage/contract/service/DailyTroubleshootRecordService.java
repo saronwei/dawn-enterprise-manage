@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.contract.service;
+package com.gsafety.dawn.enterprise.manage.contract.service;
 
-import com.gsafety.dawn.community.manage.contract.model.DailyTroubleshootRecordModel;
-import com.gsafety.dawn.community.manage.contract.model.DiagnosisCountModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DailyTroubleshootRecordModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DiagnosisCountModel;
 import org.apache.commons.net.ntp.TimeStamp;
 import org.springframework.web.multipart.MultipartFile;
 

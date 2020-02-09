@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.manage.service.entity.metadata;
+package com.gsafety.dawn.enterprise.manage.service.entity.metadata;
 
 /**
  * Created by numsg on 2016/6/12.

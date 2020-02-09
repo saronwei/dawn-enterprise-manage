@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.configs;
+package com.gsafety.dawn.enterprise.backend.configs;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * The type Jpa configuration.
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.gsafety.dawn.community")
+@EnableJpaRepositories(basePackages = "com.gsafety.dawn.enterprise")
 @EnableAutoConfiguration
-@EntityScan(basePackages = {"com.gsafety.dawn.community"})
+@EntityScan(basePackages = {"com.gsafety.dawn.enterprise"})
 public class JpaConfiguration {
 }

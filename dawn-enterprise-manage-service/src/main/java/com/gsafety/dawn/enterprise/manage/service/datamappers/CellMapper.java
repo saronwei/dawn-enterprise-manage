@@ -1,8 +1,8 @@
-package com.gsafety.dawn.community.manage.service.datamappers;
+package com.gsafety.dawn.enterprise.manage.service.datamappers;
 
 
-import com.gsafety.dawn.community.manage.contract.model.CellModel;
-import com.gsafety.dawn.community.manage.service.entity.CellEntity;
+import com.gsafety.dawn.enterprise.manage.contract.model.CellModel;
+import com.gsafety.dawn.enterprise.manage.service.entity.CellEntity;
 import org.mapstruct.Mapper;
 
 /**

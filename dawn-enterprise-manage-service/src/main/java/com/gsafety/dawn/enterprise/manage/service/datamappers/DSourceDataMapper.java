@@ -1,8 +1,8 @@
-package com.gsafety.dawn.community.manage.service.datamappers;
+package com.gsafety.dawn.enterprise.manage.service.datamappers;
 
 
-import com.gsafety.dawn.community.manage.contract.model.DSourceDataModel;
-import com.gsafety.dawn.community.manage.service.entity.DSourceDataEntity;
+import com.gsafety.dawn.enterprise.manage.contract.model.DSourceDataModel;
+import com.gsafety.dawn.enterprise.manage.service.entity.DSourceDataEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

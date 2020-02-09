@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.exception;
+package com.gsafety.dawn.enterprise.common.exception;
 
 /**
  * 统一的自定义异常返回状态枚举类,包含自定义错误码和自定义错误消息.

@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.manage.webapi.controller;
+package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
 import com.gsafety.odata.service.NumsgODataController;
 import org.springframework.web.bind.annotation.CrossOrigin;

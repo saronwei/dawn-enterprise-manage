@@ -1,12 +1,12 @@
-group 'com.gsafety.dawn.community'
-archivesBaseName = 'dawn-community-manage-webapi'
+group 'com.gsafety.dawn.enterprise'
+archivesBaseName = 'dawn-enterprise-manage-webapi'
 apply from: "../scripts/gradle/publish.gradle"
 apply from: "../scripts/gradle/jacoco.gradle"
 dependencies{
     // 依赖模块
-    compile project(":dawn-community-manage-common")
-    compile project(":dawn-community-manage-contract")
-    compile project(":dawn-community-manage-service")
+    compile project(":dawn-enterprise-manage-common")
+    compile project(":dawn-enterprise-manage-contract")
+    compile project(":dawn-enterprise-manage-service")
     compile  ('com.gsafety.odata:guppy-odata-service:2.0.4-SNAPSHOT'){changing=true}
 //    compile  'com.gsafety.pms.base:dawn-community-manage-common:1.0.0-SNAPSHOT'
 //    compile  'com.gsafety.pms.base:dawn-community-manage-contract:1.0.0-SNAPSHOT'

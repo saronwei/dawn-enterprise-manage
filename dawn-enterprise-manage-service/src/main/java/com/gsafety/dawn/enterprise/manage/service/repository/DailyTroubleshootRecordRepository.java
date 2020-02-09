@@ -1,8 +1,8 @@
-package com.gsafety.dawn.community.manage.service.repository;
+package com.gsafety.dawn.enterprise.manage.service.repository;
 
 
-import com.gsafety.dawn.community.manage.contract.model.DailyTroubleshootRecordModel;
-import com.gsafety.dawn.community.manage.service.entity.DailyTroubleshootRecordEntity;
+import com.gsafety.dawn.enterprise.manage.contract.model.DailyTroubleshootRecordModel;
+import com.gsafety.dawn.enterprise.manage.service.entity.DailyTroubleshootRecordEntity;
 import org.apache.commons.net.ntp.TimeStamp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

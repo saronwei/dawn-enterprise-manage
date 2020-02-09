@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.service.datamappers;
+package com.gsafety.dawn.enterprise.manage.service.datamappers;
 
-import com.gsafety.dawn.community.manage.contract.model.EpidemicPersonModel;
-import com.gsafety.dawn.community.manage.service.entity.EpidemicPersonEntity;
+import com.gsafety.dawn.enterprise.manage.contract.model.EpidemicPersonModel;
+import com.gsafety.dawn.enterprise.manage.service.entity.EpidemicPersonEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

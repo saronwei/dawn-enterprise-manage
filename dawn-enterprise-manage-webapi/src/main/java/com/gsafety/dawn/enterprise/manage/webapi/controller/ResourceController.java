@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.webapi.controller;
+package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
-import com.gsafety.dawn.community.manage.contract.model.ResourceModel;
-import com.gsafety.dawn.community.manage.contract.service.ResourceService;
+import com.gsafety.dawn.enterprise.manage.contract.model.ResourceModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.ResourceService;
 import com.gsafety.java.common.exception.HttpError;
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import io.swagger.annotations.*;

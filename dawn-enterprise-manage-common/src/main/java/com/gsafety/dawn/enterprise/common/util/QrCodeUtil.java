@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.util;
+package com.gsafety.dawn.enterprise.common.util;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;

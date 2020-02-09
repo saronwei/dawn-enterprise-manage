@@ -1,6 +1,6 @@
-package com.gsafety.dawn.community.manage.service.repository;
+package com.gsafety.dawn.enterprise.manage.service.repository;
 
-import com.gsafety.dawn.community.manage.service.entity.DataSourceEntity;
+import com.gsafety.dawn.enterprise.manage.service.entity.DataSourceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

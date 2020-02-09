@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.util;
+package com.gsafety.dawn.enterprise.common.util;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

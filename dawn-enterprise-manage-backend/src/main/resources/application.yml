@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: dawn-community-manage
+    name: dawn-enterprise-manage
 
   datasource:
     url: jdbc:postgresql://116.62.205.14:30023/dawn-db #业务数据库访问url

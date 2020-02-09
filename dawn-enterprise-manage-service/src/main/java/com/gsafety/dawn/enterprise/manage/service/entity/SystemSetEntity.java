@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.manage.service.entity;
+package com.gsafety.dawn.enterprise.manage.service.entity;
 
 
 import javax.persistence.Column;

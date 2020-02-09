@@ -1,6 +1,6 @@
-package com.gsafety.dawn.community.manage.contract.service;
+package com.gsafety.dawn.enterprise.manage.contract.service;
 
-import com.gsafety.dawn.community.manage.contract.model.CellModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.CellModel;
 
 /**
  * The interface Cell service.

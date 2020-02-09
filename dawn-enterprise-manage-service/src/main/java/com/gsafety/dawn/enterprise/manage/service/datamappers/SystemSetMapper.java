@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.service.datamappers;
+package com.gsafety.dawn.enterprise.manage.service.datamappers;
 
-import com.gsafety.dawn.community.manage.contract.model.SystemSetModel;
-import com.gsafety.dawn.community.manage.service.entity.SystemSetEntity;
+import com.gsafety.dawn.enterprise.manage.contract.model.SystemSetModel;
+import com.gsafety.dawn.enterprise.manage.service.entity.SystemSetEntity;
 import org.mapstruct.Mapper;
 
 /**

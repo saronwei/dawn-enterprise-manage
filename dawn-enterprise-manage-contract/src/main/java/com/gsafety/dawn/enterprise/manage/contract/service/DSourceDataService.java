@@ -1,6 +1,6 @@
-package com.gsafety.dawn.community.manage.contract.service;
+package com.gsafety.dawn.enterprise.manage.contract.service;
 
-import com.gsafety.dawn.community.manage.contract.model.DSourceDataModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DSourceDataModel;
 
 import java.util.List;
 

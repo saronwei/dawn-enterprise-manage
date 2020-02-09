@@ -1,8 +1,8 @@
-package com.gsafety.dawn.community.backend.aspectj;
+package com.gsafety.dawn.enterprise.backend.aspectj;
 
-import com.gsafety.dawn.community.common.exception.BusinessException;
-import com.gsafety.dawn.community.common.exception.ErrorCode;
-import com.gsafety.dawn.community.common.exception.SystemException;
+import com.gsafety.dawn.enterprise.common.exception.BusinessException;
+import com.gsafety.dawn.enterprise.common.exception.ErrorCode;
+import com.gsafety.dawn.enterprise.common.exception.SystemException;
 import com.gsafety.java.common.exception.HttpError;
 import com.gsafety.java.common.exception.RestException;
 import com.gsafety.java.common.utils.JsonUtil;

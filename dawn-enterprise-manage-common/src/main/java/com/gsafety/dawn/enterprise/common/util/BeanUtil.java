@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.util;
+package com.gsafety.dawn.enterprise.common.util;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;

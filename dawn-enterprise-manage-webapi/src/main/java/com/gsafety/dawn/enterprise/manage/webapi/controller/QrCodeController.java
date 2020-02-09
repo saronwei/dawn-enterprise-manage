@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.webapi.controller;
+package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
-import com.gsafety.dawn.community.manage.contract.model.QrCodeModel;
-import com.gsafety.dawn.community.manage.contract.service.QrCodeService;
+import com.gsafety.dawn.enterprise.manage.contract.model.QrCodeModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.QrCodeService;
 import com.gsafety.java.common.exception.HttpError;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

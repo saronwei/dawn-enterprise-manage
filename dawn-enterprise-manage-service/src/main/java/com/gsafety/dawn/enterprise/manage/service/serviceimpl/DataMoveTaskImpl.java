@@ -1,10 +1,10 @@
-//package com.gsafety.dawn.community.manage.service.serviceimpl;
+//package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 //
-//import com.gsafety.dawn.community.common.util.DateUtil;
-//import com.gsafety.dawn.community.manage.contract.model.RequestModel;
-//import com.gsafety.dawn.community.manage.service.entity.DailyTroubleshootRecordEntity;
-//import com.gsafety.dawn.community.manage.service.repository.DailyTroubleshootRecordRepository;
-//import com.gsafety.dawn.community.manage.service.repository.ResourceRepository;
+//import com.gsafety.dawn.enterprise.common.util.DateUtil;
+//import com.gsafety.dawn.enterprise.manage.contract.model.RequestModel;
+//import com.gsafety.dawn.enterprise.manage.service.entity.DailyTroubleshootRecordEntity;
+//import com.gsafety.dawn.enterprise.manage.service.repository.DailyTroubleshootRecordRepository;
+//import com.gsafety.dawn.enterprise.manage.service.repository.ResourceRepository;
 //import com.gsafety.java.common.utils.HttpClientUtil;
 //import com.gsafety.java.common.utils.HttpClientUtilImpl;
 //import com.gsafety.java.common.utils.JsonUtil;

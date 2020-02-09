@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.configs;
+package com.gsafety.dawn.enterprise.backend.configs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@ComponentScan({"com.gsafety.dawn.community","com.gsafety.odata.*"})
+@ComponentScan({"com.gsafety.dawn.enterprise","com.gsafety.odata.*"})
 public class Application {
 
     /**

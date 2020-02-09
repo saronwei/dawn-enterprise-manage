@@ -1,6 +1,6 @@
-package com.gsafety.dawn.community.manage.service.repository;
+package com.gsafety.dawn.enterprise.manage.service.repository;
 
-import com.gsafety.dawn.community.manage.service.entity.ResourceInOutRecordEntity;
+import com.gsafety.dawn.enterprise.manage.service.entity.ResourceInOutRecordEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,13 +1,13 @@
-package com.gsafety.dawn.community.manage.service.serviceimpl;
+package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.community.common.util.DateUtil;
-import com.gsafety.dawn.community.manage.contract.model.ResourceInOutRecordModel;
-import com.gsafety.dawn.community.manage.contract.service.ResourceInOutRecordService;
-import com.gsafety.dawn.community.manage.service.datamappers.ResourceInOutRecordMapper;
-import com.gsafety.dawn.community.manage.service.entity.ResourceEntity;
-import com.gsafety.dawn.community.manage.service.entity.ResourceInOutRecordEntity;
-import com.gsafety.dawn.community.manage.service.repository.ResourceInOutRecordRepository;
-import com.gsafety.dawn.community.manage.service.repository.ResourceRepository;
+import com.gsafety.dawn.enterprise.common.util.DateUtil;
+import com.gsafety.dawn.enterprise.manage.contract.model.ResourceInOutRecordModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.ResourceInOutRecordService;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.ResourceInOutRecordMapper;
+import com.gsafety.dawn.enterprise.manage.service.entity.ResourceEntity;
+import com.gsafety.dawn.enterprise.manage.service.entity.ResourceInOutRecordEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.ResourceInOutRecordRepository;
+import com.gsafety.dawn.enterprise.manage.service.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

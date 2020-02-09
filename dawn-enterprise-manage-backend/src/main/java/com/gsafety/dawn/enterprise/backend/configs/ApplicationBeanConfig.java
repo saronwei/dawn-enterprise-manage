@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.configs;
+package com.gsafety.dawn.enterprise.backend.configs;
 
 import com.gsafety.java.common.utils.HttpClientUtil;
 import com.gsafety.java.common.utils.HttpClientUtilImpl;

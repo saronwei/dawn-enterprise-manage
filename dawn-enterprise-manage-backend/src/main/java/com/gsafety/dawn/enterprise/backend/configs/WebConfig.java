@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.configs;
+package com.gsafety.dawn.enterprise.backend.configs;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;

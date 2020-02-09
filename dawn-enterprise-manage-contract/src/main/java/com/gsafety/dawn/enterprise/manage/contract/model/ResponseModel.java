@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.manage.contract.model;
+package com.gsafety.dawn.enterprise.manage.contract.model;
 
 /**
  * @create 2020-02-08 23:02

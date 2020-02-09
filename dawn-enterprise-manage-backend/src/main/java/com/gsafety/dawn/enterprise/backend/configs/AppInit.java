@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.configs;
+package com.gsafety.dawn.enterprise.backend.configs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;

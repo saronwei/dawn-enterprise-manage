@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.manage.service.entity.metadata;
+package com.gsafety.dawn.enterprise.manage.service.entity.metadata;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,10 @@
-package com.gsafety.dawn.community.manage.service.serviceimpl;
+package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.community.manage.contract.model.SystemSetModel;
-import com.gsafety.dawn.community.manage.contract.service.SystemSetService;
-import com.gsafety.dawn.community.manage.service.datamappers.SystemSetMapper;
-import com.gsafety.dawn.community.manage.service.entity.SystemSetEntity;
-import com.gsafety.dawn.community.manage.service.repository.SystemSetRepository;
+import com.gsafety.dawn.enterprise.manage.contract.model.SystemSetModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.SystemSetService;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.SystemSetMapper;
+import com.gsafety.dawn.enterprise.manage.service.entity.SystemSetEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.SystemSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

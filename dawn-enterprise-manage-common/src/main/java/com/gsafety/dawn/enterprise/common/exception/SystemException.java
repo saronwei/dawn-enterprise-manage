@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.exception;
+package com.gsafety.dawn.enterprise.common.exception;
 
 /**
  * 自定义通用系统异常,表示服务端内部出现的相关异常.

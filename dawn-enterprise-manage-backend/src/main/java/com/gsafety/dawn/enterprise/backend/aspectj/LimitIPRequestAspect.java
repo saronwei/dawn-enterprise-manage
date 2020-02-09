@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.aspectj;
+package com.gsafety.dawn.enterprise.backend.aspectj;
 
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import com.gsafety.java.common.exception.HttpRestException;

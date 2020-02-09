@@ -1,10 +1,10 @@
-package com.gsafety.dawn.community.manage.webapi.controller;
+package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
-import com.gsafety.dawn.community.manage.contract.model.CellTypeModel;
-import com.gsafety.dawn.community.manage.contract.model.CommunityIdsModel;
-import com.gsafety.dawn.community.manage.contract.model.DailyTroubleshootRecordModel;
-import com.gsafety.dawn.community.manage.contract.model.DiagnosisCountModel;
-import com.gsafety.dawn.community.manage.contract.service.DailyTroubleshootRecordService;
+import com.gsafety.dawn.enterprise.manage.contract.model.CellTypeModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.CommunityIdsModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DailyTroubleshootRecordModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DiagnosisCountModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.DailyTroubleshootRecordService;
 import com.gsafety.java.common.exception.HttpError;
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import io.swagger.annotations.*;

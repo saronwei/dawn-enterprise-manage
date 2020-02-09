@@ -1,6 +1,6 @@
 
-group 'com.gsafety.dawn.community'
-archivesBaseName = 'dawn-community-manage-common'
+group 'com.gsafety.dawn.enterprise'
+archivesBaseName = 'dawn-enterprise-manage-common'
 
 apply from: "../scripts/gradle/publish.gradle"
 

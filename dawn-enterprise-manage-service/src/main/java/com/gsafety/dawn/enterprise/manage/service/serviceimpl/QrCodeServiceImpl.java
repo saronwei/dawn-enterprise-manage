@@ -1,14 +1,14 @@
-package com.gsafety.dawn.community.manage.service.serviceimpl;
+package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.community.common.exception.BusinessException;
-import com.gsafety.dawn.community.common.exception.ErrorCode;
-import com.gsafety.dawn.community.common.util.QrCodeUtil;
-import com.gsafety.dawn.community.common.util.StringUtil;
-import com.gsafety.dawn.community.manage.contract.model.QrCodeModel;
-import com.gsafety.dawn.community.manage.contract.service.QrCodeService;
-import com.gsafety.dawn.community.manage.service.datamappers.QrCodeMapper;
-import com.gsafety.dawn.community.manage.service.entity.QrCodeEntity;
-import com.gsafety.dawn.community.manage.service.repository.QrCodeRepository;
+import com.gsafety.dawn.enterprise.common.exception.BusinessException;
+import com.gsafety.dawn.enterprise.common.exception.ErrorCode;
+import com.gsafety.dawn.enterprise.common.util.QrCodeUtil;
+import com.gsafety.dawn.enterprise.common.util.StringUtil;
+import com.gsafety.dawn.enterprise.manage.contract.model.QrCodeModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.QrCodeService;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.QrCodeMapper;
+import com.gsafety.dawn.enterprise.manage.service.entity.QrCodeEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.QrCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

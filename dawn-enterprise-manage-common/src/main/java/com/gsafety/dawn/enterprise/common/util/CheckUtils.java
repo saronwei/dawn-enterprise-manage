@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.common.util;
+package com.gsafety.dawn.enterprise.common.util;
 
-import com.gsafety.dawn.community.common.exception.BusinessException;
-import com.gsafety.dawn.community.common.exception.ErrorCode;
+import com.gsafety.dawn.enterprise.common.exception.BusinessException;
+import com.gsafety.dawn.enterprise.common.exception.ErrorCode;
 import org.springframework.validation.BindingResult;
 
 import java.util.Collection;

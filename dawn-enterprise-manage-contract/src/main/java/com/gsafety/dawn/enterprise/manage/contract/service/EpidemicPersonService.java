@@ -1,7 +1,7 @@
-package com.gsafety.dawn.community.manage.contract.service;
+package com.gsafety.dawn.enterprise.manage.contract.service;
 
-import com.gsafety.dawn.community.manage.contract.model.DiagnosisCountModel;
-import com.gsafety.dawn.community.manage.contract.model.EpidemicPersonModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.DiagnosisCountModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.EpidemicPersonModel;
 
 import java.util.List;
 

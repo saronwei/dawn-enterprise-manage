@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.backend.configs;
+package com.gsafety.dawn.enterprise.backend.configs;
 
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;

@@ -1,10 +1,10 @@
-package com.gsafety.dawn.community.manage.service.serviceimpl;
+package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.community.manage.contract.model.CellModel;
-import com.gsafety.dawn.community.manage.contract.service.CellService;
-import com.gsafety.dawn.community.manage.service.datamappers.CellMapper;
-import com.gsafety.dawn.community.manage.service.entity.CellEntity;
-import com.gsafety.dawn.community.manage.service.repository.CellRepository;
+import com.gsafety.dawn.enterprise.manage.contract.model.CellModel;
+import com.gsafety.dawn.enterprise.manage.contract.service.CellService;
+import com.gsafety.dawn.enterprise.manage.service.datamappers.CellMapper;
+import com.gsafety.dawn.enterprise.manage.service.entity.CellEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.CellRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.gsafety.dawn.community.common.util;
+package com.gsafety.dawn.enterprise.common.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.multipart.MultipartFile;
