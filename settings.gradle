@@ -1,4 +1,4 @@
-rootProject.name = 'dawn-community-manage'
+rootProject.name = 'dawn-enterprise-manage'
 include 'dawn-enterprise-manage-backend',
         'dawn-enterprise-manage-common',
         'dawn-enterprise-manage-service',
