@@ -5,26 +5,44 @@ import java.util.Date;
 
 public class EnterpriseCriteria {
     // 企业id
-    private String enterpriseId;
+    private String enterpriseCode;
     // 企业名称
     private String enterpriseName;
     // 日期
-    private Date time;
+    private String startDate;
+
+    private String endDate;
     // 部门id
-    private String deptId;
+    private String deptmentCode;
     // 部门名称
-    private String deptName;
+    private String deptmentName;
     // 填报状态
     private String uploadStatus;
     // 人员状态
     private String personStatus;
 
-    public String getEnterpriseId() {
-        return enterpriseId;
+    public String getEnterpriseCode() {
+        return enterpriseCode;
     }
 
-    public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
+    public void setEnterpriseCode(String enterpriseCode) {
+        this.enterpriseCode = enterpriseCode;
+    }
+
+    public String getDeptmentCode() {
+        return deptmentCode;
+    }
+
+    public void setDeptmentCode(String deptmentCode) {
+        this.deptmentCode = deptmentCode;
+    }
+
+    public String getDeptmentName() {
+        return deptmentName;
+    }
+
+    public void setDeptmentName(String deptmentName) {
+        this.deptmentName = deptmentName;
     }
 
     public String getEnterpriseName() {
@@ -35,28 +53,20 @@ public class EnterpriseCriteria {
         this.enterpriseName = enterpriseName;
     }
 
-    public Date getTime() {
-        return time;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getDeptId() {
-        return deptId;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setDeptId(String deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public String getUploadStatus() {
