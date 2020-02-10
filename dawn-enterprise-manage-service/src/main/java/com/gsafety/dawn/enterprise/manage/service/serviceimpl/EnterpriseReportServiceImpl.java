@@ -59,6 +59,7 @@ public class EnterpriseReportServiceImpl implements EnterpriseReportService {
             PageBean<EnterpriseReportModel> pageBean = new PageBean<>();
             pageBean.setData(enterpriseReportMapper.entitiesToModels(allData));
             pageBean.setTotalCount(allData.size());
+            return pageBean;
         } else {
             Pageable pageable = PageRequest.of(queryInfo.getCurrentPage() - 1, queryInfo.getPageSize());
             Page<EnterpriseReportEntity> pageData = enterpriseReportRepository.findAll(createSpecification(queryInfo), pageable);
@@ -71,7 +72,6 @@ public class EnterpriseReportServiceImpl implements EnterpriseReportService {
             return pageBean;
         }
 
-        return null;
     }
 
     private Specification<EnterpriseReportEntity> createSpecification(EnterpriseReportQueryInfo queryInfo) {
@@ -79,7 +79,7 @@ public class EnterpriseReportServiceImpl implements EnterpriseReportService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (StringUtil.isNotEmpty(queryInfo.getEnterpriseName())) {
-                predicates.add(cb.equal(root.get("name"), queryInfo.getEnterpriseName()));
+                predicates.add(cb.equal(root.get("enterpriseName"), queryInfo.getEnterpriseName()));
             }
 
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));

@@ -387,4 +387,12 @@ public class EnterpriseReportEntity {
     public void setTakeMeasures(String takeMeasures) {
         this.takeMeasures = takeMeasures;
     }
+
+    public Date getReportTime() {
+        return reportTime;
+    }
+
+    public void setReportTime(Date reportTime) {
+        this.reportTime = reportTime;
+    }
 }

@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModel;
 @ApiModel
 public class EnterpriseReportQueryInfo {
     private String enterpriseName;
-    private Integer currentPage = 0;
-    private Integer pageSize = 10;
+    private Integer currentPage;
+    private Integer pageSize;
 
     public String getEnterpriseName() {
         return enterpriseName;
