@@ -48,7 +48,7 @@ public class TypeStacController {
         for(Map.Entry<String, Object> e : rs.entrySet()) {
             map = new HashMap();
             map.put("name", e.getKey());
-            map.put("count", e.getValue());
+            map.put("value", e.getValue());
             maps.add(map);
         }
         for(Map map1 : maps) {
