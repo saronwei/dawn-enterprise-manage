@@ -8,6 +8,7 @@ import com.gsafety.dawn.enterprise.manage.contract.service.EnterpriseReportHisto
 import com.gsafety.dawn.enterprise.manage.service.datamappers.EnterpriseReportHistoryMapper;
 import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseReportHistoryEntity;
 import com.gsafety.dawn.enterprise.manage.service.repository.EnterpriseReportHistoryRepository;
+import com.gsafety.java.common.page.PageBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.transaction.SystemException;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,9 +53,24 @@ public class EnterpriseReportHistoryServiceImpl implements EnterpriseReportHisto
      * @return the list
      */
     @Override
-    public List<EnterpriseReportHistoryModel> pagQuery(int page, int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.DESC, "reportTime");
-        return enterpriseReportHistoryMapper.entitiesToModels(enterpriseReportHistoryRepository.findAll(pageable).getContent());
+    public PageBean<EnterpriseReportHistoryModel> getEnterpriseReportHistoryByPage(int page, int pageSize) {
+        try {
+            PageBean<EnterpriseReportHistoryModel> pageBean = new PageBean<>();
+            Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.DESC, "reportTime");
+            pageBean.setData(enterpriseReportHistoryMapper.entitiesToModels(enterpriseReportHistoryRepository.findAll(pageable).getContent()));
+            pageBean.setCurrentPage(page);
+            pageBean.setPageSize(pageSize);
+            long totalCount = enterpriseReportHistoryRepository.count();
+            pageBean.setTotalCount(totalCount);
+            if(totalCount%pageSize == 0)
+                pageBean.setTotalPage((int)totalCount/pageSize);
+            else
+                pageBean.setTotalPage((int)totalCount/pageSize + 1);
+            return pageBean;
+        } catch (Exception e) {
+            logger.error("getEnterpriseReportHistoryByPage message ", e);
+            throw e;
+        }
     }
 
     /**

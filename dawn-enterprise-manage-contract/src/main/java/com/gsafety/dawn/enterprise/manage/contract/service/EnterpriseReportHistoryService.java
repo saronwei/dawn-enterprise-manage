@@ -2,6 +2,7 @@ package com.gsafety.dawn.enterprise.manage.contract.service;
 
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportHistoryModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportModel;
+import com.gsafety.java.common.page.PageBean;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface EnterpriseReportHistoryService {
      * @param pageSize the page size
      * @return the list
      */
-    List<EnterpriseReportHistoryModel> pagQuery(int page, int pageSize);
+    PageBean<EnterpriseReportHistoryModel> getEnterpriseReportHistoryByPage(int page, int pageSize);
 
     /**
      * 新增/修改企业上报历史
