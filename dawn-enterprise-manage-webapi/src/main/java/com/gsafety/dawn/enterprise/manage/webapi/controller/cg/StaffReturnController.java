@@ -1,9 +1,6 @@
 package com.gsafety.dawn.enterprise.manage.webapi.controller.cg;
 
-import com.gsafety.dawn.enterprise.manage.contract.model.CommunityIdsModel;
-import com.gsafety.dawn.enterprise.manage.contract.model.DailyTroubleshootRecordModel;
-import com.gsafety.dawn.enterprise.manage.contract.model.DiagnosisCountModel;
-import com.gsafety.dawn.enterprise.manage.contract.model.ResultModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.model.cg.StaffReturnInfoModel;
 import com.gsafety.dawn.enterprise.manage.contract.service.DailyTroubleshootRecordService;
 import com.gsafety.dawn.enterprise.manage.contract.service.cm.StaffReturnService;
@@ -46,8 +43,10 @@ public class StaffReturnController {
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<ResultModel<List<StaffReturnInfoModel>>> queryStaffReturnReportsPage(@PathVariable @ApiParam(value = "page", required = true)  int page , @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
-        Page<StaffReturnInfoModel> result = staffReturnService.queryStaffReturnReportsPage(PageRequest.of(page-1, pageSize));
+    public ResponseEntity<ResultModel<List<StaffReturnInfoModel>>> queryStaffReturnReportsPage(@PathVariable@ApiParam(value = "page", required = true)  int page , @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
+        TotalStatisticsQuery tq = new TotalStatisticsQuery();
+        tq.setEnterpriseCode("company-0001");
+        Page<StaffReturnInfoModel> result = staffReturnService.queryStaffReturnReportsPage(tq, PageRequest.of(page-1, pageSize));
         return ResponseEntity.ok(new ResultModel<>(result.getContent(), result.getTotalElements()));
     }
 

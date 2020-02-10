@@ -3,6 +3,7 @@ package com.gsafety.dawn.enterprise.manage.service.datamappers.cg;
 
 import com.gsafety.dawn.enterprise.manage.contract.model.CellModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.DailyTroubleshootRecordModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReport;
 import com.gsafety.dawn.enterprise.manage.contract.model.cg.StaffReturnInfoModel;
 import com.gsafety.dawn.enterprise.manage.service.entity.CellEntity;
 import com.gsafety.dawn.enterprise.manage.service.entity.DailyTroubleshootRecordEntity;
@@ -27,5 +28,9 @@ public interface StaffReturnMapper {
     List<StaffReturnInfoModel> entitiesToModels(List<StaffReturnInfoEntity> staffReturnInfoEntities);
 
     List<StaffReturnInfoEntity> modelsToEntities(List<StaffReturnInfoModel> models);
+
+    StaffReturnInfoModel fromEnterpriseReport(EnterpriseReport enterpriseReport);
+
+    List<StaffReturnInfoModel> fromEnterpriseReports(List<EnterpriseReport> enterpriseReports);
 
 }
