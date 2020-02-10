@@ -28,16 +28,8 @@ public class StaffReturnServiceImpl implements StaffReturnService {
 
     @Override
     public Page<StaffReturnInfoModel> queryStaffReturnReportsPage(Pageable pageable) {
-        /*Page<StaffReturnInfoEntity> pages = staffReturnRepository.findAll(new Specification<StaffReturnInfoEntity>() {
-            @Nullable
-            @Override
-            public Predicate toPredicate(Root<StaffReturnInfoEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-
-                return query.getRestriction();
-            }
-        }, pageable);*/
-
-        Page page = new PageImpl(staffReturnMapper.entitiesToModels(staffReturnRepository.findAll()), pageable, 1);
+        Page<StaffReturnInfoEntity> pages = staffReturnRepository.findAll(pageable);
+        Page page = new PageImpl(staffReturnMapper.entitiesToModels(pages.getContent()), pageable, pages.getTotalElements());
         return page;
     }
 

@@ -47,7 +47,7 @@ public class StaffReturnController {
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<ResultModel<List<StaffReturnInfoModel>>> queryStaffReturnReportsPage(@PathVariable @ApiParam(value = "page", required = true)  int page , @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
-        Page<StaffReturnInfoModel> result = staffReturnService.queryStaffReturnReportsPage(PageRequest.of(page, pageSize));
+        Page<StaffReturnInfoModel> result = staffReturnService.queryStaffReturnReportsPage(PageRequest.of(page-1, pageSize));
         return ResponseEntity.ok(new ResultModel<>(result.getContent(), result.getTotalElements()));
     }
 
