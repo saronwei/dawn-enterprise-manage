@@ -65,6 +65,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
             staffReturnInfoModel.setId((String)masp.get("id"));
             staffReturnInfoModel.setCurrentCity((String)masp.get("currentCity"));
             staffReturnInfoModel.setIsTouchHubei((String)masp.get("passHubei"));
+            staffReturnInfoModel.setIsContactHubeiPerson(masp.get("touchHubei") == null ? null : (String)masp.get("touchHubei"));
             staffReturnInfoModel.setFamily((String)masp.get("backTogether"));
             staffReturnInfoModel.setGoCity((String)masp.get("toCity"));
             staffReturnInfoModel.setPlanReturnTime((String)masp.get("planBackDate"));
@@ -72,7 +73,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
             staffReturnInfoModel.setIsPassHubei(masp.get("passHubei") == null ? null : String.valueOf(masp.get("passHubei")));
             staffReturnInfoModel.setReportTime((String)masp.get("createTime"));
             staffReturnInfoModel.setUnit((String)masp.get("enterpriseName"));
-            staffReturnInfoModel.setIsTouchWuhan(String.valueOf(masp.get("fourteenDayTouchWuhan")));
+            staffReturnInfoModel.setIsTouchWuhan(masp.get("fourteenDayTouchWuhan") == null ? null : String.valueOf(masp.get("fourteenDayTouchWuhan")));
             staffReturnInfoModel.setIsCommitteeReport(masp.get("reportCommittee") == null ? null : String.valueOf(masp.get("reportCommittee")));
             staffReturnInfoModel.setNumber(String.valueOf(masp.get("employeeCode")));
             staffReturnInfoModel.setIsExceedTemp(masp.get("fever") == null ? null : String.valueOf(masp.get("fever")));
@@ -80,9 +81,10 @@ public class StaffReturnServiceImpl implements StaffReturnService {
             staffReturnInfoModel.setWorkerStatue(String.valueOf(masp.get("dutyStatus")));
             staffReturnInfoModel.setPhone(String.valueOf(masp.get("phone")));
             staffReturnInfoModel.setIsContactHubeiPerson(masp.get("fourteenDayTouchHubei") == null ? null : String.valueOf(masp.get("fourteenDayTouchHubei")));
-            staffReturnInfoModel.setTransport(String.valueOf(masp.get("vehicle")));
-            staffReturnInfoModel.setJob(String.valueOf(masp.get("job")));
+            staffReturnInfoModel.setTransport(masp.get("vehicle") == null ? null : String.valueOf(masp.get("vehicle")));
+            staffReturnInfoModel.setJob(masp.get("job") == null ? null : String.valueOf(masp.get("job")));
             staffReturnInfoModel.setIsReturn(masp.get("back") == null ? null : String.valueOf(masp.get("back")));
+            staffReturnInfoModel.setIsIsolation(masp.get("fourteenDayIsolation") == null ? null : String.valueOf(masp.get("fourteenDayIsolation")));
             listss.add(staffReturnInfoModel);
 
         }
@@ -99,6 +101,9 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         Result result = restTemplate.postForObject("http://39.105.209.108:8090/api/enterprise/report/findOne?name="+ id, null, Result.class);
         // Result result = restTemplate.postForObject("http://39.105.209.108:8090/api/enterprise/report/findOne?name={1}", new HttpEntity<>(), Result.class, map);
         Map masp = (Map)result.getData();
+        if(masp == null) {
+            return null;
+        }
         StaffReturnInfoModel staffReturnInfoModel;
         staffReturnInfoModel = new StaffReturnInfoModel();
         staffReturnInfoModel.setName((String)masp.get("name"));
@@ -107,6 +112,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setId((String)masp.get("id"));
         staffReturnInfoModel.setCurrentCity((String)masp.get("currentCity"));
         staffReturnInfoModel.setIsTouchHubei((String)masp.get("passHubei"));
+        staffReturnInfoModel.setIsContactHubeiPerson(masp.get("touchHubei") == null ? null : (String)masp.get("touchHubei"));
         staffReturnInfoModel.setFamily((String)masp.get("backTogether"));
         staffReturnInfoModel.setGoCity((String)masp.get("toCity"));
         staffReturnInfoModel.setPlanReturnTime((String)masp.get("planBackDate"));
@@ -114,7 +120,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setIsPassHubei(masp.get("passHubei") == null ? null : String.valueOf(masp.get("passHubei")));
         staffReturnInfoModel.setReportTime((String)masp.get("createTime"));
         staffReturnInfoModel.setUnit((String)masp.get("enterpriseName"));
-        staffReturnInfoModel.setIsTouchWuhan(String.valueOf(masp.get("fourteenDayTouchWuhan")));
+        staffReturnInfoModel.setIsTouchWuhan(masp.get("fourteenDayTouchWuhan") == null ? null : String.valueOf(masp.get("fourteenDayTouchWuhan")));
         staffReturnInfoModel.setIsCommitteeReport(masp.get("reportCommittee") == null ? null : String.valueOf(masp.get("reportCommittee")));
         staffReturnInfoModel.setNumber(String.valueOf(masp.get("employeeCode")));
         staffReturnInfoModel.setIsExceedTemp(masp.get("fever") == null ? null : String.valueOf(masp.get("fever")));
@@ -122,9 +128,10 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setWorkerStatue(String.valueOf(masp.get("dutyStatus")));
         staffReturnInfoModel.setPhone(String.valueOf(masp.get("phone")));
         staffReturnInfoModel.setIsContactHubeiPerson(masp.get("fourteenDayTouchHubei") == null ? null : String.valueOf(masp.get("fourteenDayTouchHubei")));
-        staffReturnInfoModel.setTransport(String.valueOf(masp.get("vehicle")));
-        staffReturnInfoModel.setJob(String.valueOf(masp.get("job")));
+        staffReturnInfoModel.setTransport(masp.get("vehicle") == null ? null : String.valueOf(masp.get("vehicle")));
+        staffReturnInfoModel.setJob(masp.get("job") == null ? null : String.valueOf(masp.get("job")));
         staffReturnInfoModel.setIsReturn(masp.get("back") == null ? null : String.valueOf(masp.get("back")));
+        staffReturnInfoModel.setIsIsolation(masp.get("fourteenDayIsolation") == null ? null : String.valueOf(masp.get("fourteenDayIsolation")));
         //StaffReturnInfoEntity staffReturnInfoEntity = staffReturnRepository.getOne(id);
         return staffReturnInfoModel;
     }
