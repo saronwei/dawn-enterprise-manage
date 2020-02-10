@@ -1,9 +1,7 @@
 package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
-import com.gsafety.dawn.enterprise.manage.contract.model.DailyTroubleshootRecordModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseTypeModel;
 import com.gsafety.dawn.enterprise.manage.contract.service.EnterpriseTypeService;
-import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseTypeEntity;
 import com.gsafety.java.common.exception.HttpError;
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import io.swagger.annotations.*;
