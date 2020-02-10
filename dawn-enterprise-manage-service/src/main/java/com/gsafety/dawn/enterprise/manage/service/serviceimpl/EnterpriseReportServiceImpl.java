@@ -5,9 +5,11 @@ import com.gsafety.dawn.enterprise.common.exception.ErrorCode;
 import com.gsafety.dawn.enterprise.common.util.StringUtil;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportQueryInfo;
+import com.gsafety.dawn.enterprise.manage.contract.service.EnterpriseReportHistoryService;
 import com.gsafety.dawn.enterprise.manage.contract.service.EnterpriseReportService;
 import com.gsafety.dawn.enterprise.manage.service.datamappers.EnterpriseReportMapper;
 import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseReportEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.EnterpriseReportHistoryRepository;
 import com.gsafety.dawn.enterprise.manage.service.repository.EnterpriseReportRepository;
 import com.gsafety.java.common.page.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class EnterpriseReportServiceImpl implements EnterpriseReportService {
     private EnterpriseReportMapper enterpriseReportMapper;
     @Autowired
     private EnterpriseReportRepository enterpriseReportRepository;
+    @Autowired
+    private EnterpriseReportHistoryService enterpriseReportHistoryService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -46,6 +50,7 @@ public class EnterpriseReportServiceImpl implements EnterpriseReportService {
         enterpriseReportModel.setReportTime(new Date());
         EnterpriseReportEntity enterpriseReportEntity = enterpriseReportMapper.modelToEntity(enterpriseReportModel);
         EnterpriseReportEntity enterpriseReportEntityCopy = enterpriseReportRepository.save(enterpriseReportEntity);
+        enterpriseReportHistoryService.saveEnterpriseReportHistoryByReportModel(enterpriseReportModel);
         return enterpriseReportMapper.entityToModel(enterpriseReportEntityCopy);
     }
 
