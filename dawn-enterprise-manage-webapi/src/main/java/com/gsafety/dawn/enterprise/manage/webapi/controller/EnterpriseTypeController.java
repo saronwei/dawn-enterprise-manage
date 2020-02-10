@@ -7,11 +7,9 @@ import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +32,7 @@ public class EnterpriseTypeController {
     @GetMapping(value = "/enterprise-type")
     @ApiOperation(value = "查询企业类型顶级节点", notes = "getFirstLevelEnterprise()")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 200, message = "OK", response = List.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
@@ -43,10 +41,10 @@ public class EnterpriseTypeController {
         return new ResponseEntity<>(enterpriseTypeModels, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/enterprise-type/id")
+    @PostMapping(value = "/enterprise-type/id", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "根据id查询企业类型子级节点", notes = "getChildNodeEnterpriseById()")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 200, message = "OK", response = List.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)

@@ -1,8 +1,6 @@
 package com.gsafety.dawn.enterprise.manage.contract.model;
 
 
-import java.util.Date;
-
 public class EnterpriseTypeModel {
     /**
      * 主键类型编号.
@@ -15,9 +13,43 @@ public class EnterpriseTypeModel {
     /**
      * 类型名称.
      */
-    private Date enterpriseTypeName;
+    private String enterpriseTypeName;
     /**
      * 类型父ID.
      */
     private String enterpriseTypeParentId;
+
+    public EnterpriseTypeModel() {}
+
+    public String getEnterpriseTypeId() {
+        return enterpriseTypeId;
+    }
+
+    public void setEnterpriseTypeId(String enterpriseTypeId) {
+        this.enterpriseTypeId = enterpriseTypeId;
+    }
+
+    public String getEnterpriseTypeLevel() {
+        return enterpriseTypeLevel;
+    }
+
+    public void setEnterpriseTypeLevel(String enterpriseTypeLevel) {
+        this.enterpriseTypeLevel = enterpriseTypeLevel;
+    }
+
+    public String getEnterpriseTypeName() {
+        return enterpriseTypeName;
+    }
+
+    public void setEnterpriseTypeName(String enterpriseTypeName) {
+        this.enterpriseTypeName = enterpriseTypeName;
+    }
+
+    public String getEnterpriseTypeParentId() {
+        return enterpriseTypeParentId;
+    }
+
+    public void setEnterpriseTypeParentId(String enterpriseTypeParentId) {
+        this.enterpriseTypeParentId = enterpriseTypeParentId;
+    }
 }

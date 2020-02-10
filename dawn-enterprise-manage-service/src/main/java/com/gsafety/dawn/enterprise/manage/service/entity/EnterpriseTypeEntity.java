@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 /**
  * @create 2020-02-010 23:51
@@ -18,25 +17,25 @@ public class EnterpriseTypeEntity {
      */
     @Id
     @Column(name = "enterprise_type_id",length = 255,nullable = false)
-    private String enterprise_type_id;
+    private String enterpriseTypeId;
 
     /**
      * 类型等级，用于快速查询，第几级节点.
      */
     @Column(name = "enterprise_type_level",length = 255,nullable = false)
-    private String enterprise_type_level;
+    private String enterpriseTypeLevel;
 
     /**
      * 类型名称.
      */
     @Column(name = "enterprise_type_name",length = 255,nullable = false)
-    private String enterprise_type_name;
+    private String enterpriseTypeName;
 
     /**
      * 类型父ID.
      */
     @Column(name = "enterprise_type_parent_id",length = 255,nullable = false)
-    private String enterprise_type_parent_id;
+    private String enterpriseTypeParentId;
 
 
     /**
@@ -47,75 +46,75 @@ public class EnterpriseTypeEntity {
     }
 
     /**
-     * Gets enterprise_type_id.
+     * Gets enterpriseTypeId.
      *
-     * @return the enterprise_type_id
+     * @return the enterpriseTypeId
      */
-    public String getEnterprise_type_id() {
-        return enterprise_type_id;
+    public String getEnterpriseTypeId() {
+        return enterpriseTypeId;
     }
 
     /**
-     * Sets enterprise_type_id.
+     * Sets enterpriseTypeId.
      *
-     * @param enterprise_type_id the enterprise_type_id
+     * @param enterpriseTypeId the enterpriseTypeId
      */
-    public void setEnterprise_type_id(String enterprise_type_id) {
-        this.enterprise_type_id = enterprise_type_id;
+    public void setEnterpriseTypeId(String enterpriseTypeId) {
+        this.enterpriseTypeId = enterpriseTypeId;
     }
 
     /**
-     * Gets enterprise_type_level.
+     * Gets enterpriseTypeLevel.
      *
-     * @return the enterprise_type_level
+     * @return the enterpriseTypeLevel
      */
-    public String getEnterprise_type_level() {
-        return enterprise_type_level;
+    public String getEnterpriseTypeLevel() {
+        return enterpriseTypeLevel;
     }
 
     /**
-     * Sets enterprise_type_level.
+     * Sets enterpriseTypeLevel.
      *
-     * @param enterprise_type_level the enterprise_type_level
+     * @param enterpriseTypeLevel the enterpriseTypeLevel
      */
-    public void setEnterprise_type_level(String enterprise_type_level) {
-        this.enterprise_type_level = enterprise_type_level;
+    public void setEnterpriseTypeLevel(String enterpriseTypeLevel) {
+        this.enterpriseTypeLevel = enterpriseTypeLevel;
     }
 
     /**
-     * Gets enterprise_type_name.
+     * Gets enterpriseTypeName.
      *
-     * @return the enterprise_type_name
+     * @return the enterpriseTypeName
      */
-    public String getEnterprise_type_name() {
-        return enterprise_type_name;
+    public String getEnterpriseTypeName() {
+        return enterpriseTypeName;
     }
 
     /**
-     * Sets enterprise_type_name.
+     * Sets enterpriseTypeName.
      *
-     * @param enterprise_type_name the enterprise_type_name
+     * @param enterpriseTypeName the enterpriseTypeName
      */
-    public void setEnterprise_type_name(String enterprise_type_name) {
-        this.enterprise_type_name = enterprise_type_name;
+    public void setEnterpriseTypeName(String enterpriseTypeName) {
+        this.enterpriseTypeName = enterpriseTypeName;
     }
 
     /**
-     * Gets res enterprise_type_level.
+     * Gets res enterpriseTypeLevel.
      *
-     * @return the res enterprise_type_level
+     * @return the res enterpriseTypeLevel
      */
-    public String getEnterprise_type_parent_id() {
-        return enterprise_type_parent_id;
+    public String getEnterpriseTypeParentId() {
+        return enterpriseTypeParentId;
     }
 
     /**
-     * Sets res enterprise_type_level.
+     * Sets res enterpriseTypeLevel.
      *
-     * @param enterprise_type_parent_id the res enterprise_type_level
+     * @param enterpriseTypeParentId the res enterpriseTypeLevel
      */
-    public void setEnterprise_type_parent_id(String enterprise_type_parent_id) {
-        this.enterprise_type_parent_id = enterprise_type_parent_id;
+    public void setEnterpriseTypeParentId(String enterpriseTypeParentId) {
+        this.enterpriseTypeParentId = enterpriseTypeParentId;
     }
 
 }

@@ -39,7 +39,9 @@ public class EnterpriseTypeServiceImpl implements EnterpriseTypeService {
     public List<EnterpriseTypeModel> getFirstLevelEnterprise() {
         List<EnterpriseTypeEntity> enterpriseTypeEntities =
                 enterpriseTypeRepository.getByFirstLevel("1");
-        return enterpriseTypeMapper.entitiesToModels(enterpriseTypeEntities);
+        List<EnterpriseTypeModel> enterpriseTypeModels =
+                enterpriseTypeMapper.entitiesToModels(enterpriseTypeEntities);
+        return enterpriseTypeModels;
     }
 
     /**
@@ -53,6 +55,8 @@ public class EnterpriseTypeServiceImpl implements EnterpriseTypeService {
     public List<EnterpriseTypeModel> getChildNodeEnterpriseById(String parentId) {
         List<EnterpriseTypeEntity> enterpriseTypeEntities =
                 enterpriseTypeRepository.getByParentId(parentId);
-        return enterpriseTypeMapper.entitiesToModels(enterpriseTypeEntities);
+        List<EnterpriseTypeModel> enterpriseTypeModels =
+                enterpriseTypeMapper.entitiesToModels(enterpriseTypeEntities);
+        return enterpriseTypeModels;
     }
 }
