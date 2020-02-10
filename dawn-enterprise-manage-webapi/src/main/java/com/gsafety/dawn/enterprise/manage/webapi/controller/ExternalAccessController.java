@@ -1,8 +1,7 @@
 package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
-import com.gsafety.dawn.enterprise.manage.contract.model.DiagnosisCountModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseCriteria;
-import com.gsafety.dawn.enterprise.manage.contract.model.ImportantPersonStaticsModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportImportantPersonStat;
 import com.gsafety.dawn.enterprise.manage.contract.model.ReportedPersonInfoModel;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
 import com.gsafety.java.common.exception.HttpError;
@@ -39,12 +38,24 @@ public class ExternalAccessController {
     @PostMapping(value = "/enterprise/importantPersonsStatics", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "重点关注人员统计", notes = "getImportantPersonsStatics()")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = DiagnosisCountModel.class ),
+            @ApiResponse(code = 200, message = "OK", response = List.class ),
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<List<ImportantPersonStaticsModel>> getImportantPersonsStatics(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
-        List<ImportantPersonStaticsModel> result = ExternalAccessService.getImportantPersonsStatics(enterpriseCriteria);
+    public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getImportantPersonsStatics(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
+        List<EnterpriseReportImportantPersonStat> result = ExternalAccessService.getImportantPersonsStatics(enterpriseCriteria);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/enterprise/importantPersonsStatics2", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "重点关注人员统计2", notes = "getImportantPersonsStatics2()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = List.class ),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getImportantPersonsStatics2(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
+        List<EnterpriseReportImportantPersonStat> result = ExternalAccessService.getImportantPersonsStatics2(enterpriseCriteria);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
