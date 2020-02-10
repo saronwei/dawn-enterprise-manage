@@ -36,8 +36,8 @@ public class SwaggerConfig {
     //用来创建该API的基本信息，这些信息会展示在文档页面当中
     private ApiInfo aipInfo() {
         return  new ApiInfoBuilder()
-                .title("dawn-community-manage")
-                .description("dawn-community-manage API helper")
+                .title("dawn-enterprise-manage")
+                .description("dawn-enterprise-manage API helper")
                 .build();
     }
 
