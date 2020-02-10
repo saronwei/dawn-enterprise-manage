@@ -58,7 +58,7 @@ public class EnterpriseReportHistoryServiceImpl implements EnterpriseReportHisto
             PageBean<EnterpriseReportHistoryModel> pageBean = new PageBean<>();
             Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.DESC, "reportTime");
             pageBean.setData(enterpriseReportHistoryMapper.entitiesToModels(enterpriseReportHistoryRepository.findAll(pageable).getContent()));
-            pageBean.setCurrentPage(page);
+            pageBean.setCurrentPage(page + 1);
             pageBean.setPageSize(pageSize);
             long totalCount = enterpriseReportHistoryRepository.count();
             pageBean.setTotalCount(totalCount);
