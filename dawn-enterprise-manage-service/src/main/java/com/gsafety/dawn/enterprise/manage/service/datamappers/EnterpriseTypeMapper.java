@@ -3,6 +3,8 @@ package com.gsafety.dawn.enterprise.manage.service.datamappers;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseTypeModel;
 import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseTypeEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -18,14 +20,6 @@ public interface EnterpriseTypeMapper {
      * @return the data source model
      */
     EnterpriseTypeModel entityToModel(EnterpriseTypeEntity enterpriseTypeEntity);
-
-    /**
-     * The data source model to data source entity.
-     *
-     * @param enterpriseTypeModel the data source model
-     * @return the data source entity
-     */
-    EnterpriseTypeEntity modelToEntity(EnterpriseTypeModel enterpriseTypeModel);
 
     /**
      * Entities to models list.
