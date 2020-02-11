@@ -38,7 +38,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
     private RestTemplate restTemplate;
 
     @Override
-    public Page<StaffReturnInfoModel> queryStaffReturnReportsPage(TotalStatisticsQuery tq, Pageable pageable) {
+    public Map<String, Object> queryStaffReturnReportsPage(TotalStatisticsQuery tq, Pageable pageable) {
         /*{
             "deptmentCode": "string",
                 "deptmentName": "string",
@@ -93,7 +93,10 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         //List<StaffReturnInfoModel> staffReturnInfoModels = staffReturnMapper.fromEnterpriseReports(results.getData().getList());
         //Page<StaffReturnInfoEntity> pages = staffReturnRepository.findAll(pageable);
         Page page = new PageImpl(listss, pageable, to);
-        return page;
+        Map<String, Object> rrr = new HashMap<>();
+        rrr.put("total", to);
+        rrr.put("list", listss);
+        return rrr;
     }
 
     @Override

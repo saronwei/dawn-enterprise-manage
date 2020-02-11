@@ -46,8 +46,11 @@ public class StaffReturnController {
     public ResponseEntity<ResultModel<List<StaffReturnInfoModel>>> queryStaffReturnReportsPage(@PathVariable@ApiParam(value = "page", required = true)  int page , @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
         TotalStatisticsQuery tq = new TotalStatisticsQuery();
         tq.setEnterpriseCode("company-0001");
-        Page<StaffReturnInfoModel> result = staffReturnService.queryStaffReturnReportsPage(tq, PageRequest.of(page-1, pageSize));
-        return ResponseEntity.ok(new ResultModel<>(result.getContent(), result.getTotalElements()));
+        Map<String, Object> rrr = staffReturnService.queryStaffReturnReportsPage(tq, PageRequest.of(page, pageSize));
+
+        List<StaffReturnInfoModel> aa = (List<StaffReturnInfoModel>)rrr.get("list");
+        long bb = Long.valueOf(String.valueOf(rrr.get("total")));
+        return ResponseEntity.ok(new ResultModel<List<StaffReturnInfoModel>>(aa, bb));
     }
 
     @PostMapping(value = "/staff-return-report/get/{id}")
