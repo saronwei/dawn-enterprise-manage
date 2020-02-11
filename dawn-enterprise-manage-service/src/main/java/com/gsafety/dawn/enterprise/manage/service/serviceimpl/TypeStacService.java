@@ -19,4 +19,9 @@ public class TypeStacService {
                 "from b_enterprise_report", new HashMap<>());
     }
 
+    public Map typestacPerson() {
+        return jdbcTemplate.queryForMap("select SUM(COALESCE(CAST(social_security_total AS INTEGER), 0)) as totals, SUM(COALESCE(CAST(on_work_in_total AS INTEGER ), 0 ) ) as returns from e_company_report_info"
+                , new HashMap<>());
+    }
+
 }
