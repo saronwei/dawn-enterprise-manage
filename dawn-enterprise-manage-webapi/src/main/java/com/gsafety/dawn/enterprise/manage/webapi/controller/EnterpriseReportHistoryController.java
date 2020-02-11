@@ -6,6 +6,7 @@ import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportModel;
 import com.gsafety.dawn.enterprise.manage.contract.service.EnterpriseReportHistoryService;
 import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseReportHistoryEntity;
 import com.gsafety.java.common.exception.HttpError;
+import com.gsafety.java.common.page.PageBean;
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +45,10 @@ public class EnterpriseReportHistoryController {
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<List<EnterpriseReportHistoryModel>> queryEnterpriseReportHistoryByPage(
+    public ResponseEntity<PageBean<EnterpriseReportHistoryModel>> queryEnterpriseReportHistoryByPage(
             @PathVariable @ApiParam(value = "page", required = true)  int page ,
             @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
-        List<EnterpriseReportHistoryModel> result = enterpriseReportHistoryService.pagQuery(page, pageSize);
+        PageBean<EnterpriseReportHistoryModel> result = enterpriseReportHistoryService.getEnterpriseReportHistoryByPage(page, pageSize);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
