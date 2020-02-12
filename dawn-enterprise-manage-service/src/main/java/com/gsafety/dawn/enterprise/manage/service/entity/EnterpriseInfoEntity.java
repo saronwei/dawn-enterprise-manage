@@ -453,4 +453,22 @@ public class EnterpriseInfoEntity {
     public void setTenAntId(String tenAntId) {
         this.tenAntId = tenAntId;
     }
+
+
+    /**
+     * Instantiates a new Enterprise info entity.
+     *
+     * @param id   the id
+     * @param name the name
+     */
+    public EnterpriseInfoEntity(String id, String name) {
+        this.id=id;
+        this.name = name;
+    }
+
+    /**
+     * Instantiates a new Enterprise info entity.
+     */
+    public EnterpriseInfoEntity() {
+    }
 }

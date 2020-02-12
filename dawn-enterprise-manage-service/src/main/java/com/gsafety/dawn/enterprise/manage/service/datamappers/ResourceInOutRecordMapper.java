@@ -26,7 +26,6 @@ public interface ResourceInOutRecordMapper {
      */
     ResourceInOutRecordEntity modelToEntity(ResourceInOutRecordModel resourceInOutRecordModel);
 
-
     /**
      * Entities to models list.
      *
@@ -34,7 +33,6 @@ public interface ResourceInOutRecordMapper {
      * @return the list
      */
     List<ResourceInOutRecordModel> entitiesToModels(List<ResourceInOutRecordEntity> resourceInOutRecordEntities);
-
 
     /**
      * Models to entities list.

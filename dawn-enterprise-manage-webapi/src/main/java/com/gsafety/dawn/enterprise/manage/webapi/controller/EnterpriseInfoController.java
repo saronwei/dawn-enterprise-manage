@@ -65,12 +65,29 @@ public class EnterpriseInfoController {
     }
 
     /**
+     * Gets enterprise simple infos.
+     *
+     * @return the enterprise simple infos
+     */
+    @ApiOperation(value = "查询所有企业简单信息(调用方式同分页，目前只查Id和name)")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "查询成功", response = Boolean.class),
+            @ApiResponse(code = 400, message = "参数非法", response = HttpError.class),
+            @ApiResponse(code = 500, message = "服务器异常", response = HttpError.class)
+    })
+    @PostMapping(value = "/enterprise-simple-info", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<List<EnterpriseSimpleInfo>> getEnterpriseSimpleInfos(@RequestBody EnterpriseInfoQueryInfo queryInfo) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                enterpriseInfoService.getEnterpriseSimpleInfos(queryInfo));
+    }
+
+    /**
      * Gets enterprise info model by page.
      *
      * @param queryInfo the query info
      * @return the enterprise info model by page
      */
-    @ApiOperation(value = "分页", notes = "getEnterpriseInfoModelByPage()")
+    @ApiOperation(value = "分页(支持查所有)", notes = "getEnterpriseInfoModelByPage()")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = List.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
@@ -78,7 +95,7 @@ public class EnterpriseInfoController {
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     @PostMapping("/enterprises/info/search")
-    public ResponseEntity<PageBean<EnterpriseInfoModel>> getEnterpriseInfoModelByPage(@RequestBody @Valid EnterpriseInfoQueryInfo queryInfo) {
+    public ResponseEntity<PageBean<EnterpriseInfoModel>> getEnterpriseInfoModelByPage(@RequestBody EnterpriseInfoQueryInfo queryInfo) {
         PageBean<EnterpriseInfoModel> result = enterpriseInfoService.getEnterpriseInfoModelByPage(queryInfo);
         return ResponseEntity.ok(result);
     }

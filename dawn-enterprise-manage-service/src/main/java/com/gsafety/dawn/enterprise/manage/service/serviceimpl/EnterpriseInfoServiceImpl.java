@@ -19,7 +19,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ import java.util.UUID;
 public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     // 日志
     private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     EnterpriseInfoMapper enterpriseInfoMapper;
@@ -94,6 +98,23 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     }
 
     /**
+     * 按条件查询企业基本信息的部分字段
+     * @param queryInfo
+     * @return
+     */
+    @Override
+    public List<EnterpriseSimpleInfo> getEnterpriseSimpleInfos(EnterpriseInfoQueryInfo queryInfo){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<EnterpriseInfoEntity> cq = cb.createQuery(EnterpriseInfoEntity.class);
+        Root<EnterpriseInfoEntity> root = cq.from(EnterpriseInfoEntity.class);
+        cq.multiselect(root.get("id"),
+                root.get("name"));
+        cq.where(createSpecification(queryInfo).toPredicate(root,cq,cb));
+        cq.orderBy(cb.desc(root.get("name")));
+        return enterpriseInfoMapper.entitiesToSimpleModels(entityManager.createQuery(cq).getResultList());
+    }
+
+    /**
      * 新增/修改企业基本信息
      * @param model
      * @return
@@ -140,7 +161,7 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     }
 
     /**
-     * 组装分页条件
+     * 组装查询条件
      * @param queryInfo
      * @return
      */
@@ -149,10 +170,10 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (StringUtil.isNotEmpty(queryInfo.getAreaName())) {
-                predicates.add(cb.like(root.get("areaName"), queryInfo.getAreaName()));
+                predicates.add(cb.like(root.get("areaName"), "%" + queryInfo.getAreaName() + "%"));
             }
             if (StringUtil.isNotEmpty(queryInfo.getName())) {
-                predicates.add(cb.like(root.get("name"), queryInfo.getName()));
+                predicates.add(cb.like(root.get("name"), "%" + queryInfo.getName() + "%"));
             }
 
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
