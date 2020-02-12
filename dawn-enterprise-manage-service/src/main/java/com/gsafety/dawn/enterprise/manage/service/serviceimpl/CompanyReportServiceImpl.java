@@ -63,6 +63,10 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         if (StringUtil.isEmpty(companyReportModel.getCompanyId())) {
             throw new BusinessException(ErrorCode.PARAM_NOT_COMPLETE);
         }
+        List<CompanyReportEntity> companyReportEntities = companyReportRepository.findByCompanyId(companyReportModel.getCompanyId());
+        if (!CollectionUtils.isEmpty(companyReportEntities)) {
+            throw new BusinessException(ErrorCode.DATA_ALREADY_EXISTS);
+        }
 
         companyReportModel.setReportId(StringUtil.genUUID());
         Date date = new Date();
