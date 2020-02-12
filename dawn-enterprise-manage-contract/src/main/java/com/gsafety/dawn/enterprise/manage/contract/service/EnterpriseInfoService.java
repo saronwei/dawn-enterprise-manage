@@ -1,15 +1,9 @@
 package com.gsafety.dawn.enterprise.manage.contract.service;
 
-import com.gsafety.dawn.enterprise.common.util.StringUtil;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseInfoModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseInfoQueryInfo;
 import com.gsafety.java.common.page.PageBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.UUID;
 
 public interface EnterpriseInfoService {
     /**

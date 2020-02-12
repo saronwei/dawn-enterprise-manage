@@ -8,10 +8,9 @@ import javax.validation.constraints.NotNull;
  * The type Enterprise info query info.
  */
 public class EnterpriseInfoQueryInfo {
+    private String name;
     private String areaName;
-    @NotNull
     private Integer currentPage;
-    @NotNull
     private Integer pageSize;
 
     /**
@@ -66,5 +65,23 @@ public class EnterpriseInfoQueryInfo {
      */
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

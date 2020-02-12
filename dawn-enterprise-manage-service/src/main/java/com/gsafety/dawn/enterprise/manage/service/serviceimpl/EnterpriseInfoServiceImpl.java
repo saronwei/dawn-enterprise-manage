@@ -73,6 +73,13 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     public PageBean<EnterpriseInfoModel> getEnterpriseInfoModelByPage(EnterpriseInfoQueryInfo queryInfo) {
         if (queryInfo == null) {
             return null;
+        } else if(queryInfo.getCurrentPage() == null || queryInfo.getPageSize() == null) {
+            // 查询所有
+            List<EnterpriseInfoEntity> allData = enterpriseInfoRepository.findAll(createSpecification(queryInfo));
+            PageBean<EnterpriseInfoModel> pageBean = new PageBean<>();
+            pageBean.setData(enterpriseInfoMapper.entitiesToModels(allData));
+            pageBean.setTotalCount(allData.size());
+            return pageBean;
         } else {
             Pageable pageable = PageRequest.of(queryInfo.getCurrentPage() - 1, queryInfo.getPageSize());
             Page<EnterpriseInfoEntity> pageData = enterpriseInfoRepository.findAll(createSpecification(queryInfo), pageable);
@@ -142,7 +149,10 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
             List<Predicate> predicates = new ArrayList<>();
 
             if (StringUtil.isNotEmpty(queryInfo.getAreaName())) {
-                predicates.add(cb.equal(root.get("areaName"), queryInfo.getAreaName()));
+                predicates.add(cb.like(root.get("areaName"), queryInfo.getAreaName()));
+            }
+            if (StringUtil.isNotEmpty(queryInfo.getName())) {
+                predicates.add(cb.like(root.get("name"), queryInfo.getName()));
             }
 
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
