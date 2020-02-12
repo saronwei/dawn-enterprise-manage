@@ -2,7 +2,6 @@ package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
 import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
-import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseInfoEntity;
 import com.gsafety.dawn.enterprise.manage.service.repository.EnterpriseInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -187,8 +186,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     // 获取园区情况统计
     @Override
-    public List<Map<String,Object>> getAreaStac() {
-        List<Map<String,Object>> areaStacList = new ArrayList<>();
+    public List<Map<String, Object>> getAreaStac() {
+        List<Map<String, Object>> areaStacList = new ArrayList<>();
         Map<String, Object> paramMap = new HashMap<>();
 //        List<String> companyList = this.getEnterpriseIds();
         List<Map<String,Object>> companyList = this.getEnterpriseIds();
@@ -221,8 +220,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 }
                 // 解除隔离人数
                 List<EnterpriseReportImportantPersonStat> isolationList = this.getIsolationStatistics(enterpriseCriteria);
-                for(EnterpriseReportImportantPersonStat isolationPerson: isolationList) {
-                    if(isolationPerson.getStatus().equals("今日解除隔离")){
+                for (EnterpriseReportImportantPersonStat isolationPerson : isolationList) {
+                    if (isolationPerson.getStatus().equals("今日解除隔离")) {
                         isolationNum = isolationNum + isolationPerson.getTotal();
                     }
                 }
@@ -231,9 +230,9 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 Date date = new Date();//获取当前的日期
                 SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");//设置日期格式
                 String str = df.format(date);
-                for(Map<String,Object> m: (List<Map>)currentReturnPersons.getData().get("list")) {
-                    if(m.get("date").equals(str)) {
-                        todayReturnNum = todayReturnNum + (Integer)m.get("num");
+                for (Map<String, Object> m : (List<Map>) currentReturnPersons.getData().get("list")) {
+                    if (m.get("date").equals(str)) {
+                        todayReturnNum = todayReturnNum + (Integer) m.get("num");
                     }
                 }
                 // 上岗人数
@@ -253,15 +252,25 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
  /*       List<String> areaIdList = this.getAreaIds();
         for(String areaId: areaIdList) {
             paramMap2 = new HashMap<>();
+=======
+            paramMap.put("viaHubei", viaNum); // 经停过湖北
+            paramMap.put("isolationNum", isolationNum); // 解除隔离人数
+            paramMap.put("todayReturnNum", todayReturnNum); // 当日返岗人数
+            areaStacList.add(paramMap);
+        }
+        List<String> areaIdList = this.getAreaIds();
+        for (String areaId : areaIdList) {
+>>>>>>> origin/develop
             List<EnterpriseReportImportantPersonStat> officeList = this.getOfficeStac(areaId);
-            for (EnterpriseReportImportantPersonStat office: officeList) {
-              if(office.getX().equals("1") && office.getS().equals("2")) {
-                  todaySceneWorkNum = todaySceneWorkNum + office.getY();
-              }
+            for (EnterpriseReportImportantPersonStat office : officeList) {
+                if (office.getX().equals("1") && office.getS().equals("2")) {
+                    todaySceneWorkNum = todaySceneWorkNum + office.getY();
+                }
 //              if(office.getX().equals("1") && office.getS().equals("1")) {
 //                  todayRemoteWorkNum = todayRemoteWorkNum + office.getY();
 //              }
             }
+<<<<<<< HEAD
             paramMap2.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
             areaStacList.add(paramMap2);
         }*/
@@ -280,19 +289,22 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     public AreaStatisticsResultModel getImportantAreaStatistics(ImportantAreaStatSearch query) {
         // todo 调用手机端接口
         HttpEntity<ImportantAreaStatSearch> entity = new HttpEntity<>(query);
-        String url=this.mobilHost + "/api/enterprise/report/importantAreaStat";
-        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
+        String url = this.mobilHost + "/api/enterprise/report/importantAreaStat";
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
+                }).getBody().getData();
         AreaStatisticsResultModel areaStatisticsResultModel = new AreaStatisticsResultModel();
         areaStatisticsResultModel.setTotal1(0);
         areaStatisticsResultModel.setTotal2(0);
-        if(result != null && !CollectionUtils.isEmpty(result)){
+        if (result != null && !CollectionUtils.isEmpty(result)) {
             EnterpriseReportImportantPersonStat e1 =
-                    result.stream().filter(o -> o.getStatus().equals("区域已返工人数")).findFirst().orElse(null);;
+                    result.stream().filter(o -> o.getStatus().equals("区域已返工人数")).findFirst().orElse(null);
+            ;
             EnterpriseReportImportantPersonStat e2 =
-                    result.stream().filter(o -> o.getStatus().equals("解除隔离返岗员工人数")).findFirst().orElse(null);;
-            areaStatisticsResultModel.setTotal1(e1 == null? 0 : e1.getTotal());
-            areaStatisticsResultModel.setTotal2(e2 == null? 0 : e2.getTotal());
+                    result.stream().filter(o -> o.getStatus().equals("解除隔离返岗员工人数")).findFirst().orElse(null);
+            ;
+            areaStatisticsResultModel.setTotal1(e1 == null ? 0 : e1.getTotal());
+            areaStatisticsResultModel.setTotal2(e2 == null ? 0 : e2.getTotal());
         }
         return areaStatisticsResultModel;
     }
@@ -336,9 +348,6 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         List<CompanyReturnBaseInfo> infoList = new ArrayList<>();
         Integer viaNum = 0;
         Integer isolationNum = 0;
-        // 根据园区id获取企业总条数
-        List<EnterpriseInfoEntity> entityList = enterpriseInfoRepository.findByAreaId(queryInfo.getAreaId());
-        result.setTotal(entityList.size());
 
         // 分页查询企业信息
         List<Object[]> objects = enterpriseInfoRepository.searchWithPage(
@@ -388,6 +397,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                     infoList.add(info);
                 }
             }
+            // 赋值企业总条数
+            result.setTotal(Integer.parseInt(objects.get(0)[3].toString()));
             result.setInfoList(infoList);
         }
         return result;

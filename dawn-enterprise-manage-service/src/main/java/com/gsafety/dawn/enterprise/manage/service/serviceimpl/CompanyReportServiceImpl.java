@@ -63,10 +63,6 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         if (StringUtil.isEmpty(companyReportModel.getCompanyId())) {
             throw new BusinessException(ErrorCode.PARAM_NOT_COMPLETE);
         }
-        List<CompanyReportEntity> companyReportEntities = companyReportRepository.findByCompanyId(companyReportModel.getCompanyId());
-        if (!CollectionUtils.isEmpty(companyReportEntities)) {
-            throw new BusinessException(ErrorCode.DATA_ALREADY_EXISTS);
-        }
 
         companyReportModel.setReportId(StringUtil.genUUID());
         Date date = new Date();
@@ -87,12 +83,14 @@ public class CompanyReportServiceImpl implements CompanyReportService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CompanyReportModel updateCompanyReport(CompanyReportModel companyReportModel) {
+        // 不允许修改创建时间以及企业相关信息
+        companyReportModel.setCtime(null);
+        companyReportModel.setEnterpriseInfoModel(null);
+        companyReportModel.setCompanyId(null);
         CompanyReportEntity companyReportEntity = companyReportMapper.modelToEntity(companyReportModel);
         // 通过id查询对应的实体
         return companyReportRepository.findById(companyReportModel.getReportId())
                 .map(item -> {
-                    // 不允许修改创建时间
-                    companyReportModel.setCtime(null);
                     String sourceCompanyId = item.getCompanyId();
                     BeanUtil.copyPropertiesIgnoreNull(companyReportEntity, item);
                     // 更新日期等信息

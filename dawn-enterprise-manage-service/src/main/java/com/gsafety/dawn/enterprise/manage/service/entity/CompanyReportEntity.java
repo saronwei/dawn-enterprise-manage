@@ -47,7 +47,7 @@ public class CompanyReportEntity {
     @Column(name = "mtime")
     private Date mtime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", referencedColumnName = "company_id", insertable = false, updatable = false)
     @NotFound(action= NotFoundAction.IGNORE)
     private EnterpriseInfoEntity enterpriseInfoEntity;

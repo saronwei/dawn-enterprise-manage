@@ -26,15 +26,15 @@ public interface EnterpriseInfoRepository extends JpaRepository<EnterpriseInfoEn
     EnterpriseInfoEntity findByTenAntId(String tenAntId);
 
     /**
-     * 根据园区id查询企业集合
-     *
+     * 根据条件分页查询企业信息
      * @param areaId 园区id
-     * @return 企业集合
+     * @param companyName 公司名称
+     * @param pageSize 显示条数
+     * @param pageIndex 当前页
+     * @return 企业信息
      */
-    List<EnterpriseInfoEntity> findByAreaId(String areaId);
-
-    @Query(value = "select c.company_id,c.name,c.area_id from be_company c where " +
-            "c.area_id=?1 and c.name like %?2% order by name asc " +
+    @Query(value = "select distinct c.company_id,c.name,c.area_id,count(*) over() from be_company c where " +
+            "c.area_id=?1 and c.name like %?2% order by name desc " +
             "limit ?3 offset (?4)*10 ",nativeQuery = true)
     List<Object[]> searchWithPage(String areaId, String companyName, int pageSize, int pageIndex);
 }
