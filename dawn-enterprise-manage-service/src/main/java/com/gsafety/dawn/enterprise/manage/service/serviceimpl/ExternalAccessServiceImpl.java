@@ -163,7 +163,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             paramMap.put("colds", staffHealthTotal.get("colds"));// 感冒人数
             paramMap.put("fevers", staffHealthTotal.get("fevers")); // 发热人数
             paramMap.put("returns", returnStaffTotal.get("returns")); // 返岗人数
-            // todo 今日上班企业数
+            // todo 今日上班企业数(等待接口))
+            paramMap.put("workCompanys", 0); // 今日上班企业数
             EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
             String[] strs = ids.split(",");
             for (int t = 0; t < strs.length; t++) {
