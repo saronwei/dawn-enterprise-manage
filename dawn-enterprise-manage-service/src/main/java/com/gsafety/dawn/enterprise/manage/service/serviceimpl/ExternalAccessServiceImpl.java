@@ -52,13 +52,15 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat2";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
-//        List<EnterpriseReportImportantPersonStat> results = new ArrayList<>();
-//        for(EnterpriseReportImportantPersonStat personStaticsModel : result) {
-//            personStaticsModel.setName(personStaticsModel.getStatus());
-//            personStaticsModel.setCount(personStaticsModel.getTotal());
-//            personStaticsModel.setValue(personStaticsModel.getTotal());
-//            personStaticsModel.setSelected(false);
-//        }
+        return result;
+    }
+
+    @Override
+    public List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria) {
+        HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
+        String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat2";
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
         return result;
     }
 }

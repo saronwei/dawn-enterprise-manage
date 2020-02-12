@@ -11,6 +11,8 @@ public interface ExternalAccessService {
     List<ReportedPersonInfoModel> getReportedPersonsInfo();
     // 重点关注人员统计
     List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics(EnterpriseCriteria enterpriseCriteria);
-    // 重点关注人员统计2
+    // 返岗人员接触史统计
     List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics2(EnterpriseCriteria enterpriseCriteria);
+    // 隔离情况
+    List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria);
 }
