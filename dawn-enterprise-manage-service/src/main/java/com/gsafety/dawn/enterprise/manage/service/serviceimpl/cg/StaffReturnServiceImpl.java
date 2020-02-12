@@ -100,5 +100,13 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setTransport(masp.get("vehicle") == null ? null : String.valueOf(masp.get("vehicle")));
         staffReturnInfoModel.setIsReturn(masp.get("back") == null ? null : String.valueOf(masp.get("back")));
         staffReturnInfoModel.setIsIsolation(masp.get("fourteenDayIsolation") == null ? null : String.valueOf(masp.get("fourteenDayIsolation")));
+
+        staffReturnInfoModel.setTemperature(masp.get("temperature") == null ? null : String.valueOf(masp.get("temperature")));
+        staffReturnInfoModel.setBackStartingPoint(masp.get("backStartingPoint") == null ? null : String.valueOf(masp.get("backStartingPoint")));
+        staffReturnInfoModel.setBackVehicle(masp.get("backVehicle") == null ? null : String.valueOf(masp.get("backVehicle")));
+        staffReturnInfoModel.setBackTrainNumber(masp.get("backTrainNumber") == null ? null : String.valueOf(masp.get("backTrainNumber")));
+        staffReturnInfoModel.setOtherPlaceBack(masp.get("otherPlaceBack") == null ? null : String.valueOf(masp.get("otherPlaceBack")));
+        staffReturnInfoModel.setTodayOfficeSituation(masp.get("todayOfficeSituation") == null ? null : String.valueOf(masp.get("todayOfficeSituation")));
+        staffReturnInfoModel.setPersonnelType(masp.get("personnelType") == null ? null : String.valueOf(masp.get("personnelType")));
     }
 }

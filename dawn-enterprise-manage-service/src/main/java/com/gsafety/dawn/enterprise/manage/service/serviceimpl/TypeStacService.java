@@ -11,14 +11,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TypeStacService {
@@ -42,6 +40,20 @@ public class TypeStacService {
             ss.add((String)mm.get("companyId"));
         }
         return StringUtils.arrayToCommaDelimitedString(ll.toArray(new String[0]));
+    }
+
+    public int staffTotals(String companyId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("companyId", companyId);
+        List<Map<String, Object>> ll =  jdbcTemplate.queryForList("select staff_num from be_company where company_id = :companyId", paramMap);
+        List<String> ss = new ArrayList<>();
+        int tts = 0;
+        if(!CollectionUtils.isEmpty(ll)) {
+            for(Map<String, Object> mm : ll) {
+                tts = Integer.parseInt(String.valueOf(mm.get("staff_num")));
+            }
+        }
+        return tts;
     }
 
     public Map typestac() {
@@ -96,21 +108,26 @@ public class TypeStacService {
         Map<String, Object> paramMap = new HashMap<>();
         if(StringUtils.isEmpty(companyId)) {
             String comps = this.comps(companyId);
-            paramMap.put("companyIds", comps);
+            paramMap.put("enterpriseCodeList", comps);
         }
         HttpEntity<Map> entity = new HttpEntity<>(paramMap);
         Map<String, Object> rs = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
         paramMap.clear();
         if(!StringUtils.isEmpty(companyId)) {
-            Map<String, Object> totalMap = externalAccessService.getEnterpriseStac(companyId);
-            paramMap.put("totals", totalMap.get("enterprisePersonTotals"));
+            String[] ids  = companyId.split(",");
+            if(ids.length > 0) {
+                Map<String, Object> totalMap = externalAccessService.getEnterpriseStac(ids[0]);
+                paramMap.put("totals", totalMap.get("enterprisePersonTotals"));
+            } else {
+                paramMap.put("totals", this.staffTotals(ids[0]));
+            }
         }
-        paramMap.put("returns", rs.get(""));
-        paramMap.put("localReturns", rs.get(""));
-        paramMap.put("outReturns", rs.get(""));
-        paramMap.put("localWorks", rs.get(""));
-        paramMap.put("remoteWorks", rs.get(""));
+        paramMap.put("returns", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
+        paramMap.put("localReturns", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
+        paramMap.put("outReturns", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
+        paramMap.put("localWorks", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
+        paramMap.put("remoteWorks", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
         int totals = Integer.parseInt(String.valueOf(rs.get("totals")));
         int returns = Integer.parseInt(String.valueOf(rs.get("returns")));
         String prencent = "0.00%";
@@ -130,22 +147,21 @@ public class TypeStacService {
      * @return
      */
     public Map<String, Object> typestacEnterpriseStaffHealthTotal(String companyId) {
-        String url = this.mobilHost + "";
+        String url = this.mobilHost + "/api/enterprise/report/returnPersonHealthInfo";
         Map<String, Object> paramMap = new HashMap<>();
-        if(StringUtils.isEmpty(companyId)) {
-            String comps = this.comps(companyId);
-            paramMap.put("companyIds", comps);
+        if(!StringUtils.isEmpty(companyId)) {
+            paramMap.put("enterpriseCodeList", Arrays.asList(companyId.split(",")));
         }
         HttpEntity<Map> entity = new HttpEntity<>(paramMap);
         Map<String, Object> rs = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
         paramMap.clear();
-        paramMap.put("healths", rs.get(""));
-        paramMap.put("infects", rs.get(""));
-        paramMap.put("doubts", rs.get(""));
-        paramMap.put("closes", rs.get(""));
-        paramMap.put("colds", rs.get(""));
-        paramMap.put("fevers", rs.get(""));
+        paramMap.put("healths", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
+        paramMap.put("infects", null == rs.get("infectTotal") ? 0: rs.get("infectTotal"));
+        paramMap.put("doubts", null == rs.get("suspectTotal") ? 0: rs.get("suspectTotal"));
+        paramMap.put("closes", null == rs.get("touchTotal") ? 0: rs.get("touchTotal"));
+        paramMap.put("colds", null == rs.get("coldTotal") ? 0: rs.get("coldTotal"));
+        paramMap.put("fevers", null == rs.get("feverTotal") ? 0: rs.get("feverTotal"));
         return paramMap;
     }
 
