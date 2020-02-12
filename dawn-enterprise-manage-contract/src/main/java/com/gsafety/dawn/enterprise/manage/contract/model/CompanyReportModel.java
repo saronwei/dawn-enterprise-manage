@@ -15,7 +15,6 @@ public class CompanyReportModel {
     private Boolean dangerStorage;
     private Boolean dangerCheck;
     private String riskDegree;
-    private Date reportDate;
     private Date ctime;
     private Date mtime;
 
@@ -115,14 +114,6 @@ public class CompanyReportModel {
 
     public void setRiskDegree(String riskDegree) {
         this.riskDegree = riskDegree;
-    }
-
-    public Date getReportDate() {
-        return reportDate;
-    }
-
-    public void setReportDate(Date reportDate) {
-        this.reportDate = reportDate;
     }
 
     public Date getCtime() {

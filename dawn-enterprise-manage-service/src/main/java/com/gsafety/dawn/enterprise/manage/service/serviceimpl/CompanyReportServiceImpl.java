@@ -68,7 +68,6 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         Date date = new Date();
         companyReportModel.setCtime(date);
         companyReportModel.setMtime(date);
-        companyReportModel.setReportDate(date);
         CompanyReportEntity companyReportEntity = companyReportMapper.modelToEntity(companyReportModel);
         CompanyReportEntity companyReportEntityCopy = companyReportRepository.save(companyReportEntity);
         // 解析并存储最新上报的防疫措施用于统计
@@ -88,12 +87,12 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         // 通过id查询对应的实体
         return companyReportRepository.findById(companyReportModel.getReportId())
                 .map(item -> {
+                    // 不允许修改创建时间
+                    companyReportModel.setCtime(null);
                     String sourceCompanyId = item.getCompanyId();
                     BeanUtil.copyPropertiesIgnoreNull(companyReportEntity, item);
                     // 更新日期等信息
-                    Date date = new Date();
-                    item.setReportDate(date);
-                    item.setMtime(date);
+                    item.setMtime(new Date());
                     // 以最新的防疫措施值为准
                     item.setMeasures(companyReportModel.getMeasures());
                     CompanyReportEntity companyReportEntityCopy = companyReportRepository.saveAndFlush(item);
