@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CompanyReportQueryInfo {
     private List<String> companyIds;
-    private String keyWord;
+    private String typeOrAreaName;
     private Integer currentPage;
     private Integer pageSize;
     /**
@@ -20,12 +20,12 @@ public class CompanyReportQueryInfo {
         this.companyIds = companyIds;
     }
 
-    public String getKeyWord() {
-        return keyWord;
+    public String getTypeOrAreaName() {
+        return typeOrAreaName;
     }
 
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
+    public void setTypeOrAreaName(String typeOrAreaName) {
+        this.typeOrAreaName = typeOrAreaName;
     }
 
     public Integer getCurrentPage() {

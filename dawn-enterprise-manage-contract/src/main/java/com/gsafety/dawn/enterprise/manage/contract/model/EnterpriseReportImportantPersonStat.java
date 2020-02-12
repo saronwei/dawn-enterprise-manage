@@ -12,6 +12,10 @@ public class EnterpriseReportImportantPersonStat {
     private Integer count;
     private Integer value;
     private boolean selected;
+    // 工作情况统计
+    private String s;// 办公类型
+    private String x; // 日期
+    private Integer y; // 数量
 
     public String getStatus() {
         return status;
@@ -59,5 +63,29 @@ public class EnterpriseReportImportantPersonStat {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public String getS() {
+        return s;
+    }
+
+    public void setS(String s) {
+        this.s = s;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
     }
 }

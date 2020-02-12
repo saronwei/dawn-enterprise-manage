@@ -2,7 +2,10 @@ package com.gsafety.dawn.enterprise.manage.contract.service;
 
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseInfoModel;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseInfoQueryInfo;
+import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseSimpleInfo;
 import com.gsafety.java.common.page.PageBean;
+
+import java.util.List;
 
 
 public interface EnterpriseInfoService {
@@ -19,6 +22,13 @@ public interface EnterpriseInfoService {
      * @return
      */
     EnterpriseInfoModel getEnterpriseInfoByAntId(String antId);
+
+    /**
+     * 按条件查询企业基本信息的部分字段
+     * @param queryInfo
+     * @return
+     */
+    List<EnterpriseSimpleInfo> getEnterpriseSimpleInfos(EnterpriseInfoQueryInfo queryInfo);
 
     /**
      * 企业基本信息按条件分页查询

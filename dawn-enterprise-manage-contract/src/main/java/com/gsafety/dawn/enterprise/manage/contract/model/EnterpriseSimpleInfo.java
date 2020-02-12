@@ -8,8 +8,6 @@ public class EnterpriseSimpleInfo {
 
     private String name;
 
-    private String address;
-
     /**
      * Gets id.
      *
@@ -44,23 +42,5 @@ public class EnterpriseSimpleInfo {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Gets address.
-     *
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * Sets address.
-     *
-     * @param address the address
-     */
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

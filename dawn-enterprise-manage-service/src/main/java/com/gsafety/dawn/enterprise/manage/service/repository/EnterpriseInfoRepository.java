@@ -2,6 +2,7 @@ package com.gsafety.dawn.enterprise.manage.service.repository;
 
 import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseInfoEntity;
 import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseReportEntity;
+import com.gsafety.springboot.common.pagerepository.QueryMetaDataRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface EnterpriseInfoRepository extends JpaRepository<EnterpriseInfoEntity,String>,
-        JpaSpecificationExecutor<EnterpriseInfoEntity> {
+        JpaSpecificationExecutor<EnterpriseInfoEntity>{
 
     /**
      * Find by ten ant id enterprise info entity.
