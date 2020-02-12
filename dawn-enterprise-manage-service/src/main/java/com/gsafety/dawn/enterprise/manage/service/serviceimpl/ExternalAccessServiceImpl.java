@@ -2,6 +2,8 @@ package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
 import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
+import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseInfoEntity;
+import com.gsafety.dawn.enterprise.manage.service.repository.EnterpriseInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -26,6 +28,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     private NamedParameterJdbcTemplate jdbcTemplate;
     @Autowired
     private TypeStacService typeStacService;
+    @Autowired
+    private EnterpriseInfoRepository enterpriseInfoRepository;
 
     @Value("${mobile.host}")
     private String mobilHost;
@@ -275,5 +279,69 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Override
     public List<EnterpriseReportImportantPersonStat> getOfficeStac() {
         return null;
+    }
+
+
+    @Override
+    public CompanyPageSearchResult getCompanyStatisticsWithPage(CompanyQueryInfo queryInfo) {
+        CompanyPageSearchResult result = new CompanyPageSearchResult();
+        List<CompanyReturnBaseInfo> infoList = new ArrayList<>();
+        Integer viaNum = 0;
+        Integer isolationNum = 0;
+        // 根据园区id获取企业总条数
+        List<EnterpriseInfoEntity> entityList = enterpriseInfoRepository.findByAreaId(queryInfo.getAreaId());
+        result.setTotal(entityList.size());
+
+        // 分页查询企业信息
+        List<Object[]> objects = enterpriseInfoRepository.searchWithPage(
+                queryInfo.getAreaId(), queryInfo.getCompanyName(),
+                queryInfo.getPageSize(), queryInfo.getPageIndex());
+
+        /// 遍历企业信息
+        if (!objects.isEmpty()) {
+            for (Object[] object : objects) {
+                if (object != null) {
+                    // 新建企业信息对象
+                    CompanyReturnBaseInfo info = new CompanyReturnBaseInfo();
+                    // 赋值企业名称
+                    info.setCompanyName(object[1].toString());
+                    // 根据园区id获取上岗人数
+                    List<EnterpriseReportImportantPersonStat> officeList = getOfficeStac(queryInfo.getAreaId());
+
+                    // 赋值上岗人数
+                    info.setWorkingTotal(officeList.size());
+
+                    // 根据companyName获取返京人数
+                    Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(object[1].toString());
+                    info.setReturnBeiJingTotal(Integer.parseInt(returnStaffTotal.get("returns").toString()));
+
+                    EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
+                    enterpriseCriteria.setEnterpriseCode(object[0].toString());
+                    // 途经湖北
+                    List<EnterpriseReportImportantPersonStat> importantPersonStats = getImportantPersonsStatics2(enterpriseCriteria);
+                    for (EnterpriseReportImportantPersonStat person : importantPersonStats) {
+                        if (person.getStatus().equals("经停过湖北")) {
+                            viaNum = viaNum + person.getTotal();
+                        }
+                    }
+
+                    // 赋值途经湖北人数
+                    info.setAccrossHuBeiTotal(viaNum);
+
+                    // 解除隔离
+                    List<EnterpriseReportImportantPersonStat> isolationList = this.getIsolationStatistics(enterpriseCriteria);
+                    for (EnterpriseReportImportantPersonStat isolationPerson : isolationList) {
+                        if (isolationPerson.getStatus().equals("今日解除隔离")) {
+                            isolationNum = isolationNum + isolationPerson.getTotal();
+                        }
+                    }
+                    // 赋值解除隔离人数
+                    info.setDisisolationTotal(isolationNum);
+                    infoList.add(info);
+                }
+            }
+            result.setInfoList(infoList);
+        }
+        return result;
     }
 }
