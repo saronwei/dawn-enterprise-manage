@@ -139,4 +139,15 @@ public class ExternalAccessController {
         }
     }
 
+    @PostMapping(value = "/enterprise/companyWithPage", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "根据园区id分页查询企业列表", notes = "getSevenDayReturnPersonStatisticsCalendar()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<CompanyPageSearchResult> getCompanyStatisticsWithPage(@RequestBody @ApiParam(value = "查询条件", required = true) CompanyQueryInfo queryInfo) {
+        CompanyPageSearchResult result = externalAccessService.getCompanyStatisticsWithPage(queryInfo);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
