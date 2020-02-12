@@ -89,10 +89,14 @@ public class StaffReturnInfoModel {
 
     private String  todayOfficeSituation;
 
+    private String postDate;
+
     //人群类型
     private String personnelType;
 
     private String nativePlace;
+
+    private String relieveDate;
 
     public String getId() {
         return id;
@@ -428,5 +432,21 @@ public class StaffReturnInfoModel {
 
     public void setNativePlace(String nativePlace) {
         this.nativePlace = nativePlace;
+    }
+
+    public String getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(String postDate) {
+        this.postDate = postDate;
+    }
+
+    public String getRelieveDate() {
+        return relieveDate;
+    }
+
+    public void setRelieveDate(String relieveDate) {
+        this.relieveDate = relieveDate;
     }
 }

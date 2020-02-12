@@ -103,13 +103,13 @@ public class TypeStacController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<Map> typestacEnterpriseStaffTotal(@PathVariable(required = false) @ApiParam(value = "企业id", required = false) String companyId) {
-        //Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(companyId);
-        Map<String, Object> rs = new HashMap<>();
+        Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(companyId);
+        /*Map<String, Object> rs = new HashMap<>();
         rs.put("totals",1000);
         rs.put("returns", 302);
         rs.put("precents", "30.12%");
         rs.put("localReturns", 100);
-        rs.put("outReturns", 120);
+        rs.put("outReturns", 120);*/
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
     @GetMapping(value = {"/typestac-enterprise--staff-health-total/{companyId}", "/typestac-enterprise--staff-health-total"}, produces = MediaType.APPLICATION_JSON_VALUE)
