@@ -24,4 +24,12 @@ public class TypeStacService {
                 , new HashMap<>());
     }
 
+    public Map<String, Object> typestacEnterpriseStaffTotal(String companyId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("on_work_in_total", 10);
+        String sql = "select SUM(COALESCE(CAST(social_security_total AS INTEGER), 0)) as totals, SUM(COALESCE(CAST(on_work_in_total AS INTEGER ), 0 ) ) as returns from e_company_report_info" +
+                " WHERE on_work_in_total=:on_work_in_total";
+        return jdbcTemplate.queryForMap(sql, paramMap);
+    }
+
 }

@@ -34,12 +34,15 @@ public class CompanyReportInfoEntity {
     @Column(name = "social_security_total")
     private Integer socialSecurityTotal;
 
+    //企业到岗人数
     @Column(name = "on_work_in_total")
     private Integer onWorkInTotal;
 
+    //外包人员总数
     @Column(name = "out_total")
     private Integer outTotal;
 
+    // 外包到岗人数
     @Column(name = "on_work_out_total")
     private Integer onWorkOutTotal;
 

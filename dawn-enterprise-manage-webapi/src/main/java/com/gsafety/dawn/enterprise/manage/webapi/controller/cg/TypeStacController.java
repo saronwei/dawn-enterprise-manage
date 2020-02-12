@@ -18,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * description:
@@ -84,6 +81,50 @@ public class TypeStacController {
             prencent = numberFormat.format((float) returns / (float) total * 100) + "%";
         }
         rs.put("precents", prencent);
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/typestac-gov-prevention-measures", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "政府端-防疫措施统计", notes = "typestacGovPreventionMeasures()")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<List> typestacGovPreventionMeasures() {
+        Map<String, Object> rs = new HashMap<>();//----
+        List<Map<String, Object>> maps = new ArrayList<>();
+        Map<String, Object> map = new LinkedHashMap<>();
+        for(Map.Entry<String,Object> entry : rs.entrySet()){
+            map.put("name", entry.getKey());
+            map.put("value", Integer.parseInt(String.valueOf(entry.getValue())));
+            maps.add(map);
+        }
+
+        rs.put("name","消杀区域");
+        rs.put("value", 30);
+        maps.add(rs);
+        return new ResponseEntity<List>(maps, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/typestac-enterprise--staff-total/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业端-员工总体情况统计", notes = "typestacEnterpriseStaffTotal(companyId)")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> typestacEnterpriseStaffTotal(@PathVariable @ApiParam(value = "企业id", required = true) String companyId) {
+        Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(companyId);
+        int totals = Integer.parseInt(String.valueOf(rs.get("totals")));
+        int returns = Integer.parseInt(String.valueOf(rs.get("returns")));
+        String prencent = "0.00%";
+        if(totals > 0) {
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            prencent = numberFormat.format((float) returns / (float) totals * 100) + "%";
+        }
+        rs.put("precents", prencent);
+        /*rs.put("totals",1000);
+        rs.put("returns", 302);
+        rs.put("precents", "30.12%");
+        rs.put("localReturns", 100);
+        rs.put("outReturns", 120);*/
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 
