@@ -148,7 +148,7 @@ public class TypeStacService {
         if(!StringUtils.isEmpty(companyId)) {
             String[] ids  = companyId.split(",");
             if(ids.length > 0) {
-                Map<String, Object> totalMap = this.getEnterpriseStac(ids);
+                Map<String, Object> totalMap = this.getEnterpriseStac(Arrays.asList(ids[0]).toArray(new String[0]));
                 paramMap.put("totals", totalMap.get("enterprisePersonTotals"));
             } else {
                 paramMap.put("totals", this.staffTotals(ids[0]));

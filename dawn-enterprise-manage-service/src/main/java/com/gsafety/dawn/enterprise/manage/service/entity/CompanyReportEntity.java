@@ -1,6 +1,5 @@
 package com.gsafety.dawn.enterprise.manage.service.entity;
 
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -39,9 +38,6 @@ public class CompanyReportEntity {
     private Boolean dangerCheck;
     @Column(name = "risk_degree")
     private String riskDegree;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "report_date")
-    private Date reportDate;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ctime")
     private Date ctime;
@@ -147,14 +143,6 @@ public class CompanyReportEntity {
 
     public void setRiskDegree(String riskDegree) {
         this.riskDegree = riskDegree;
-    }
-
-    public Date getReportDate() {
-        return reportDate;
-    }
-
-    public void setReportDate(Date reportDate) {
-        this.reportDate = reportDate;
     }
 
     public Date getCtime() {
