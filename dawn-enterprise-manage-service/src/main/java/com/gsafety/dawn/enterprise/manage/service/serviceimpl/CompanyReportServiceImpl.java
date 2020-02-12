@@ -10,6 +10,7 @@ import com.gsafety.dawn.enterprise.manage.contract.model.CompanyReportQueryInfo;
 import com.gsafety.dawn.enterprise.manage.contract.service.CompanyReportService;
 import com.gsafety.dawn.enterprise.manage.service.datamappers.CompanyReportMapper;
 import com.gsafety.dawn.enterprise.manage.service.entity.CompanyReportEntity;
+import com.gsafety.dawn.enterprise.manage.service.entity.EnterpriseInfoEntity;
 import com.gsafety.dawn.enterprise.manage.service.repository.CompanyReportRepository;
 import com.gsafety.java.common.page.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,8 +119,12 @@ public class CompanyReportServiceImpl implements CompanyReportService {
                 predicates.add(root.get("companyId").in(companyIds));
             }
 
-            if (StringUtil.isNotEmpty(queryInfo.getKeyWord())) {
-
+            if (StringUtil.isNotEmpty(queryInfo.getTypeOrAreaName())) {
+                Join<CompanyReportEntity, EnterpriseInfoEntity> enterpriseJoin = root.join("enterpriseInfoEntity", JoinType.INNER);
+                String likeCondition = "%" + queryInfo.getTypeOrAreaName() + "%";
+                Predicate typeNameLike = cb.like(enterpriseJoin.get("typeName"), likeCondition);
+                Predicate areaNameLike = cb.like(enterpriseJoin.get("areaName"), likeCondition);
+                predicates.add(cb.or(typeNameLike, areaNameLike));
             }
 
             query.distinct(true);

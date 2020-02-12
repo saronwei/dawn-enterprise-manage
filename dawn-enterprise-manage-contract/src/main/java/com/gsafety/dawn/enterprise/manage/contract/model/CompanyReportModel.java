@@ -19,6 +19,8 @@ public class CompanyReportModel {
     private Date ctime;
     private Date mtime;
 
+    private EnterpriseInfoModel enterpriseInfoModel;
+
     public String getReportId() {
         return reportId;
     }
@@ -137,5 +139,13 @@ public class CompanyReportModel {
 
     public void setMtime(Date mtime) {
         this.mtime = mtime;
+    }
+
+    public EnterpriseInfoModel getEnterpriseInfoModel() {
+        return enterpriseInfoModel;
+    }
+
+    public void setEnterpriseInfoModel(EnterpriseInfoModel enterpriseInfoModel) {
+        this.enterpriseInfoModel = enterpriseInfoModel;
     }
 }

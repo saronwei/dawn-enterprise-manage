@@ -1,5 +1,6 @@
 package com.gsafety.dawn.enterprise.manage.service.entity;
 
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -47,6 +48,10 @@ public class CompanyReportEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "mtime")
     private Date mtime;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id", referencedColumnName = "company_id", insertable = false, updatable = false)
+    private EnterpriseInfoEntity enterpriseInfoEntity;
 
     public String getReportId() {
         return reportId;
@@ -166,5 +171,13 @@ public class CompanyReportEntity {
 
     public void setMtime(Date mtime) {
         this.mtime = mtime;
+    }
+
+    public EnterpriseInfoEntity getEnterpriseInfoEntity() {
+        return enterpriseInfoEntity;
+    }
+
+    public void setEnterpriseInfoEntity(EnterpriseInfoEntity enterpriseInfoEntity) {
+        this.enterpriseInfoEntity = enterpriseInfoEntity;
     }
 }
