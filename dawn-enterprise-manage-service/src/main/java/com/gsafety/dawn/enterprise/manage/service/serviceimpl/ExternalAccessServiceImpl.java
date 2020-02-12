@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -218,12 +219,21 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     public AreaStatisticsResultModel getImportantAreaStatistics(ImportantAreaStatSearch query) {
         // todo 调用手机端接口
         HttpEntity<ImportantAreaStatSearch> entity = new HttpEntity<>(query);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/importantAreaStat";
-        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
-                }).getBody().getData();
-
-        return null;
+        String url="http://39.105.209.108:8090/api/enterprise/report/importantAreaStat";
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
+        AreaStatisticsResultModel areaStatisticsResultModel = new AreaStatisticsResultModel();
+        areaStatisticsResultModel.setTotal1(0);
+        areaStatisticsResultModel.setTotal2(0);
+        if(result != null && !CollectionUtils.isEmpty(result)){
+            EnterpriseReportImportantPersonStat e1 =
+                    result.stream().filter(o -> o.getStatus().equals("区域已返工人数")).findFirst().orElse(null);;
+            EnterpriseReportImportantPersonStat e2 =
+                    result.stream().filter(o -> o.getStatus().equals("解除隔离返岗员工人数")).findFirst().orElse(null);;
+            areaStatisticsResultModel.setTotal1(e1 == null? 0 : e1.getTotal());
+            areaStatisticsResultModel.setTotal2(e2 == null? 0 : e2.getTotal());
+        }
+        return areaStatisticsResultModel;
     }
 
     /**

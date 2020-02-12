@@ -10,33 +10,22 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class AreaStatisticsResultModel {
     /**
-     * 返回状态码
+     * 已返工数量
      */
-    @ApiModelProperty(value = "返回状态码")
-    private String status;
-    /**
-     * 七省重点疫区已返工数量/非重点疫区已返员工数量
-     */
-    @ApiModelProperty(value = "七省重点疫区已返工数量/非重点疫区已返员工数量")
+    @ApiModelProperty(value = "已返工数量")
     private Integer total1;
     /**
-     * 七省重点疫区解除隔离返岗员工数量/非重点疫区解除隔离返岗员工数量
+     * 解除隔离返岗员工数量
      */
-    @ApiModelProperty(value = "七省重点疫区解除隔离返岗员工数量/非重点疫区解除隔离返岗员工数量")
+    @ApiModelProperty(value = "解除隔离返岗员工数量")
     private Integer total2;
 
     public AreaStatisticsResultModel(String status, Integer total1, Integer total2) {
-        this.status = status;
         this.total1 = total1;
         this.total2 = total2;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public AreaStatisticsResultModel() {
     }
 
     public Integer getTotal1() {

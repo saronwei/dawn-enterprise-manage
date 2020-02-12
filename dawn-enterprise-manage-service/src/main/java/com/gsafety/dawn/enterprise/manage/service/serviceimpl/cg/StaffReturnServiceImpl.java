@@ -77,6 +77,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setId((String)masp.get("id"));
         staffReturnInfoModel.setName((String)masp.get("name"));
         staffReturnInfoModel.setSex(masp.get("sex") == null ? null : String.valueOf(masp.get("sex")));
+        staffReturnInfoModel.setUnit(masp.get("unit") == null ? null : String.valueOf(masp.get("unit")));
         staffReturnInfoModel.setDepartment(masp.get("deptmentName") == null ? null : String.valueOf(masp.get("deptmentName")));
         staffReturnInfoModel.setNumber(masp.get("employeeCode") == null ? null : String.valueOf(masp.get("employeeCode")));
         staffReturnInfoModel.setJob(masp.get("job") == null ? null : String.valueOf(masp.get("job")));
@@ -109,5 +110,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setTodayOfficeSituation(masp.get("todayOfficeSituation") == null ? null : String.valueOf(masp.get("todayOfficeSituation")));
         staffReturnInfoModel.setPersonnelType(masp.get("personnelType") == null ? null : String.valueOf(masp.get("personnelType")));
         staffReturnInfoModel.setNativePlace(masp.get("nativePlace") == null ? null : String.valueOf(masp.get("nativePlace")));
+        staffReturnInfoModel.setNativePlace(masp.get("postDate") == null ? null : String.valueOf(masp.get("postDate")));
+        staffReturnInfoModel.setNativePlace(masp.get("relieveDate") == null ? null : String.valueOf(masp.get("relieveDate")));
     }
 }

@@ -7,6 +7,9 @@ public class TotalStatisticsQuery {
 
     private String enterpriseName;
 
+    private String deptmentName;
+    private String deptmentCode;
+
     private int pageNo;
 
     private int pageSize;
@@ -59,5 +62,21 @@ public class TotalStatisticsQuery {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public String getDeptmentName() {
+        return deptmentName;
+    }
+
+    public void setDeptmentName(String deptmentName) {
+        this.deptmentName = deptmentName;
+    }
+
+    public String getDeptmentCode() {
+        return deptmentCode;
+    }
+
+    public void setDeptmentCode(String deptmentCode) {
+        this.deptmentCode = deptmentCode;
     }
 }
