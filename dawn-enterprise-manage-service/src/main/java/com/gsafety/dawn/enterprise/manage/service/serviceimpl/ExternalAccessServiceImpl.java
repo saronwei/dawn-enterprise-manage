@@ -63,7 +63,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Override
     public List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria) {
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat2";
+        String url = "http://39.105.209.108:8090/api/enterprise/report/isolationPersonStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
         return result;
@@ -77,10 +77,59 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         paramMap.put("areaId", areaId);
         return jdbcTemplate.queryForMap(sql,paramMap);
     }
+
+    // 办公情况统计用
+    @Override
+    public Map getOfficeStac() {
+        String ids = this.getCompanyIds("area-0005"); // todo 传企业id
+        HttpEntity<String> entity = new HttpEntity<>(ids);
+        String url = "http://39.105.209.108:8090/api/enterprise/report/isolationPersonStat"; // todo 手机端
+        Map result = restTemplate.exchange(url,HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
+        return result;
+    }
+
     public String getParkId(String companyId) {
         String sql = "select area_id as parkId from be_company where company_id=:companyId";
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("companyId", companyId);
         return jdbcTemplate.queryForObject(sql,paramMap,String.class);
     }
+
+    public String getCompanyIds(String companyId) {
+        String areaId = this.getParkId(companyId);
+        String sql = "select company_id as companyId from be_company where area_id=:areaId";
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("areaId", areaId);
+        List<String> list = jdbcTemplate.queryForList(sql,paramMap,String.class);
+        String companyIds = "";
+        for (String str: list) {
+            companyIds += str + ",";
+        }
+        return companyIds;
+    }
+    // 查询园区表
+    public List<String> getAreaIds() {
+        String sql = "select area_id as areaId from be_area";
+        return jdbcTemplate.queryForList(sql, new HashMap<>(),String.class);
+    }
+    // 获取所有园区的所有企业id
+    public List<String> getEnterpriseIds() {
+        List<String> areaList = this.getAreaIds();
+        List<String> companyIdList = new ArrayList<>();
+        for(String areaId: areaList) {
+            String sql = "select company_id as companyId from be_company where area_id=:areaId";
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("areaId", areaId);
+            List<String> list = jdbcTemplate.queryForList(sql,paramMap,String.class);
+            String companyIds = "";
+            for (String str: list) {
+                companyIds += str + ",";
+            }
+            companyIdList.add(companyIds);
+        }
+
+        return companyIdList;
+    }
+
 }
