@@ -108,5 +108,6 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setOtherPlaceBack(masp.get("otherPlaceBack") == null ? null : String.valueOf(masp.get("otherPlaceBack")));
         staffReturnInfoModel.setTodayOfficeSituation(masp.get("todayOfficeSituation") == null ? null : String.valueOf(masp.get("todayOfficeSituation")));
         staffReturnInfoModel.setPersonnelType(masp.get("personnelType") == null ? null : String.valueOf(masp.get("personnelType")));
+        staffReturnInfoModel.setNativePlace(masp.get("nativePlace") == null ? null : String.valueOf(masp.get("nativePlace")));
     }
 }

@@ -92,6 +92,8 @@ public class StaffReturnInfoModel {
     //人群类型
     private String personnelType;
 
+    private String nativePlace;
+
     public String getId() {
         return id;
     }
@@ -418,5 +420,13 @@ public class StaffReturnInfoModel {
 
     public void setPersonnelType(String personnelType) {
         this.personnelType = personnelType;
+    }
+
+    public String getNativePlace() {
+        return nativePlace;
+    }
+
+    public void setNativePlace(String nativePlace) {
+        this.nativePlace = nativePlace;
     }
 }
