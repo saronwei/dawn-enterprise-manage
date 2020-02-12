@@ -18,4 +18,6 @@ public interface ExternalAccessService {
     List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria);
     // 企业总体情况统计
     Map getEnterpriseStac(String companyId);
+    // 办公情况统计
+    Map getOfficeStac();
 }

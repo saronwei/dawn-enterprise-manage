@@ -82,4 +82,13 @@ public class ExternalAccessController {
         Map<String, Object> rs = externalAccessService.getEnterpriseStac(companyId);
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/enterprise/officeStac", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "办公情况统计", notes = "getOfficeStac()")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> getOfficeStac() {
+        Map<String, Object> rs = externalAccessService.getOfficeStac();
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+    }
 }
