@@ -12,10 +12,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Transactional
@@ -152,6 +150,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         Integer isolationNum = 0;
         Integer todayRemoteWorkNum = 0;
         Integer todaySceneWorkNum = 0;
+        Integer todayReturnNum = 0;
         for(String ids: companyList) {
             Map<String,Object> staffHealthTotal= typeStacService.typestacEnterpriseStaffHealthTotal(ids);
             Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(ids);
@@ -176,9 +175,20 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                         isolationNum = isolationNum + isolationPerson.getTotal();
                     }
                 }
+                // 当日返岗人数
+                SevenDayReturnPersonStatisticsCalendar currentReturnPersons = this.getSevenDayReturnPersonStatisticsCalendar(enterpriseCriteria);
+                Date date = new Date();//获取当前的日期
+                SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");//设置日期格式
+                String str = df.format(date);
+                for(Map<String,Object> m: (List<Map>)currentReturnPersons.getData().get("list")) {
+                    if(m.get("date").equals(str)) {
+                        todayReturnNum = todayReturnNum + (Integer)m.get("num");
+                    }
+                }
             }
             paramMap.put("viaHubei",viaNum); // 经停过湖北
             paramMap.put("isolationNum",isolationNum); // 解除隔离人数
+            paramMap.put("todayReturnNum",todayReturnNum); // 当日返岗人数
         }
         List<String> areaIdList = this.getAreaIds();
         for(String areaId: areaIdList) {
