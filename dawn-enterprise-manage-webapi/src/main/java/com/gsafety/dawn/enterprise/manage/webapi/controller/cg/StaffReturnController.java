@@ -43,10 +43,7 @@ public class StaffReturnController {
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<ResultModel<List<StaffReturnInfoModel>>> queryStaffReturnReportsPage(@PathVariable@ApiParam(value = "page", required = true)  int page , @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
-        TotalStatisticsQuery tq = new TotalStatisticsQuery();
-        // tq.setEnterpriseCode("company-0001");
-        tq.setEnterpriseName("北京辰安信息科技有限公司");
+    public ResponseEntity<ResultModel<List<StaffReturnInfoModel>>> queryStaffReturnReportsPage(@RequestBody @ApiParam(value = "条件", required = true) TotalStatisticsQuery tq, @PathVariable@ApiParam(value = "page", required = true)  int page , @PathVariable @ApiParam(value = "pageSize", required = true) int pageSize) {
         Map<String, Object> rrr = staffReturnService.queryStaffReturnReportsPage(tq, PageRequest.of(page, pageSize));
 
         List<StaffReturnInfoModel> aa = (List<StaffReturnInfoModel>)rrr.get("list");

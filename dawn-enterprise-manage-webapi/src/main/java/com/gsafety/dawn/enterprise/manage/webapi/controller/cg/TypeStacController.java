@@ -117,13 +117,13 @@ public class TypeStacController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<Map> typestacEnterpriseStaffHealthTotal(@PathVariable(required = false) @ApiParam(value = "企业id", required = false) String companyId) {
-        //Map<String, Object> rs = typeStacService.typestacEnterpriseStaffHealthTotal(companyId);
-        Map<String, Object> rs = new HashMap<>();
+        Map<String, Object> rs = typeStacService.typestacEnterpriseStaffHealthTotal(companyId);
+        /*Map<String, Object> rs = new HashMap<>();
         rs.put("healths",1000);
         rs.put("infects", 302);
         rs.put("doubts", 200);
         rs.put("closes", 100);
-        rs.put("colds", 120);
+        rs.put("colds", 120);*/
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 

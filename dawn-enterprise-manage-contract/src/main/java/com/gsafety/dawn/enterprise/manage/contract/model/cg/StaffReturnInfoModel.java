@@ -77,6 +77,23 @@ public class StaffReturnInfoModel {
     // 填写时间
     private String reportTime;
 
+    private String temperature;
+
+    private String  backStartingPoint;
+
+    private String  backVehicle;
+
+    private String  backTrainNumber;
+
+    private String  otherPlaceBack;
+
+    private String  todayOfficeSituation;
+
+    //人群类型
+    private String personnelType;
+
+    private String nativePlace;
+
     public String getId() {
         return id;
     }
@@ -347,5 +364,69 @@ public class StaffReturnInfoModel {
 
     public void setReportTime(String reportTime) {
         this.reportTime = reportTime;
+    }
+
+    public String getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(String temperature) {
+        this.temperature = temperature;
+    }
+
+    public String getBackStartingPoint() {
+        return backStartingPoint;
+    }
+
+    public void setBackStartingPoint(String backStartingPoint) {
+        this.backStartingPoint = backStartingPoint;
+    }
+
+    public String getBackVehicle() {
+        return backVehicle;
+    }
+
+    public void setBackVehicle(String backVehicle) {
+        this.backVehicle = backVehicle;
+    }
+
+    public String getBackTrainNumber() {
+        return backTrainNumber;
+    }
+
+    public void setBackTrainNumber(String backTrainNumber) {
+        this.backTrainNumber = backTrainNumber;
+    }
+
+    public String getOtherPlaceBack() {
+        return otherPlaceBack;
+    }
+
+    public void setOtherPlaceBack(String otherPlaceBack) {
+        this.otherPlaceBack = otherPlaceBack;
+    }
+
+    public String getTodayOfficeSituation() {
+        return todayOfficeSituation;
+    }
+
+    public void setTodayOfficeSituation(String todayOfficeSituation) {
+        this.todayOfficeSituation = todayOfficeSituation;
+    }
+
+    public String getPersonnelType() {
+        return personnelType;
+    }
+
+    public void setPersonnelType(String personnelType) {
+        this.personnelType = personnelType;
+    }
+
+    public String getNativePlace() {
+        return nativePlace;
+    }
+
+    public void setNativePlace(String nativePlace) {
+        this.nativePlace = nativePlace;
     }
 }
