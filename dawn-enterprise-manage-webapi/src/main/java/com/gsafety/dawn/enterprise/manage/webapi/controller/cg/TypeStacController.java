@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +67,24 @@ public class TypeStacController {
             }
         }
         return new ResponseEntity<>(maps, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/typestac-return-person", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "统计企业返岗数", notes = "typestacPerson()")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> typestacPerson() {
+        Map<String, Object> rs = typeStacService.typestacPerson();
+        int total = Integer.parseInt(String.valueOf(rs.get("totals")));
+        int returns = Integer.parseInt(String.valueOf(rs.get("returns")));
+        String prencent = "0.00%";
+        if(total > 0) {
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            numberFormat.setMaximumFractionDigits(2);
+            prencent = numberFormat.format((float) returns / (float) total * 100) + "%";
+        }
+        rs.put("precents", prencent);
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 
 }

@@ -10,103 +10,71 @@ public class StaffReturnInfoModel {
     private String id;
 
     // 姓名
-
     private String name;
     // 所属单位
-
     private String unit;
     // 员工编号
     private String number;
     // 身份证号
-
     private String identificationNumber;
     // 性别
-
     private String sex;
     // 所属部门
-
     private String department;
     // 工作岗位
-
     private String job;
     // 联系电话
-
     private String phone;
     // 住址
-
     private String address;
     // 在岗状态
-
     private String workerStatue;
     // 预计返岗日期
-
     private String expectedReturnDate;
     // 近期是否离开固定驻地
-
     private String isLeaveReturnPost;
     // 离开固定驻地时间
-
     private String leaveReturnPostTime;
     // 所赴城市
-
     private String goCity;
     // 是否已返回
-
     private String isReturn;
     // 目前所在城市
-
     private String currentCity;
     // 返回时间
-
     private String returnTime;
     // 离开与返回的交通工具
-
     private String transport;
     // 1月1日之后是否去过湖北
-
     private String isToHubei;
     // 是否经停湖北
-
     private String isPassHubei;
     // 计划返回时间
-
     private String planReturnTime;
     // 离开期间是否与湖北地区的人员接触
-
     private String isContactHubeiPerson;
     // 14日内是否接触武汉来人
-
     private String isTouchWuhan;
     // 14日内是否接触湖北来人
-
     private String isTouchHubei;
     // 是否发热
-
     private String isExceedTemp;
     // 其他症状
-
     private String otherSymptomsList;
     // otherSymptoms: '其他',
     // 一起返回的家属
-
     private String family;
     // 家属身体状况
-
     private String familyHealth;
     // 是否向所在社区居委会报到
-
     private String isCommitteeReport;
     // 外地返回是否做自我居家隔离
-
     private String isIsolation;
     // 其他
-
     private String other;
     // 是否上报
-
     private String isWrite;
     // 填写时间
-
     private String reportTime;
 
     public String getId() {
