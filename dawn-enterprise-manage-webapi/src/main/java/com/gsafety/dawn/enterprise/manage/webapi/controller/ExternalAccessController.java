@@ -94,8 +94,8 @@ public class ExternalAccessController {
     @ApiOperation(value = "园区情况统计", notes = "getAreaStac()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<Map> getAreaStac() {
-        Map<String, Object> rs = externalAccessService.getAreaStac();
+    public ResponseEntity<List<Map<String,Object>>> getAreaStac() {
+        List<Map<String,Object>> rs = externalAccessService.getAreaStac();
         return new ResponseEntity<>(rs, HttpStatus.OK);
     }
 

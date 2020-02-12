@@ -3,6 +3,7 @@ package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -26,6 +27,9 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Autowired
     private TypeStacService typeStacService;
 
+    @Value("${mobile.host}")
+    private String mobilHost;
+
     @Override
     public List<ReportedPersonInfoModel> getReportedPersonsInfo() {
         // todo 调用手机端接口
@@ -36,7 +40,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     public List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics(EnterpriseCriteria enterpriseCriteria) {
         // todo 调用手机端接口
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat";
+        String url = this.mobilHost + "/api/enterprise/report/importantPersonStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -52,9 +56,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     @Override
     public List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics2(EnterpriseCriteria enterpriseCriteria) {
-        // todo 调用手机端接口
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat2";
+        String url = this.mobilHost + "/api/enterprise/report/importantPersonStat2";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -64,7 +67,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Override
     public List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria) {
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/isolationPersonStat";
+        String url = this.mobilHost + "/api/enterprise/report/isolationPersonStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -92,7 +95,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         enterpriseCriteria.setEnterpriseCode(ids);
         enterpriseCriteria.setEnterpriseName(names);
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/workTypeStat"; // todo 手机端
+        String url = this.mobilHost + "/api/enterprise/report/workTypeStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -145,7 +148,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     // 获取园区情况统计
     @Override
-    public Map<String,Object> getAreaStac() {
+    public List<Map<String,Object>> getAreaStac() {
+        List<Map<String,Object>> areaStacList = new ArrayList<>();
         Map<String, Object> paramMap = new HashMap<>();
         List<String> companyList = this.getEnterpriseIds();
         Integer viaNum = 0;
@@ -159,7 +163,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             paramMap.put("colds", staffHealthTotal.get("colds"));// 感冒人数
             paramMap.put("fevers", staffHealthTotal.get("fevers")); // 发热人数
             paramMap.put("returns", returnStaffTotal.get("returns")); // 返岗人数
-            // todo 今日上班企业数 当日返京数
+            // todo 今日上班企业数
             EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
             String[] strs = ids.split(",");
             for (int t = 0; t < strs.length; t++) {
@@ -192,6 +196,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             paramMap.put("viaHubei",viaNum); // 经停过湖北
             paramMap.put("isolationNum",isolationNum); // 解除隔离人数
             paramMap.put("todayReturnNum",todayReturnNum); // 当日返岗人数
+            areaStacList.add(paramMap);
         }
         List<String> areaIdList = this.getAreaIds();
         for(String areaId: areaIdList) {
@@ -204,11 +209,12 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 //                  todayRemoteWorkNum = todayRemoteWorkNum + office.getY();
 //              }
             }
-            paramMap.put("viaHubei", viaNum);
+            paramMap.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
+            areaStacList.add(paramMap);
         }
 //        paramMap.put("todayWorkNum",todaySceneWorkNum + todayRemoteWorkNum); // 上班企业总人数
-        paramMap.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
-        return paramMap;
+
+        return areaStacList;
     }
 
     /**
@@ -221,7 +227,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     public AreaStatisticsResultModel getImportantAreaStatistics(ImportantAreaStatSearch query) {
         // todo 调用手机端接口
         HttpEntity<ImportantAreaStatSearch> entity = new HttpEntity<>(query);
-        String url="http://39.105.209.108:8090/api/enterprise/report/importantAreaStat";
+        String url=this.mobilHost + "/api/enterprise/report/importantAreaStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
         AreaStatisticsResultModel areaStatisticsResultModel = new AreaStatisticsResultModel();
@@ -247,7 +253,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Override
     public List<WayBackStatisticsResultModel> getWayBackStatistics(String enterpriseInfo) {
         // todo 与前端进行联调
-        String url = "http://39.105.209.108:8090/api/enterprise/report/queryReturnVehicleCountNum?enterpriseInfo=";
+        String url = this.mobilHost + "/api/enterprise/report/queryReturnVehicleCountNum?enterpriseInfo=";
         Result results = restTemplate.postForObject(url + enterpriseInfo, null, Result.class);
         List<WayBackStatisticsResultModel> result = (List<WayBackStatisticsResultModel>) results.getData();
         return result;
@@ -261,7 +267,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
      */
     @Override
     public SevenDayReturnPersonStatisticsCalendar getSevenDayReturnPersonStatisticsCalendar(EnterpriseCriteria enterpriseCriteria) {
-        String url = "http://39.105.209.108:8090/api/enterprise/report/postPersonStat";
+        String url = this.mobilHost + "/api/enterprise/report/postPersonStat";
         return restTemplate.postForObject(url, enterpriseCriteria, SevenDayReturnPersonStatisticsCalendar.class);
     }
 
