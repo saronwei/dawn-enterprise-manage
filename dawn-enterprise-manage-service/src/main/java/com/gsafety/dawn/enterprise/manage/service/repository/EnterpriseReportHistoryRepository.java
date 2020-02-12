@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
+/**
+ * 企业上报历史记录仓储类
+ */
 @Repository
 @Transactional
 public interface EnterpriseReportHistoryRepository extends JpaRepository<EnterpriseReportHistoryEntity,String> {
