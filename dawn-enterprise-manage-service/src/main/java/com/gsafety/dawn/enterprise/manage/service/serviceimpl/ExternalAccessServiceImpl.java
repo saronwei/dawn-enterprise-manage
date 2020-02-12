@@ -89,7 +89,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     // 办公情况统计用
     @Override
     public List<EnterpriseReportImportantPersonStat> getOfficeStac(String areaId) {
-        if (areaId.equals("")) {
+//        if (areaId.equals("")) {
+        if (StringUtils.isEmpty(areaId)) {
             areaId = "area-0005";
         }
         String ids = this.typeStacService.comps(areaId); // todo 传企业id
@@ -221,7 +222,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 // 解除隔离人数
                 List<EnterpriseReportImportantPersonStat> isolationList = this.getIsolationStatistics(enterpriseCriteria);
                 for (EnterpriseReportImportantPersonStat isolationPerson : isolationList) {
-                    if (isolationPerson.getStatus().equals("今日解除隔离")) {
+                    if (isolationPerson.getStatus().equals("今日解除隔离人数")) {
                         isolationNum = isolationNum + isolationPerson.getTotal();
                     }
                 }
