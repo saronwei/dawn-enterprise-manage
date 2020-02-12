@@ -3,6 +3,7 @@ package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 import com.google.common.collect.Lists;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseCriteria;
 import com.gsafety.dawn.enterprise.manage.contract.model.Result;
+import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +27,22 @@ public class TypeStacService {
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private ExternalAccessService externalAccessService;
 
     @Value("${mobile.host}")
     private String mobilHost;
+
+    public String comps(String companyId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("companyId", companyId);
+        List<Map<String, Object>> ll =  jdbcTemplate.queryForList("select a.company_id as companyId from be_company a where a.area_id = (select area_id from be_company where company_id = :companyId)", paramMap);
+        List<String> ss = new ArrayList<>();
+        for(Map<String, Object> mm : ll) {
+            ss.add((String)mm.get("companyId"));
+        }
+        return StringUtils.arrayToCommaDelimitedString(ll.toArray(new String[0]));
+    }
 
     public Map typestac() {
         return jdbcTemplate.queryForMap("select SUM(COALESCE(CAST(confirm_num AS INTEGER), 0)) as 确诊人数, SUM(COALESCE(CAST(suspect_num AS INTEGER ), 0 ) ) 疑似人数, \n" +
@@ -79,14 +94,18 @@ public class TypeStacService {
     public Map<String, Object> typestacEnterpriseStaffTotal(String companyId) {
         String url = this.mobilHost + "";
         Map<String, Object> paramMap = new HashMap<>();
-        if(!StringUtils.isEmpty(companyId)) {
-            paramMap.put("companyIds", companyId);
+        if(StringUtils.isEmpty(companyId)) {
+            String comps = this.comps(companyId);
+            paramMap.put("companyIds", comps);
         }
         HttpEntity<Map> entity = new HttpEntity<>(paramMap);
         Map<String, Object> rs = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
         paramMap.clear();
-        //Map<String, Object> totalMap = externalAccessService.getEnterpriseStac(companyId);
+        if(!StringUtils.isEmpty(companyId)) {
+            Map<String, Object> totalMap = externalAccessService.getEnterpriseStac(companyId);
+            paramMap.put("totals", totalMap.get("enterprisePersonTotals"));
+        }
         paramMap.put("returns", rs.get(""));
         paramMap.put("localReturns", rs.get(""));
         paramMap.put("outReturns", rs.get(""));
@@ -113,8 +132,9 @@ public class TypeStacService {
     public Map<String, Object> typestacEnterpriseStaffHealthTotal(String companyId) {
         String url = this.mobilHost + "";
         Map<String, Object> paramMap = new HashMap<>();
-        if(!StringUtils.isEmpty(companyId)) {
-            paramMap.put("companyIds", companyId);
+        if(StringUtils.isEmpty(companyId)) {
+            String comps = this.comps(companyId);
+            paramMap.put("companyIds", comps);
         }
         HttpEntity<Map> entity = new HttpEntity<>(paramMap);
         Map<String, Object> rs = restTemplate.exchange(url, HttpMethod.POST, entity,
