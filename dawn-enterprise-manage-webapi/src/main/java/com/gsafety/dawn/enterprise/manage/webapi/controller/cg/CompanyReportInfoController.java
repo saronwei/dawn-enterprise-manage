@@ -22,8 +22,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")
-@Api(value = "/api", tags = "Company Report Api")
-public class CompanyReportController {
+@Api(value = "/api", tags = "Company Report Info Api")
+public class CompanyReportInfoController {
 
     @GetMapping(value = "/company-reports/{page}/{pageSize}")
     @ApiOperation(value = "分页", notes = "queryCompanyReportsPage()")
