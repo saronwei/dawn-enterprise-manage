@@ -1,9 +1,6 @@
 package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
-import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseCriteria;
-import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportImportantPersonStat;
-import com.gsafety.dawn.enterprise.manage.contract.model.ReportedPersonInfoModel;
-import com.gsafety.dawn.enterprise.manage.contract.model.Result;
+import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -165,5 +162,48 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         }
         return paramMap;
     }
+    /**
+     * 重点区域统计
+     * @param query 查询条件
+     * @return
+     */
+    @Override
+    public AreaStatisticsResultModel getImportantAreaStatistics(ImportantAreaStatSearch query) {
+        // todo 调用手机端接口
+        HttpEntity<ImportantAreaStatSearch> entity = new HttpEntity<>(query);
+        String url="http://39.105.209.108:8090/api/enterprise/report/importantAreaStat";
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
 
+        return null;
+    }
+
+    /**
+     * 返程方式统计
+     * @param enterpriseInfo 查询条件
+     * @return
+     */
+    @Override
+    public List<WayBackStatisticsResultModel> getWayBackStatistics(String enterpriseInfo) {
+        // todo 与前端进行联调
+        String url = "http://39.105.209.108:8090/api/enterprise/report/queryReturnVehicleCountNum?enterpriseInfo=";
+        Result results = restTemplate.postForObject(url+ enterpriseInfo, null, Result.class);
+        List<WayBackStatisticsResultModel> result = (List<WayBackStatisticsResultModel>)results.getData();
+        return result;
+    }
+
+    /**
+     * 未来七天返岗人员统计日历
+     * @param enterpriseCriteria
+     * @return
+     */
+    @Override
+    public SevenDayReturnPersonStatisticsCalendar getSevenDayReturnPersonStatisticsCalendar(EnterpriseCriteria enterpriseCriteria) {
+        // todo 调用手机端接口
+        String url="http://39.105.209.108:8090/api/enterprise/report/postPersonStat";
+        HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
+        return null;
+    }
 }

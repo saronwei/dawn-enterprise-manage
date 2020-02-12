@@ -1,8 +1,6 @@
 package com.gsafety.dawn.enterprise.manage.webapi.controller;
 
-import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseCriteria;
-import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportImportantPersonStat;
-import com.gsafety.dawn.enterprise.manage.contract.model.ReportedPersonInfoModel;
+import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
 import com.gsafety.java.common.exception.HttpError;
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
@@ -13,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +86,41 @@ public class ExternalAccessController {
     public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getOfficeStac() {
         List<EnterpriseReportImportantPersonStat> rs = externalAccessService.getOfficeStac();
         return new ResponseEntity<>(rs, HttpStatus.OK);
+    }
+    @PostMapping(value = "/enterprise/importantAreaStatistics", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "重点区域统计", notes = "getImportantAreaStatistics()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = List.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<AreaStatisticsResultModel> getImportantAreaStatistics(@RequestBody @ApiParam(value = "查询条件", required = true) ImportantAreaStatSearch query) {
+        AreaStatisticsResultModel result = externalAccessService.getImportantAreaStatistics(query);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/enterprise/wayBackStatistics", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "返程方式统计", notes = "getWayBackStatistics()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = List.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<List<WayBackStatisticsResultModel>> getWayBackStatistics(@RequestBody @ApiParam(value = "查询条件", required = true) String enterpriseInfo) {
+        List<WayBackStatisticsResultModel> result = externalAccessService.getWayBackStatistics(enterpriseInfo);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/enterprise/sevenDayReturnPersonStatisticsCalendar", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "未来七天返岗人员统计日历", notes = "getSevenDayReturnPersonStatisticsCalendar()")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = List.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<SevenDayReturnPersonStatisticsCalendar> getSevenDayReturnPersonStatisticsCalendar(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
+        SevenDayReturnPersonStatisticsCalendar result = externalAccessService.getSevenDayReturnPersonStatisticsCalendar(enterpriseCriteria);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }
