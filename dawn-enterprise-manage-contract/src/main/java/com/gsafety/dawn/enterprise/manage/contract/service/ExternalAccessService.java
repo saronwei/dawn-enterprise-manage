@@ -5,6 +5,7 @@ import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseReportImporta
 import com.gsafety.dawn.enterprise.manage.contract.model.ReportedPersonInfoModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ExternalAccessService {
     // 所有已填报人员信息
@@ -15,4 +16,6 @@ public interface ExternalAccessService {
     List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics2(EnterpriseCriteria enterpriseCriteria);
     // 隔离情况
     List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria);
+    // 企业总体情况统计
+    Map getEnterpriseStac(String companyId);
 }
