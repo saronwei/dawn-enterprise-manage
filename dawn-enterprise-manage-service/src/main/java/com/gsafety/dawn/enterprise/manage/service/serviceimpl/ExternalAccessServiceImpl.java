@@ -123,12 +123,13 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         return jdbcTemplate.queryForList(sql, new HashMap<>(), String.class);
     }
 
-    // 获取所有园区的所有企业id
+    // 获取所有园区的所有企业id(name)
     public List<String> getEnterpriseIds() {
         List<String> areaList = this.getAreaIds();
         List<String> companyIdList = new ArrayList<>();
         for (String areaId : areaList) {
-            String sql = "select company_id as companyId from be_company where area_id=:areaId";
+//            String sql = "select company_id as companyId from be_company where area_id=:areaId";
+            String sql = "select name as companyId from be_company where area_id=:areaId";
             Map<String, Object> paramMap = new HashMap<String, Object>();
             paramMap.put("areaId", areaId);
             List<String> list = jdbcTemplate.queryForList(sql, paramMap, String.class);
@@ -162,7 +163,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
             String[] strs = ids.split(",");
             for (int t = 0; t < strs.length; t++) {
-                enterpriseCriteria.setEnterpriseCode(strs[t]);
+//                enterpriseCriteria.setEnterpriseCode(strs[t]);
+                enterpriseCriteria.setEnterpriseName(strs[t]);
                 List<EnterpriseReportImportantPersonStat> importantPersonStats = this.getImportantPersonsStatics2(enterpriseCriteria);
                 for (EnterpriseReportImportantPersonStat person : importantPersonStats) {
                     if (person.getStatus().equals("经停过湖北")) {
