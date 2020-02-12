@@ -111,8 +111,26 @@ public class TypeStacService {
             paramMap.put("enterpriseCodeList", comps);
         }
         HttpEntity<Map> entity = new HttpEntity<>(paramMap);
-        Map<String, Object> rs = restTemplate.exchange(url, HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
+        List<Map<String, Object>> rList = restTemplate.exchange(url, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<Map<String, Object>>>>(){}).getBody().getData();
+        paramMap.clear();
+        for (Map<String, Object> mm : rList) {
+            if ("远程办公人数".equals(mm.get("status"))) {
+                paramMap.put("remoteWorks", mm.get("total"));
+            }
+            if ("现场办公人数".equals(mm.get("status"))) {
+                paramMap.put("localWorks", mm.get("total"));
+            }
+            if ("返岗人数".equals(mm.get("status"))) {
+                paramMap.put("returns", mm.get("total"));
+            }
+            if ("外地返岗人数".equals(mm.get("status"))) {
+                paramMap.put("outReturns", mm.get("total"));
+            }
+            if ("本地返岗人数".equals(mm.get("status"))) {
+                paramMap.put("localReturns", mm.get("total"));
+            }
+        }
         paramMap.clear();
         if(!StringUtils.isEmpty(companyId)) {
             String[] ids  = companyId.split(",");
@@ -123,20 +141,16 @@ public class TypeStacService {
                 paramMap.put("totals", this.staffTotals(ids[0]));
             }
         }
-        paramMap.put("returns", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
-        paramMap.put("localReturns", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
-        paramMap.put("outReturns", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
-        paramMap.put("localWorks", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
-        paramMap.put("remoteWorks", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
-        int totals = Integer.parseInt(String.valueOf(rs.get("totals")));
-        int returns = Integer.parseInt(String.valueOf(rs.get("returns")));
+
+        int totals = Integer.parseInt(String.valueOf(paramMap.get("totals")));
+        int returns = Integer.parseInt(String.valueOf(paramMap.get("returns")));
         String prencent = "0.00%";
         if(totals > 0) {
             NumberFormat numberFormat = NumberFormat.getInstance();
             numberFormat.setMaximumFractionDigits(2);
             prencent = numberFormat.format((float) returns / (float) totals * 100) + "%";
         }
-        rs.put("precents", prencent);
+        paramMap.put("precents", prencent);
         return paramMap;
     }
 
@@ -153,15 +167,29 @@ public class TypeStacService {
             paramMap.put("enterpriseCodeList", Arrays.asList(companyId.split(",")));
         }
         HttpEntity<Map> entity = new HttpEntity<>(paramMap);
-        Map<String, Object> rs = restTemplate.exchange(url, HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
+        List<Map<String, Object>> rList = restTemplate.exchange(url, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<Map<String, Object>>>>(){}).getBody().getData();
         paramMap.clear();
-        paramMap.put("healths", null == rs.get("healthTotal") ? 0: rs.get("healthTotal"));
-        paramMap.put("infects", null == rs.get("infectTotal") ? 0: rs.get("infectTotal"));
-        paramMap.put("doubts", null == rs.get("suspectTotal") ? 0: rs.get("suspectTotal"));
-        paramMap.put("closes", null == rs.get("touchTotal") ? 0: rs.get("touchTotal"));
-        paramMap.put("colds", null == rs.get("coldTotal") ? 0: rs.get("coldTotal"));
-        paramMap.put("fevers", null == rs.get("feverTotal") ? 0: rs.get("feverTotal"));
+        for (Map<String, Object> mm : rList) {
+            if("确诊/感染人数".equals(mm.get("status"))) {
+                paramMap.put("infects", mm.get("total"));
+            }
+            if("疑似人数".equals(mm.get("status"))) {
+                paramMap.put("doubts", mm.get("total"));
+            }
+            if("密接人数".equals(mm.get("status"))) {
+                paramMap.put("closes", mm.get("total"));
+            }
+            if("健康人数".equals(mm.get("status"))) {
+                paramMap.put("healths", mm.get("total"));
+            }
+            if("发热人数".equals(mm.get("status"))) {
+                paramMap.put("fevers", mm.get("total"));
+            }
+            if("感冒人数".equals(mm.get("status"))) {
+                paramMap.put("colds", mm.get("total"));
+            }
+        }
         return paramMap;
     }
 
