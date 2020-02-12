@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
@@ -26,6 +27,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     private RestTemplate restTemplate;
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+    @Autowired
+    private TypeStacService typeStacService;
 
     @Override
     public List<ReportedPersonInfoModel> getReportedPersonsInfo() {
@@ -80,12 +83,16 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     // 办公情况统计用
     @Override
-    public Map getOfficeStac() {
-        String ids = this.getCompanyIds("area-0005"); // todo 传企业id
-        HttpEntity<String> entity = new HttpEntity<>(ids);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/isolationPersonStat"; // todo 手机端
-        Map result = restTemplate.exchange(url,HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Result<Map>>(){}).getBody().getData();
+    public List<EnterpriseReportImportantPersonStat> getOfficeStac() {
+        String ids = this.typeStacService.comps("area-0005"); // todo 传企业id
+        String names = this.getCompanyNames("area-0005");
+        EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
+        enterpriseCriteria.setEnterpriseCode(ids);
+        enterpriseCriteria.setEnterpriseName(names);
+        HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
+        String url = "http://39.105.209.108:8090/api/enterprise/report/workTypeStat"; // todo 手机端
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
         return result;
     }
 
@@ -96,17 +103,15 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         return jdbcTemplate.queryForObject(sql,paramMap,String.class);
     }
 
-    public String getCompanyIds(String companyId) {
-        String areaId = this.getParkId(companyId);
-        String sql = "select company_id as companyId from be_company where area_id=:areaId";
-        Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("areaId", areaId);
-        List<String> list = jdbcTemplate.queryForList(sql,paramMap,String.class);
-        String companyIds = "";
-        for (String str: list) {
-            companyIds += str + ",";
+    public String getCompanyNames(String companyId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("companyId", companyId);
+        List<Map<String, Object>> ll =  jdbcTemplate.queryForList("select a.name as companyName from be_company a where a.area_id = (select area_id from be_company where company_id = :companyId)", paramMap);
+        List<String> ss = new ArrayList<>();
+        for(Map<String, Object> mm : ll) {
+            ss.add((String)mm.get("companyName"));
         }
-        return companyIds;
+        return StringUtils.arrayToCommaDelimitedString(ll.toArray(new String[0]));
     }
     // 查询园区表
     public List<String> getAreaIds() {
@@ -130,6 +135,35 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         }
 
         return companyIdList;
+    }
+
+    // 获取园区情况统计
+    public Map<String,Object> getAreaStac() {
+        Map<String, Object> paramMap = new HashMap<>();
+        List<String> companyList = this.getEnterpriseIds();
+        Integer viaNum = 0;
+        for(String ids: companyList) {
+            Map<String,Object> staffHealthTotal= typeStacService.typestacEnterpriseStaffHealthTotal(ids);
+            Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(ids);
+            paramMap.put("colds", staffHealthTotal.get("colds"));// 感冒人数
+            paramMap.put("fevers", staffHealthTotal.get("fevers")); // 发热人数
+            paramMap.put("returns", returnStaffTotal.get("returns")); // 返岗人数
+            // todo 今日上班企业数 当日返京数、上岗人员数
+            EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
+            String[] strs = ids.split(",");
+            for (int t = 0; t <strs.length ; t++){
+                enterpriseCriteria.setEnterpriseCode(strs[t]);
+                List<EnterpriseReportImportantPersonStat> importantPersonStats=this.getImportantPersonsStatics2(enterpriseCriteria);
+                for(EnterpriseReportImportantPersonStat person: importantPersonStats) {
+                    if(person.getStatus().equals("经停过湖北")){
+                        viaNum = viaNum + person.getTotal();
+                    }
+                }
+            }
+            paramMap.put("viaHubei",viaNum);
+
+        }
+        return paramMap;
     }
 
 }

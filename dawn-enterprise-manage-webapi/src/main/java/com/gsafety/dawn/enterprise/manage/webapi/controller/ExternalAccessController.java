@@ -80,15 +80,16 @@ public class ExternalAccessController {
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<Map> getEnterpriseStac(@PathVariable  @ApiParam(value = "企业Id", required = true) String companyId) {
         Map<String, Object> rs = externalAccessService.getEnterpriseStac(companyId);
-        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+        return new ResponseEntity<>(rs, HttpStatus.OK);
     }
 
     @PostMapping(value = "/enterprise/officeStac", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "办公情况统计", notes = "getOfficeStac()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<Map> getOfficeStac() {
-        Map<String, Object> rs = externalAccessService.getOfficeStac();
-        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+    public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getOfficeStac() {
+        List<EnterpriseReportImportantPersonStat> rs = externalAccessService.getOfficeStac();
+        return new ResponseEntity<>(rs, HttpStatus.OK);
     }
+
 }
