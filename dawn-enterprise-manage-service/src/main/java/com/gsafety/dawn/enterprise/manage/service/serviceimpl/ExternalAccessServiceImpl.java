@@ -83,9 +83,12 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     // 办公情况统计用
     @Override
-    public List<EnterpriseReportImportantPersonStat> getOfficeStac() {
-        String ids = this.typeStacService.comps("area-0005"); // todo 传企业id
-        String names = this.getCompanyNames("area-0005");
+    public List<EnterpriseReportImportantPersonStat> getOfficeStac(String areaId) {
+        if (areaId.equals("")) {
+            areaId = "area-0005";
+        }
+        String ids = this.typeStacService.comps(areaId); // todo 传企业id
+        String names = this.getCompanyNames(areaId);
         EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
         enterpriseCriteria.setEnterpriseCode(ids);
         enterpriseCriteria.setEnterpriseName(names);
@@ -138,17 +141,21 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     }
 
     // 获取园区情况统计
+    @Override
     public Map<String,Object> getAreaStac() {
         Map<String, Object> paramMap = new HashMap<>();
         List<String> companyList = this.getEnterpriseIds();
         Integer viaNum = 0;
+        Integer isolationNum = 0;
+        Integer todayRemoteWorkNum = 0;
+        Integer todaySceneWorkNum = 0;
         for(String ids: companyList) {
             Map<String,Object> staffHealthTotal= typeStacService.typestacEnterpriseStaffHealthTotal(ids);
             Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(ids);
             paramMap.put("colds", staffHealthTotal.get("colds"));// 感冒人数
             paramMap.put("fevers", staffHealthTotal.get("fevers")); // 发热人数
             paramMap.put("returns", returnStaffTotal.get("returns")); // 返岗人数
-            // todo 今日上班企业数 当日返京数、上岗人员数
+            // todo 今日上班企业数 当日返京数
             EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
             String[] strs = ids.split(",");
             for (int t = 0; t <strs.length ; t++){
@@ -159,10 +166,31 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                         viaNum = viaNum + person.getTotal();
                     }
                 }
+                // 解除隔离人数
+                List<EnterpriseReportImportantPersonStat> isolationList = this.getIsolationStatistics(enterpriseCriteria);
+                for(EnterpriseReportImportantPersonStat isolationPerson: isolationList) {
+                    if(isolationPerson.getStatus().equals("今日解除隔离")){
+                        isolationNum = isolationNum + isolationPerson.getTotal();
+                    }
+                }
             }
-            paramMap.put("viaHubei",viaNum);
-
+            paramMap.put("viaHubei",viaNum); // 经停过湖北
+            paramMap.put("isolationNum",isolationNum); // 解除隔离人数
         }
+        List<String> areaIdList = this.getAreaIds();
+        for(String areaId: areaIdList) {
+            List<EnterpriseReportImportantPersonStat> officeList = this.getOfficeStac(areaId);
+            for (EnterpriseReportImportantPersonStat office: officeList) {
+              if(office.getX().equals("1") && office.getS().equals("2")) {
+                  todaySceneWorkNum = todaySceneWorkNum + office.getY();
+              }
+//              if(office.getX().equals("1") && office.getS().equals("1")) {
+//                  todayRemoteWorkNum = todayRemoteWorkNum + office.getY();
+//              }
+            }
+        }
+//        paramMap.put("todayWorkNum",todaySceneWorkNum + todayRemoteWorkNum); // 上班企业总人数
+        paramMap.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
         return paramMap;
     }
 

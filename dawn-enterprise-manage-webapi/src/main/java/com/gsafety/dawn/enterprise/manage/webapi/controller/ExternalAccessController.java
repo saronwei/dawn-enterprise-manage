@@ -83,13 +83,21 @@ public class ExternalAccessController {
         return new ResponseEntity<>(rs, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/enterprise/officeStac", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/enterprise/officeStac/{areaId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "办公情况统计", notes = "getOfficeStac()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getOfficeStac() {
-        List<EnterpriseReportImportantPersonStat> rs = externalAccessService.getOfficeStac();
+    public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getOfficeStac(@PathVariable  @ApiParam(value = "园区Id", required = true) String areaId) {
+        List<EnterpriseReportImportantPersonStat> rs = externalAccessService.getOfficeStac(areaId);
         return new ResponseEntity<>(rs, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/enterprise/areaStac", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "园区情况统计", notes = "getAreaStac()")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> getAreaStac() {
+        Map<String, Object> rs = externalAccessService.getAreaStac();
+        return new ResponseEntity<>(rs, HttpStatus.OK);
+    }
 }
