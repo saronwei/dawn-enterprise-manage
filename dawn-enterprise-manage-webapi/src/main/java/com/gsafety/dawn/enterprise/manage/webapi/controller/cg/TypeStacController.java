@@ -1,24 +1,23 @@
 package com.gsafety.dawn.enterprise.manage.webapi.controller.cg;
 
-import com.gsafety.dawn.enterprise.manage.contract.model.ResultModel;
-import com.gsafety.dawn.enterprise.manage.contract.model.TotalStatisticsQuery;
-import com.gsafety.dawn.enterprise.manage.contract.model.cg.StaffReturnInfoModel;
-import com.gsafety.dawn.enterprise.manage.contract.service.cm.StaffReturnService;
 import com.gsafety.dawn.enterprise.manage.service.serviceimpl.TypeStacService;
 import com.gsafety.java.common.exception.HttpError;
 import com.gsafety.springboot.common.annotation.LimitIPRequestAnnotation;
 import io.swagger.annotations.*;
-import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * description:
@@ -89,20 +88,14 @@ public class TypeStacController {
     @ApiOperation(value = "政府端-防疫措施统计", notes = "typestacGovPreventionMeasures()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<List> typestacGovPreventionMeasures() {
-        Map<String, Object> rs = new HashMap<>();//----
-        List<Map<String, Object>> maps = new ArrayList<>();
-        Map<String, Object> map = new LinkedHashMap<>();
-        for(Map.Entry<String,Object> entry : rs.entrySet()){
-            map.put("name", entry.getKey());
-            map.put("value", Integer.parseInt(String.valueOf(entry.getValue())));
-            maps.add(map);
-        }
-
-        rs.put("name","消杀区域");
-        rs.put("value", 30);
-        maps.add(rs);
-        return new ResponseEntity<List>(maps, HttpStatus.OK);
+    public ResponseEntity<Map> typestacGovPreventionMeasures() {
+        //Map<String, Object> rs = typeStacService.typestacGovPreventionMeasures();
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("eliminates",1000);
+        rs.put("isolates", 302);
+        rs.put("tempchecks", 100);
+        rs.put("masks", 120);
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 
     @GetMapping(value = "/typestac-enterprise--staff-total/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -110,7 +103,7 @@ public class TypeStacController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<Map> typestacEnterpriseStaffTotal(@PathVariable @ApiParam(value = "企业id", required = true) String companyId) {
-        Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(companyId);
+        /*Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(companyId);
         int totals = Integer.parseInt(String.valueOf(rs.get("totals")));
         int returns = Integer.parseInt(String.valueOf(rs.get("returns")));
         String prencent = "0.00%";
@@ -119,12 +112,27 @@ public class TypeStacController {
             numberFormat.setMaximumFractionDigits(2);
             prencent = numberFormat.format((float) returns / (float) totals * 100) + "%";
         }
-        rs.put("precents", prencent);
-        /*rs.put("totals",1000);
+        rs.put("precents", prencent);*/
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("totals",1000);
         rs.put("returns", 302);
         rs.put("precents", "30.12%");
         rs.put("localReturns", 100);
-        rs.put("outReturns", 120);*/
+        rs.put("outReturns", 120);
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+    }
+    @GetMapping(value = "/typestac-enterprise--staff-health-total/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业端-返岗人员健康情况统计", notes = "typestacEnterpriseStaffHealthTotal(companyId)")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> typestacEnterpriseStaffHealthTotal(@PathVariable @ApiParam(value = "企业id", required = true) String companyId) {
+        //Map<String, Object> rs = typeStacService.typestacEnterpriseStaffHealthTotal(companyId);
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("healths",1000);
+        rs.put("infects", 302);
+        rs.put("doubts", 200);
+        rs.put("closes", 100);
+        rs.put("colds", 120);
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 

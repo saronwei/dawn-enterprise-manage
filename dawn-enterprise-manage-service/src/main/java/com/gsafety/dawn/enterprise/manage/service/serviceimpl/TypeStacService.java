@@ -20,15 +20,19 @@ public class TypeStacService {
     }
 
     public Map typestacPerson() {
-        return jdbcTemplate.queryForMap("select SUM(COALESCE(CAST(social_security_total AS INTEGER), 0)) as totals, SUM(COALESCE(CAST(on_work_in_total AS INTEGER ), 0 ) ) as returns from e_company_report_info"
+        return jdbcTemplate.queryForMap("select SUM(COALESCE(CAST(insure_num AS INTEGER), 0)) as totals, SUM(COALESCE(CAST(arrival_num AS INTEGER ), 0 ) ) as returns from h_enterprise_report"
                 , new HashMap<>());
     }
 
     public Map<String, Object> typestacEnterpriseStaffTotal(String companyId) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("on_work_in_total", 10);
-        String sql = "select SUM(COALESCE(CAST(social_security_total AS INTEGER), 0)) as totals, SUM(COALESCE(CAST(on_work_in_total AS INTEGER ), 0 ) ) as returns from e_company_report_info" +
-                " WHERE on_work_in_total=:on_work_in_total";
+        paramMap.put("companyId", 10);
+        String sql = "select SUM(COALESCE(CAST(total_num AS INTEGER), 0)) as totals, " +
+                " SUM(COALESCE(CAST(arrival_num AS INTEGER ), 0 ) ) as returns " +
+                " SUM(COALESCE(CAST(local_num AS INTEGER ), 0 ) ) as localReturns " +
+                " SUM(COALESCE(CAST(other_num AS INTEGER ), 0 ) ) as outReturns " +
+                " from e_company_report_info" +
+                " WHERE on_work_in_total=:companyId";
         return jdbcTemplate.queryForMap(sql, paramMap);
     }
 
