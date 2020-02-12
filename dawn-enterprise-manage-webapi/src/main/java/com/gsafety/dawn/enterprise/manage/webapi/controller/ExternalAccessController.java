@@ -13,7 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")
@@ -21,7 +24,7 @@ import java.util.List;
 public class ExternalAccessController {
 
     @Autowired
-    private ExternalAccessService ExternalAccessService;
+    private ExternalAccessService externalAccessService;
 
     @GetMapping(value = "/enterprise/reportedPersonsInfo/{reportedDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "所有已填报人员信息", notes = "getReportedPersonsInfo()")
@@ -31,7 +34,7 @@ public class ExternalAccessController {
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<List<ReportedPersonInfoModel>> getReportedPersonsInfo() {
-        List<ReportedPersonInfoModel> result = ExternalAccessService.getReportedPersonsInfo();
+        List<ReportedPersonInfoModel> result = externalAccessService.getReportedPersonsInfo();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -43,7 +46,7 @@ public class ExternalAccessController {
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getImportantPersonsStatics(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
-        List<EnterpriseReportImportantPersonStat> result = ExternalAccessService.getImportantPersonsStatics(enterpriseCriteria);
+        List<EnterpriseReportImportantPersonStat> result = externalAccessService.getImportantPersonsStatics(enterpriseCriteria);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -55,7 +58,7 @@ public class ExternalAccessController {
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getImportantPersonsStatics2(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
-        List<EnterpriseReportImportantPersonStat> result = ExternalAccessService.getImportantPersonsStatics2(enterpriseCriteria);
+        List<EnterpriseReportImportantPersonStat> result = externalAccessService.getImportantPersonsStatics2(enterpriseCriteria);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -67,7 +70,16 @@ public class ExternalAccessController {
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<List<EnterpriseReportImportantPersonStat>> getIsolationStatistics(@RequestBody @ApiParam(value = "查询条件", required = true) EnterpriseCriteria enterpriseCriteria) {
-        List<EnterpriseReportImportantPersonStat> result = ExternalAccessService.getIsolationStatistics(enterpriseCriteria);
+        List<EnterpriseReportImportantPersonStat> result = externalAccessService.getIsolationStatistics(enterpriseCriteria);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/enterprise/enterpriseStac/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业总体情况统计", notes = "getEnterpriseStac()")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> getEnterpriseStac(@PathVariable  @ApiParam(value = "企业Id", required = true) String companyId) {
+        Map<String, Object> rs = externalAccessService.getEnterpriseStac(companyId);
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 }
