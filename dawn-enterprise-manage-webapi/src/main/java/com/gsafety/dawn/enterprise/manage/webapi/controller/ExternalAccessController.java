@@ -116,7 +116,7 @@ public class ExternalAccessController {
     @PostMapping(value = "/enterprise/sevenDayReturnPersonStatisticsCalendar", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "未来七天返岗人员统计日历", notes = "getSevenDayReturnPersonStatisticsCalendar()")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = List.class),
+            @ApiResponse(code = 200, message = "OK", response = Map.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class),
             @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
