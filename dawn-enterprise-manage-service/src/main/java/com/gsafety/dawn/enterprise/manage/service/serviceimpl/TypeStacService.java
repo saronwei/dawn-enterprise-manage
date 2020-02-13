@@ -1,6 +1,7 @@
 package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
 import com.google.common.collect.Lists;
+import com.gsafety.dawn.enterprise.common.util.StringUtil;
 import com.gsafety.dawn.enterprise.manage.contract.model.EnterpriseCriteria;
 import com.gsafety.dawn.enterprise.manage.contract.model.Result;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
@@ -67,8 +68,11 @@ public class TypeStacService {
 
     public int staffTotals(String companyId) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("companyId", companyId);
-        List<Map<String, Object>> ll =  jdbcTemplate.queryForList("select staff_num from be_company where company_id = :companyId", paramMap);
+        if(!StringUtils.isEmpty(companyId)) {
+            paramMap.put("companyId", companyId);
+        }
+        List<Map<String, Object>> ll =  jdbcTemplate.queryForList("select staff_num from be_company where 1=1 " +
+                (StringUtils.isEmpty(companyId) ? "" :"company_id = :companyId"), paramMap);
         List<String> ss = new ArrayList<>();
         int tts = 0;
         if(!CollectionUtils.isEmpty(ll)) {
@@ -155,14 +159,10 @@ public class TypeStacService {
         }
         if(!StringUtils.isEmpty(companyId)) {
             String[] ids  = companyId.split(",");
-            if(ids.length > 0) {
-                Map<String, Object> totalMap = this.getEnterpriseStac(Arrays.asList(ids[0]).toArray(new String[0]));
-                paramMap.put("totals", totalMap==null ? 0 : totalMap.get("enterprisePersonTotals"));
-            } else {
-                paramMap.put("totals", this.staffTotals(ids[0]));
-            }
+            Map<String, Object> totalMap = this.getEnterpriseStac(Arrays.asList(ids[0]).toArray(new String[0]));
+            paramMap.put("totals", totalMap==null ? 0 : totalMap.get("enterprisePersonTotals"));
         } else {
-            paramMap.put("totals", 0);
+            paramMap.put("totals", this.staffTotals(null));
         }
 
         int totals = Integer.parseInt(String.valueOf(paramMap.get("totals")));
