@@ -90,10 +90,10 @@ public class TypeStacService {
     public Map<String, Object> typestacGovPreventionMeasures() {
         Map<String, Object> paramMap = new HashMap<>();
         String sql = "SELECT (CASE b.measure_id"+
-        " WHEN 'a1' THEN 'eliminates'"+
-        " WHEN 'a2' THEN 'isolates'"+
-        " WHEN 'a3' THEN 'tempchecks'"+
-        " WHEN 'a4' THEN 'masks'"+
+        " WHEN '消杀区域' THEN 'eliminates'"+
+        " WHEN '隔离' THEN 'isolates'"+
+        " WHEN '体温检测' THEN 'tempchecks'"+
+        " WHEN '口罩发放' THEN 'masks'"+
         " END) as types, count(b.company_id) as totals"+
         " FROM re_company_measure b"+
         " group by b.measure_id";
