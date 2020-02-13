@@ -33,6 +33,9 @@ public class TypeStacService {
 
     public Map getEnterpriseStac(String[] companyName) {
         String areaId = this.getParkIdByName(companyName);
+        if(areaId == null) {
+            return null;
+        }
         String sql = "select COUNT(*) as enterpriseTotals, SUM(COALESCE(CAST(staff_num AS INTEGER ), 0)) as enterprisePersonTotals from be_company where area_id=:areaId";
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("areaId", areaId);
@@ -40,10 +43,15 @@ public class TypeStacService {
     }
 
     public String getParkIdByName(String[] companyName) {
+        String areaid = null;
         String sql = "select area_id as parkId from be_company where name in (:companyName)";
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("companyName", Arrays.asList(companyName));
-        return jdbcTemplate.queryForObject(sql,paramMap,String.class);
+        List<String> list = jdbcTemplate.queryForList(sql, paramMap, String.class);
+        if(!CollectionUtils.isEmpty(list)) {
+            areaid = list.get(0);
+        }
+        return areaid;
     }
 
     public String comps(String companyId) {
@@ -149,10 +157,12 @@ public class TypeStacService {
             String[] ids  = companyId.split(",");
             if(ids.length > 0) {
                 Map<String, Object> totalMap = this.getEnterpriseStac(Arrays.asList(ids[0]).toArray(new String[0]));
-                paramMap.put("totals", totalMap.get("enterprisePersonTotals"));
+                paramMap.put("totals", totalMap==null ? 0 : totalMap.get("enterprisePersonTotals"));
             } else {
                 paramMap.put("totals", this.staffTotals(ids[0]));
             }
+        } else {
+            paramMap.put("totals", 0);
         }
 
         int totals = Integer.parseInt(String.valueOf(paramMap.get("totals")));
