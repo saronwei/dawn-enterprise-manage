@@ -86,18 +86,19 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         return jdbcTemplate.queryForMap(sql, paramMap);
     }
 
-    // 办公情况统计用
+    // 办公情况统计用（根据园区id传）
     @Override
     public List<EnterpriseReportImportantPersonStat> getOfficeStac(String areaId) {
 //        if (areaId.equals("")) {
         if (StringUtils.isEmpty(areaId)) {
             areaId = "area-0005";
         }
-        String ids = this.typeStacService.comps(areaId); // todo 传企业id
-        String names = this.getCompanyNames(areaId);
+//        String ids = this.typeStacService.comps(areaId);
+//        String names = this.getCompanyNames(areaId);
+        String ids = this.getCompanyIds(areaId);
         EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
         enterpriseCriteria.setEnterpriseCode(ids);
-        enterpriseCriteria.setEnterpriseName(names);
+//        enterpriseCriteria.setEnterpriseName(names);
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
         String url = this.mobilHost + "/api/enterprise/report/workTypeStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
@@ -105,7 +106,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 }).getBody().getData();
         return result;
     }
-    // 办公情况统计用2
+    // 办公情况统计用2(根据公司id查)
     public List<EnterpriseReportImportantPersonStat> getOfficeStac2(String companyId) {
         EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
         enterpriseCriteria.setEnterpriseCode(companyId);
@@ -136,13 +137,25 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         return StringUtils.arrayToCommaDelimitedString(ss.toArray(new String[0]));
     }
 
+    // 根据园区id查询公司id
+    public String getCompanyIds(String areaId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("areaId", areaId);
+        List<Map<String, Object>> ll = jdbcTemplate.queryForList("select a.company_id as companyId from be_company a where a.area_id = :areaId", paramMap);
+        List<String> ss = new ArrayList<>();
+        for (Map<String, Object> mm : ll) {
+            ss.add((String) mm.get("companyId"));
+        }
+        return StringUtils.arrayToCommaDelimitedString(ss.toArray(new String[0]));
+    }
+
     // 查询园区id
     public List<String> getAreaIds() {
         String sql = "select area_id as areaId from be_area";
         return jdbcTemplate.queryForList(sql, new HashMap<>(), String.class);
     }
-    // 查询园区name
-    public List<Map<String,Object>> getAreaNames() {
+    // 查询园区name,id
+    public List<Map<String,Object>> getAreaNamesAndIds() {
         String sql = "select area_id as areaId,name as areaName from be_area";
         return jdbcTemplate.queryForList(sql, new HashMap<>());
     }
@@ -163,7 +176,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             }
             companyIdList.add(companyIds);
         }*/
-        List<Map<String,Object>> areaList = this.getAreaNames();
+        List<Map<String,Object>> areaList = this.getAreaNamesAndIds();
         List<Map<String,Object>> companyIdList = new ArrayList<>();
         Map<String,Object> newMap = new HashMap<>();
         for (Map<String,Object> map : areaList) {
@@ -180,6 +193,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             }
             newMap.put("companyIds",companyIds);
             newMap.put("areaName",map.get("areaName"));
+            newMap.put("areaId",map.get("areaId"));
             companyIdList.add(newMap);
         }
         return companyIdList;
@@ -203,6 +217,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             Map<String,Object> staffHealthTotal= typeStacService.typestacEnterpriseStaffHealthTotal((String) ids.get("companyIds"));// 原来为ids
             Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal((String) ids.get("companyIds")); //
             paramMap.put("areaName",(String) ids.get("areaName")); // 园区名称
+            paramMap.put("areaId",(String) ids.get("areaId")); // 园区id
             paramMap.put("colds", staffHealthTotal.get("colds"));// 感冒人数
             paramMap.put("fevers", staffHealthTotal.get("fevers")); // 发热人数
             paramMap.put("returns", returnStaffTotal.get("returns")); // 返岗人数
