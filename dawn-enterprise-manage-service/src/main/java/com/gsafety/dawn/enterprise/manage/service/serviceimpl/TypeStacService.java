@@ -98,7 +98,7 @@ public class TypeStacService {
     public Map<String, Object> typestacGovPreventionMeasures() {
         Map<String, Object> paramMap = new HashMap<>();
         String sql = "SELECT (CASE b.measure_id"+
-        " WHEN '消杀区域' THEN 'eliminates'"+
+        " WHEN '消毒' THEN 'eliminates'"+
         " WHEN '隔离' THEN 'isolates'"+
         " WHEN '体温检测' THEN 'tempchecks'"+
         " WHEN '口罩发放' THEN 'masks'"+
