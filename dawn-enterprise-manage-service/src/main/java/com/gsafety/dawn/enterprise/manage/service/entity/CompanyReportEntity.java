@@ -1,5 +1,7 @@
 package com.gsafety.dawn.enterprise.manage.service.entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -47,6 +49,7 @@ public class CompanyReportEntity {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", referencedColumnName = "company_id", insertable = false, updatable = false)
+    @NotFound(action= NotFoundAction.IGNORE)
     private EnterpriseInfoEntity enterpriseInfoEntity;
 
     public String getReportId() {

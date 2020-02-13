@@ -2,7 +2,9 @@ package com.gsafety.dawn.enterprise.manage.service.serviceimpl;
 
 import com.gsafety.dawn.enterprise.manage.contract.model.*;
 import com.gsafety.dawn.enterprise.manage.contract.service.ExternalAccessService;
+import com.gsafety.dawn.enterprise.manage.service.repository.EnterpriseInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -25,6 +27,11 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     private NamedParameterJdbcTemplate jdbcTemplate;
     @Autowired
     private TypeStacService typeStacService;
+    @Autowired
+    private EnterpriseInfoRepository enterpriseInfoRepository;
+
+    @Value("${mobile.host}")
+    private String mobilHost;
 
     @Override
     public List<ReportedPersonInfoModel> getReportedPersonsInfo() {
@@ -36,7 +43,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     public List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics(EnterpriseCriteria enterpriseCriteria) {
         // todo 调用手机端接口
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat";
+        String url = this.mobilHost + "/api/enterprise/report/importantPersonStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -52,9 +59,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     @Override
     public List<EnterpriseReportImportantPersonStat> getImportantPersonsStatics2(EnterpriseCriteria enterpriseCriteria) {
-        // todo 调用手机端接口
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/importantPersonStat2";
+        String url = this.mobilHost + "/api/enterprise/report/importantPersonStat2";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -64,7 +70,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Override
     public List<EnterpriseReportImportantPersonStat> getIsolationStatistics(EnterpriseCriteria enterpriseCriteria) {
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/isolationPersonStat";
+        String url = this.mobilHost + "/api/enterprise/report/isolationPersonStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -83,7 +89,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     // 办公情况统计用
     @Override
     public List<EnterpriseReportImportantPersonStat> getOfficeStac(String areaId) {
-        if (areaId.equals("")) {
+//        if (areaId.equals("")) {
+        if (StringUtils.isEmpty(areaId)) {
             areaId = "area-0005";
         }
         String ids = this.typeStacService.comps(areaId); // todo 传企业id
@@ -92,7 +99,19 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         enterpriseCriteria.setEnterpriseCode(ids);
         enterpriseCriteria.setEnterpriseName(names);
         HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
-        String url = "http://39.105.209.108:8090/api/enterprise/report/workTypeStat"; // todo 手机端
+        String url = this.mobilHost + "/api/enterprise/report/workTypeStat";
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
+                }).getBody().getData();
+        return result;
+    }
+    // 办公情况统计用2
+    public List<EnterpriseReportImportantPersonStat> getOfficeStac2(String companyId) {
+        EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
+//        enterpriseCriteria.setEnterpriseCode(ids);
+        enterpriseCriteria.setEnterpriseName(companyId);
+        HttpEntity<EnterpriseCriteria> entity = new HttpEntity<>(enterpriseCriteria);
+        String url = this.mobilHost + "/api/enterprise/report/workTypeStat";
         List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
                 new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
                 }).getBody().getData();
@@ -117,15 +136,20 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
         return StringUtils.arrayToCommaDelimitedString(ll.toArray(new String[0]));
     }
 
-    // 查询园区表
+    // 查询园区id
     public List<String> getAreaIds() {
         String sql = "select area_id as areaId from be_area";
         return jdbcTemplate.queryForList(sql, new HashMap<>(), String.class);
     }
+    // 查询园区name
+    public List<Map<String,Object>> getAreaNames() {
+        String sql = "select area_id as areaId,name as areaName from be_area";
+        return jdbcTemplate.queryForList(sql, new HashMap<>());
+    }
 
     // 获取所有园区的所有企业id(name)
-    public List<String> getEnterpriseIds() {
-        List<String> areaList = this.getAreaIds();
+    public List<Map<String,Object>> getEnterpriseIds() {
+/*        List<String> areaList = this.getAreaIds();
         List<String> companyIdList = new ArrayList<>();
         for (String areaId : areaList) {
 //            String sql = "select company_id as companyId from be_company where area_id=:areaId";
@@ -138,30 +162,54 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 companyIds += str + ",";
             }
             companyIdList.add(companyIds);
+        }*/
+        List<Map<String,Object>> areaList = this.getAreaNames();
+        List<Map<String,Object>> companyIdList = new ArrayList<>();
+        Map<String,Object> newMap = new HashMap<>();
+        for (Map<String,Object> map : areaList) {
+            newMap = new HashMap<>();
+            String areaId = (String) map.get("areaId");
+//            String sql = "select company_id as companyId from be_company where area_id=:areaId";
+            String sql = "select name as companyId from be_company where area_id=:areaId";
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            paramMap.put("areaId", areaId);
+            List<String> list = jdbcTemplate.queryForList(sql, paramMap, String.class);
+            String companyIds = "";
+            for (String str : list) {
+                companyIds += str + ",";
+            }
+            newMap.put("companyIds",companyIds);
+            newMap.put("areaName",map.get("areaName"));
+            companyIdList.add(newMap);
         }
-
         return companyIdList;
     }
 
     // 获取园区情况统计
     @Override
-    public Map<String,Object> getAreaStac() {
+    public List<Map<String, Object>> getAreaStac() {
+        List<Map<String, Object>> areaStacList = new ArrayList<>();
         Map<String, Object> paramMap = new HashMap<>();
-        List<String> companyList = this.getEnterpriseIds();
+//        List<String> companyList = this.getEnterpriseIds();
+        List<Map<String,Object>> companyList = this.getEnterpriseIds();
         Integer viaNum = 0;
         Integer isolationNum = 0;
         Integer todayRemoteWorkNum = 0;
         Integer todaySceneWorkNum = 0;
         Integer todayReturnNum = 0;
-        for(String ids: companyList) {
-            Map<String,Object> staffHealthTotal= typeStacService.typestacEnterpriseStaffHealthTotal(ids);
-            Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(ids);
+//        for(String ids: companyList) {
+        for(Map<String,Object> ids: companyList) {
+            paramMap = new HashMap<>();
+            Map<String,Object> staffHealthTotal= typeStacService.typestacEnterpriseStaffHealthTotal((String) ids.get("companyIds"));// 原来为ids
+            Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal((String) ids.get("companyIds")); //
+            paramMap.put("areaName",(String) ids.get("areaName")); // 园区名称
             paramMap.put("colds", staffHealthTotal.get("colds"));// 感冒人数
             paramMap.put("fevers", staffHealthTotal.get("fevers")); // 发热人数
             paramMap.put("returns", returnStaffTotal.get("returns")); // 返岗人数
-            // todo 今日上班企业数 当日返京数
+            // todo 今日上班企业数(等待接口))
+            paramMap.put("workCompanys", 0); // 今日上班企业数
             EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
-            String[] strs = ids.split(",");
+            String[] strs = ((String) ids.get("companyIds")).split(",");//
             for (int t = 0; t < strs.length; t++) {
 //                enterpriseCriteria.setEnterpriseCode(strs[t]);
                 enterpriseCriteria.setEnterpriseName(strs[t]);
@@ -173,8 +221,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 }
                 // 解除隔离人数
                 List<EnterpriseReportImportantPersonStat> isolationList = this.getIsolationStatistics(enterpriseCriteria);
-                for(EnterpriseReportImportantPersonStat isolationPerson: isolationList) {
-                    if(isolationPerson.getStatus().equals("今日解除隔离")){
+                for (EnterpriseReportImportantPersonStat isolationPerson : isolationList) {
+                    if (isolationPerson.getStatus().equals("今日解除隔离人数")) {
                         isolationNum = isolationNum + isolationPerson.getTotal();
                     }
                 }
@@ -183,32 +231,53 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                 Date date = new Date();//获取当前的日期
                 SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");//设置日期格式
                 String str = df.format(date);
-                for(Map<String,Object> m: (List<Map>)currentReturnPersons.getData().get("list")) {
-                    if(m.get("date").equals(str)) {
-                        todayReturnNum = todayReturnNum + (Integer)m.get("num");
+                for (Map<String, Object> m : (List<Map>) currentReturnPersons.getData().get("list")) {
+                    if (m.get("date").equals(str)) {
+                        todayReturnNum = todayReturnNum + (Integer) m.get("num");
+                    }
+                }
+                // 上岗人数
+                List<EnterpriseReportImportantPersonStat> officeList = this.getOfficeStac2(strs[t]);
+                for (EnterpriseReportImportantPersonStat office: officeList) {
+                    if(office.getX().equals("1") && office.getS().equals("2")) {
+                        todaySceneWorkNum = todaySceneWorkNum + office.getY();
                     }
                 }
             }
             paramMap.put("viaHubei",viaNum); // 经停过湖北
             paramMap.put("isolationNum",isolationNum); // 解除隔离人数
             paramMap.put("todayReturnNum",todayReturnNum); // 当日返岗人数
+            paramMap.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
+            areaStacList.add(paramMap);
+        }
+ /*       List<String> areaIdList = this.getAreaIds();
+        for(String areaId: areaIdList) {
+            paramMap2 = new HashMap<>();
+=======
+            paramMap.put("viaHubei", viaNum); // 经停过湖北
+            paramMap.put("isolationNum", isolationNum); // 解除隔离人数
+            paramMap.put("todayReturnNum", todayReturnNum); // 当日返岗人数
+            areaStacList.add(paramMap);
         }
         List<String> areaIdList = this.getAreaIds();
-        for(String areaId: areaIdList) {
+        for (String areaId : areaIdList) {
+>>>>>>> origin/develop
             List<EnterpriseReportImportantPersonStat> officeList = this.getOfficeStac(areaId);
-            for (EnterpriseReportImportantPersonStat office: officeList) {
-              if(office.getX().equals("1") && office.getS().equals("2")) {
-                  todaySceneWorkNum = todaySceneWorkNum + office.getY();
-              }
+            for (EnterpriseReportImportantPersonStat office : officeList) {
+                if (office.getX().equals("1") && office.getS().equals("2")) {
+                    todaySceneWorkNum = todaySceneWorkNum + office.getY();
+                }
 //              if(office.getX().equals("1") && office.getS().equals("1")) {
 //                  todayRemoteWorkNum = todayRemoteWorkNum + office.getY();
 //              }
             }
-            paramMap.put("viaHubei", viaNum);
-        }
+<<<<<<< HEAD
+            paramMap2.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
+            areaStacList.add(paramMap2);
+        }*/
 //        paramMap.put("todayWorkNum",todaySceneWorkNum + todayRemoteWorkNum); // 上班企业总人数
-        paramMap.put("todayOnDutyNum",todaySceneWorkNum); // 上岗人数
-        return paramMap;
+
+        return areaStacList;
     }
 
     /**
@@ -221,19 +290,22 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     public AreaStatisticsResultModel getImportantAreaStatistics(ImportantAreaStatSearch query) {
         // todo 调用手机端接口
         HttpEntity<ImportantAreaStatSearch> entity = new HttpEntity<>(query);
-        String url="http://39.105.209.108:8090/api/enterprise/report/importantAreaStat";
-        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url,HttpMethod.POST, entity,
-                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>(){}).getBody().getData();
+        String url = this.mobilHost + "/api/enterprise/report/importantAreaStat";
+        List<EnterpriseReportImportantPersonStat> result = restTemplate.exchange(url, HttpMethod.POST, entity,
+                new ParameterizedTypeReference<Result<List<EnterpriseReportImportantPersonStat>>>() {
+                }).getBody().getData();
         AreaStatisticsResultModel areaStatisticsResultModel = new AreaStatisticsResultModel();
         areaStatisticsResultModel.setTotal1(0);
         areaStatisticsResultModel.setTotal2(0);
-        if(result != null && !CollectionUtils.isEmpty(result)){
+        if (result != null && !CollectionUtils.isEmpty(result)) {
             EnterpriseReportImportantPersonStat e1 =
-                    result.stream().filter(o -> o.getStatus().equals("区域已返工人数")).findFirst().orElse(null);;
+                    result.stream().filter(o -> o.getStatus().equals("区域已返工人数")).findFirst().orElse(null);
+            ;
             EnterpriseReportImportantPersonStat e2 =
-                    result.stream().filter(o -> o.getStatus().equals("解除隔离返岗员工人数")).findFirst().orElse(null);;
-            areaStatisticsResultModel.setTotal1(e1 == null? 0 : e1.getTotal());
-            areaStatisticsResultModel.setTotal2(e2 == null? 0 : e2.getTotal());
+                    result.stream().filter(o -> o.getStatus().equals("解除隔离返岗员工人数")).findFirst().orElse(null);
+            ;
+            areaStatisticsResultModel.setTotal1(e1 == null ? 0 : e1.getTotal());
+            areaStatisticsResultModel.setTotal2(e2 == null ? 0 : e2.getTotal());
         }
         return areaStatisticsResultModel;
     }
@@ -247,7 +319,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
     @Override
     public List<WayBackStatisticsResultModel> getWayBackStatistics(String enterpriseInfo) {
         // todo 与前端进行联调
-        String url = "http://39.105.209.108:8090/api/enterprise/report/queryReturnVehicleCountNum?enterpriseInfo=";
+        String url = this.mobilHost + "/api/enterprise/report/queryReturnVehicleCountNum?enterpriseInfo=";
         Result results = restTemplate.postForObject(url + enterpriseInfo, null, Result.class);
         List<WayBackStatisticsResultModel> result = (List<WayBackStatisticsResultModel>) results.getData();
         return result;
@@ -261,12 +333,75 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
      */
     @Override
     public SevenDayReturnPersonStatisticsCalendar getSevenDayReturnPersonStatisticsCalendar(EnterpriseCriteria enterpriseCriteria) {
-        String url = "http://39.105.209.108:8090/api/enterprise/report/postPersonStat";
+        String url = this.mobilHost + "/api/enterprise/report/postPersonStat";
         return restTemplate.postForObject(url, enterpriseCriteria, SevenDayReturnPersonStatisticsCalendar.class);
     }
 
     @Override
     public List<EnterpriseReportImportantPersonStat> getOfficeStac() {
         return null;
+    }
+
+
+    @Override
+    public CompanyPageSearchResult getCompanyStatisticsWithPage(CompanyQueryInfo queryInfo) {
+        CompanyPageSearchResult result = new CompanyPageSearchResult();
+        List<CompanyReturnBaseInfo> infoList = new ArrayList<>();
+        Integer viaNum = 0;
+        Integer isolationNum = 0;
+
+        // 分页查询企业信息
+        List<Object[]> objects = enterpriseInfoRepository.searchWithPage(
+                queryInfo.getAreaId(), queryInfo.getCompanyName(),
+                queryInfo.getPageSize(), queryInfo.getPageIndex());
+
+        /// 遍历企业信息
+        if (!objects.isEmpty()) {
+            for (Object[] object : objects) {
+                if (object != null) {
+                    // 新建企业信息对象
+                    CompanyReturnBaseInfo info = new CompanyReturnBaseInfo();
+                    // 赋值企业名称
+                    info.setCompanyName(object[1].toString());
+                    // 根据园区id获取上岗人数
+                    List<EnterpriseReportImportantPersonStat> officeList = getOfficeStac(queryInfo.getAreaId());
+
+                    // 赋值上岗人数
+                    info.setWorkingTotal(officeList.size());
+
+                    // 根据companyName获取返京人数
+                    Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(object[1].toString());
+                    info.setReturnBeiJingTotal(Integer.parseInt(returnStaffTotal.get("returns").toString()));
+
+                    EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();
+                    enterpriseCriteria.setEnterpriseCode(object[0].toString());
+                    // 途经湖北
+                    List<EnterpriseReportImportantPersonStat> importantPersonStats = getImportantPersonsStatics2(enterpriseCriteria);
+                    for (EnterpriseReportImportantPersonStat person : importantPersonStats) {
+                        if (person.getStatus().equals("经停过湖北")) {
+                            viaNum = viaNum + person.getTotal();
+                        }
+                    }
+
+                    // 赋值途经湖北人数
+                    info.setAccrossHuBeiTotal(viaNum);
+
+                    // 解除隔离
+                    List<EnterpriseReportImportantPersonStat> isolationList = this.getIsolationStatistics(enterpriseCriteria);
+                    for (EnterpriseReportImportantPersonStat isolationPerson : isolationList) {
+                        if (isolationPerson.getStatus().equals("今日解除隔离")) {
+                            isolationNum = isolationNum + isolationPerson.getTotal();
+                        }
+                    }
+                    // 赋值解除隔离人数
+                    info.setDisisolationTotal(isolationNum);
+                    infoList.add(info);
+                }
+            }
+            // 赋值企业总条数
+            result.setTotal(Integer.parseInt(objects.get(0)[3].toString()));
+            result.setInfoList(infoList);
+        }
+        return result;
     }
 }

@@ -19,7 +19,7 @@ public interface ExternalAccessService {
     // 办公情况统计
     List<EnterpriseReportImportantPersonStat> getOfficeStac(String areaId);
     // 园区情况统计
-    Map<String,Object> getAreaStac();
+    List<Map<String,Object>> getAreaStac();
 
     List<EnterpriseReportImportantPersonStat> getOfficeStac();
 
@@ -45,4 +45,10 @@ public interface ExternalAccessService {
      */
     SevenDayReturnPersonStatisticsCalendar getSevenDayReturnPersonStatisticsCalendar(EnterpriseCriteria enterpriseCriteria);
 
+    /**
+     * 根据园区id分页查询企业列表
+     * @param queryInfo 查询条件
+     * @return 企业列表
+     */
+    CompanyPageSearchResult getCompanyStatisticsWithPage(CompanyQueryInfo queryInfo);
 }
