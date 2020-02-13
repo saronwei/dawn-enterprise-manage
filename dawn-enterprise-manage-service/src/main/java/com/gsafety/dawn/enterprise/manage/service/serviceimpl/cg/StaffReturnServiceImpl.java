@@ -10,6 +10,7 @@ import com.gsafety.dawn.enterprise.manage.service.datamappers.cg.StaffReturnMapp
 import com.gsafety.dawn.enterprise.manage.service.entity.cg.StaffReturnInfoEntity;
 import com.gsafety.dawn.enterprise.manage.service.repository.cg.StaffReturnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,12 +38,15 @@ public class StaffReturnServiceImpl implements StaffReturnService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Value("${mobile.host}")
+    private String mobilHost;
+
     @Override
     public Map<String, Object> queryStaffReturnReportsPage(TotalStatisticsQuery tq, Pageable pageable) {
         tq.setPageNo(pageable.getPageNumber());
         tq.setPageSize(pageable.getPageSize());
         HttpEntity<TotalStatisticsQuery> entity = new HttpEntity<>(tq);
-        Result<Map> results = restTemplate.exchange("http://39.105.209.108:8090/api/enterprise/report/search", HttpMethod.POST, entity, Result.class).getBody();
+        Result<Map> results = restTemplate.exchange(this.mobilHost + "/api/enterprise/report/search", HttpMethod.POST, entity, Result.class).getBody();
         Map map = results.getData();
         List<Map> ww = (List<Map>)map.get("list");
         List<StaffReturnInfoModel> listss = new ArrayList<>();
@@ -61,7 +65,7 @@ public class StaffReturnServiceImpl implements StaffReturnService {
 
     @Override
     public StaffReturnInfoModel getStaffInfo(String id) {
-        Result result = restTemplate.postForObject("http://39.105.209.108:8090/api/enterprise/report/findOne?name="+ id, null, Result.class);
+        Result result = restTemplate.postForObject(this.mobilHost + "/api/enterprise/report/findOne?name="+ id, null, Result.class);
         // Result result = restTemplate.postForObject("http://39.105.209.108:8090/api/enterprise/report/findOne?name={1}", new HttpEntity<>(), Result.class, map);
         Map masp = (Map)result.getData();
         if(masp == null) {
