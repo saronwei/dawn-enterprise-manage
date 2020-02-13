@@ -35,7 +35,7 @@ public class TypeStacController {
     private TypeStacService typeStacService;
 
     @GetMapping(value = "/typestac", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "统计类型总数", notes = "typestac()")
+    @ApiOperation(value = "统计健康类型总数（废弃）", notes = "typestac()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<List<Map>> typestac() {
@@ -66,7 +66,7 @@ public class TypeStacController {
     }
 
     @GetMapping(value = "/typestac-return-person", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "统计企业返岗数", notes = "typestacPerson()")
+    @ApiOperation(value = "统计企业返回人员数(废弃)", notes = "typestacPerson()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
     public ResponseEntity<Map> typestacPerson() {
@@ -98,11 +98,26 @@ public class TypeStacController {
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
 
-    @GetMapping(value = {"/typestac-enterprise--staff-total/{companyId}", "/typestac-enterprise--staff-total"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "企业端-员工总体情况统计", notes = "typestacEnterpriseStaffTotal(companyId?)")
+    @GetMapping(value = "/typestac-enterprise--staff-total", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业端-员工总体情况统计", notes = "typestacEnterpriseStaffTotal()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<Map> typestacEnterpriseStaffTotal(@PathVariable(required = false) @ApiParam(value = "企业id", required = false) String companyId) {
+    public ResponseEntity<Map> typestacEnterpriseStaffTotal() {
+        Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(null);
+        /*Map<String, Object> rs = new HashMap<>();
+        rs.put("totals",1000);
+        rs.put("returns", 302);
+        rs.put("precents", "30.12%");
+        rs.put("localReturns", 100);
+        rs.put("outReturns", 120);*/
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/typestac-enterprise--staff-total/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业端-企业员工总体情况统计", notes = "typestacEnterpriseStaffTotal(companyId?)")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> typestacEnterpriseStaffTotal(@PathVariable @ApiParam(value = "企业id", required = true) String companyId) {
         Map<String, Object> rs = typeStacService.typestacEnterpriseStaffTotal(companyId);
         /*Map<String, Object> rs = new HashMap<>();
         rs.put("totals",1000);
@@ -112,11 +127,27 @@ public class TypeStacController {
         rs.put("outReturns", 120);*/
         return new ResponseEntity<Map>(rs, HttpStatus.OK);
     }
-    @GetMapping(value = {"/typestac-enterprise--staff-health-total/{companyId}", "/typestac-enterprise--staff-health-total"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "企业端-返岗人员健康情况统计", notes = "typestacEnterpriseStaffHealthTotal(companyId?)")
+
+    @GetMapping(value = "/typestac-enterprise--staff-health-total", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业端-返岗人员健康情况统计", notes = "typestacEnterpriseStaffHealthTotal()")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
     @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
-    public ResponseEntity<Map> typestacEnterpriseStaffHealthTotal(@PathVariable(required = false) @ApiParam(value = "企业id", required = false) String companyId) {
+    public ResponseEntity<Map> typestacEnterpriseStaffHealthTotal() {
+        Map<String, Object> rs = typeStacService.typestacEnterpriseStaffHealthTotal(null);
+        /*Map<String, Object> rs = new HashMap<>();
+        rs.put("healths",1000);
+        rs.put("infects", 302);
+        rs.put("doubts", 200);
+        rs.put("closes", 100);
+        rs.put("colds", 120);*/
+        return new ResponseEntity<Map>(rs, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/typestac-enterprise--staff-health-total/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "企业端-企业返岗人员健康情况统计", notes = "typestacEnterpriseStaffHealthTotal(companyId)")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Boolean.class), @ApiResponse(code = 500, message = "Internal Server Error", response = HttpError.class), @ApiResponse(code = 406, message = "Not Acceptable", response = HttpError.class)})
+    @LimitIPRequestAnnotation(limitCounts = 10, timeSecond = 1000)
+    public ResponseEntity<Map> typestacEnterpriseStaffHealthTotal(@PathVariable @ApiParam(value = "企业id", required = true) String companyId) {
         Map<String, Object> rs = typeStacService.typestacEnterpriseStaffHealthTotal(companyId);
         /*Map<String, Object> rs = new HashMap<>();
         rs.put("healths",1000);
