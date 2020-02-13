@@ -369,8 +369,8 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
                     // 赋值上岗人数
                     info.setWorkingTotal(officeList.size());
 
-                    // 根据companyName获取返京人数
-                    Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(object[1].toString());
+                    // 根据companyId获取返京人数
+                    Map<String, Object> returnStaffTotal = typeStacService.typestacEnterpriseStaffTotal(object[0].toString());
                     info.setReturnBeiJingTotal(Integer.parseInt(returnStaffTotal.get("returns").toString()));
 
                     EnterpriseCriteria enterpriseCriteria = new EnterpriseCriteria();

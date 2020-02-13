@@ -32,7 +32,7 @@ public class TypeStacService {
     @Value("${mobile.host}")
     private String mobilHost;
 
-    public Map getEnterpriseStac(String[] companyName) {
+    /*public Map getEnterpriseStac(String[] companyName) {
         String areaId = this.getParkIdByName(companyName);
         if(areaId == null) {
             return null;
@@ -53,7 +53,7 @@ public class TypeStacService {
             areaid = list.get(0);
         }
         return areaid;
-    }
+    }*/
 
     public String comps(String companyId) {
         Map<String, Object> paramMap = new HashMap<>();
@@ -69,18 +69,14 @@ public class TypeStacService {
     public int staffTotals(String companyId) {
         Map<String, Object> paramMap = new HashMap<>();
         if(!StringUtils.isEmpty(companyId)) {
-            paramMap.put("companyId", companyId);
+            paramMap.put("companyId", Arrays.asList(companyId.split(",")));
         }
-        List<Map<String, Object>> ll =  jdbcTemplate.queryForList("select staff_num from be_company where 1=1 " +
-                (StringUtils.isEmpty(companyId) ? "" :"company_id = :companyId"), paramMap);
-        List<String> ss = new ArrayList<>();
-        int tts = 0;
-        if(!CollectionUtils.isEmpty(ll)) {
-            for(Map<String, Object> mm : ll) {
-                tts = Integer.parseInt(String.valueOf(mm.get("staff_num")));
-            }
+        Integer ll =  jdbcTemplate.queryForObject("select sum(staff_num) as staff_num from be_company where 1=1 " +
+                (StringUtils.isEmpty(companyId) ? "" :" and company_id in (:companyId)"), paramMap, Integer.class);
+        if(ll == null) {
+            ll = 0;
         }
-        return tts;
+        return ll;
     }
 
     public Map typestac() {
@@ -159,8 +155,9 @@ public class TypeStacService {
         }
         if(!StringUtils.isEmpty(companyId)) {
             String[] ids  = companyId.split(",");
-            Map<String, Object> totalMap = this.getEnterpriseStac(Arrays.asList(ids[0]).toArray(new String[0]));
-            paramMap.put("totals", totalMap==null ? 0 : totalMap.get("enterprisePersonTotals"));
+//            Map<String, Object> totalMap = this.getEnterpriseStac(Arrays.asList(ids[0]).toArray(new String[0]));
+//            paramMap.put("totals", totalMap==null ? 0 : totalMap.get("enterprisePersonTotals"));
+            paramMap.put("totals", this.staffTotals(companyId));
         } else {
             paramMap.put("totals", this.staffTotals(null));
         }
