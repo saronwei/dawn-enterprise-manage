@@ -110,7 +110,7 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
         cq.multiselect(root.get("id"),
                 root.get("name"));
         cq.where(createSpecification(queryInfo).toPredicate(root,cq,cb));
-        cq.orderBy(cb.desc(root.get("name")));
+        // cq.orderBy(cb.asc(root.get("orders")));
         return enterpriseInfoMapper.entitiesToSimpleModels(entityManager.createQuery(cq).getResultList());
     }
 
@@ -175,7 +175,7 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
             if (StringUtil.isNotEmpty(queryInfo.getName())) {
                 predicates.add(cb.like(root.get("name"), "%" + queryInfo.getName() + "%"));
             }
-
+            query.orderBy(cb.asc(root.get("orders")));
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
