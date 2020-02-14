@@ -41,8 +41,10 @@ public class StaffReturnInfoModel {
     private String isReturn;
     // 目前所在城市
     private String currentCity;
-    // 返回时间
+    // 返回时间 backdate
     private String returnTime;
+    //返程日期
+    private String returnDate;
     // 离开与返回的交通工具
     private String transport;
     // 1月1日之后是否去过湖北
@@ -89,6 +91,7 @@ public class StaffReturnInfoModel {
 
     private String  todayOfficeSituation;
 
+    //预计返岗日期
     private String postDate;
 
     //人群类型
@@ -448,5 +451,13 @@ public class StaffReturnInfoModel {
 
     public void setRelieveDate(String relieveDate) {
         this.relieveDate = relieveDate;
+    }
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
     }
 }

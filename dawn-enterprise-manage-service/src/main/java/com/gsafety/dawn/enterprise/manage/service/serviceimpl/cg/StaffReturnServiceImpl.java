@@ -106,7 +106,8 @@ public class StaffReturnServiceImpl implements StaffReturnService {
         staffReturnInfoModel.setTransport(masp.get("vehicle") == null ? null : String.valueOf(masp.get("vehicle")));
         staffReturnInfoModel.setIsReturn(masp.get("back") == null ? null : String.valueOf(masp.get("back")));
         staffReturnInfoModel.setIsIsolation(masp.get("fourteenDayIsolation") == null ? null : String.valueOf(masp.get("fourteenDayIsolation")));
-
+        staffReturnInfoModel.setReturnTime(masp.get("backDate") == null ? null : String.valueOf(masp.get("backDate")));
+        staffReturnInfoModel.setReturnDate(masp.get("returnDate") == null ? null : String.valueOf(masp.get("returnDate")));
         staffReturnInfoModel.setTemperature(masp.get("temperature") == null ? null : String.valueOf(masp.get("temperature")));
         staffReturnInfoModel.setBackStartingPoint(masp.get("backStartingPoint") == null ? null : String.valueOf(masp.get("backStartingPoint")));
         staffReturnInfoModel.setBackVehicle(masp.get("backVehicle") == null ? null : String.valueOf(masp.get("backVehicle")));
