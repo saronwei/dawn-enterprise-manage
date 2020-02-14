@@ -63,7 +63,7 @@ public class CompanyReportServiceImpl implements CompanyReportService {
         if (StringUtil.isEmpty(companyReportModel.getCompanyId())) {
             throw new BusinessException(ErrorCode.PARAM_NOT_COMPLETE);
         }
-
+        companyReportModel.setEnterpriseInfoModel(null);
         companyReportModel.setReportId(StringUtil.genUUID());
         Date date = new Date();
         companyReportModel.setCtime(date);

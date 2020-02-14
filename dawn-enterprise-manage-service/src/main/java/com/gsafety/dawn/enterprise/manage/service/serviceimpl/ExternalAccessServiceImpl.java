@@ -200,7 +200,7 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
 
     // 获取园区情况统计
     @Override
-    public List<Map<String, Object>> getAreaStac() {
+    public List<Map<String, Object>> getAreaStac(int page,int pageSize) {
         List<Map<String, Object>> areaStacList = new ArrayList<>();
         Map<String, Object> paramMap = new HashMap<>();
 //        List<String> companyList = this.getEnterpriseIds();
@@ -268,7 +268,20 @@ public class ExternalAccessServiceImpl implements ExternalAccessService {
             paramMap.put("workCompanys", todaySceneWorkNum + todayRemoteWorkNum); // 今日上班人数=现场办公人数+远程办公人数
             areaStacList.add(paramMap);
         }
-        return areaStacList;
+//        return areaStacList;
+        // 分页
+        int size = areaStacList.size();
+        int pageCount=size/pageSize;
+        int fromIndex = pageSize * (page - 1);
+        int toIndex = fromIndex + pageSize;
+        if (toIndex >= size) {
+            toIndex = size;
+        }
+        if(page>pageCount+1){
+            fromIndex=0;
+            toIndex=0;
+        }
+        return areaStacList.subList(fromIndex, toIndex);
     }
 
     /**
