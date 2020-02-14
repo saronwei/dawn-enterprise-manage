@@ -19,7 +19,7 @@ public interface ExternalAccessService {
     // 办公情况统计
     List<EnterpriseReportImportantPersonStat> getOfficeStac(String areaId);
     // 园区情况统计
-    List<Map<String,Object>> getAreaStac();
+    List<Map<String,Object>> getAreaStac(int page,int pageSize);
 
     List<EnterpriseReportImportantPersonStat> getOfficeStac();
 
